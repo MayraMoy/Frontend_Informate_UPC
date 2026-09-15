@@ -15,7 +15,6 @@ El objetivo es construir una aplicación web moderna, escalable y mantenible que
 * Mayra Moyano
 * Juan Larcher
 * Thiago Amante
-* Marilen Cornejo
 
 ## Repositorio Principal
 Toda la documentación del proyecto se encuentra en el siguiente repositorio:
