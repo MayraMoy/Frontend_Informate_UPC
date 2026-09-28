@@ -14,6 +14,9 @@ export const usuarioService = {
       const response = await api.get('/usuarios/obtener/todos');
       return response.data;
     } catch (error) {
+      if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+        throw new Error('No se pudo conectar con el servidor. Verifica que el backend esté en ejecución.');
+      }
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
       throw new Error(mensaje || 'Error al obtener el listado de usuarios');
     }
@@ -95,13 +98,8 @@ export const usuarioService = {
         (u) => u.email?.trim().toLowerCase() === email.trim().toLowerCase()
       );
 
-      if (!usuarioEncontrado) {
-        throw new Error('El correo electrónico no se encuentra registrado');
-      }
-
-      // Validamos contraseña (en el backend o contra el registro devuelto)
-      if (usuarioEncontrado.contraseña !== password) {
-        throw new Error('La contraseña ingresada es incorrecta');
+      if (!usuarioEncontrado || usuarioEncontrado.contraseña !== password) {
+        throw new Error('El usuario o la contraseña no son correctos');
       }
 
       if (usuarioEncontrado.estado && usuarioEncontrado.estado.toUpperCase() === 'INACTIVO') {
