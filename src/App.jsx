@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import LoginPage from './Pages/usuarios/LoginPage';
+import RegisterPage from './Pages/usuarios/RegisterPage';
 import AppContext from './Context/AppContext';
 import ForoLogo from './Components/shared/ForoLogo';
 
@@ -44,6 +45,13 @@ const Home = () => {
           >
             Iniciar sesión
           </Link>
+          <Link
+            to="/registro"
+            className="btn px-4 py-2 fw-bold shadow-sm btn-outline-secondary"
+            style={{ borderRadius: '10px' }}
+          >
+            Registrarse
+          </Link>
         </div>
       )}
     </div>
@@ -55,6 +63,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/registro" element={<RegisterPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/" element={<Home />} />
         {/* Redirección ante rutas no encontradas */}
         <Route path="*" element={<Navigate to="/" replace />} />
