@@ -5,8 +5,8 @@ import './RegisterPage.css';
 export const RegisterPage = () => {
   return (
     <div className="register-viewport">
-      <div className="register-card">
-        {/* Cabecera con Badge y Títulos */}
+      <div className="register-container">
+        {/* Cabecera con Badge y Títulos (fuera de la tarjeta blanca) */}
         <div className="register-header">
           <span className="badge-comunidad">Comunidad Universitaria</span>
           <h1 className="register-title">
@@ -17,8 +17,10 @@ export const RegisterPage = () => {
           </p>
         </div>
 
-        {/* Formulario de Registro */}
-        <RegisterForm />
+        {/* Tarjeta blanca para el formulario */}
+        <div className="register-card">
+          <RegisterForm />
+        </div>
       </div>
     </div>
   );
