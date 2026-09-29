@@ -284,6 +284,7 @@ export const RegisterForm = () => {
               type="text"
               className="input-field-custom"
               placeholder="Ej. 40123456"
+              maxLength={10}
               value={formData.dni}
               onChange={handleChange}
               disabled={isSubmitting}
