@@ -1,0 +1,243 @@
+/* ===================================================
+   Estilos exactos para la pantalla de Login (Foro UPC)
+   Tipografía oficial: Poppins
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.login-viewport {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f4f6;
+  padding: 32px 16px;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.login-card {
+  position: relative;
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 440px;
+  border-radius: 28px;
+  padding: 44px 36px 36px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04), 0 20px 45px rgba(0, 0, 0, 0.03);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Botón atrás (flecha) */
+.btn-back {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  background: transparent;
+  border: none;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1e293b;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.2s, transform 0.15s;
+}
+
+.btn-back:hover {
+  background-color: #f1f5f9;
+  transform: translateX(-2px);
+}
+
+/* Header del Login */
+.login-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+/* "Bienvenido" en Poppins Regular tamaño 40px */
+.login-title {
+  font-family: 'Poppins', sans-serif;
+  color: #1e293b;
+  font-size: 40px;
+  font-weight: 400; /* Regular */
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+.login-subtitle {
+  font-family: 'Poppins', sans-serif;
+  color: #4b5563;
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.brand-highlight {
+  color: #ea8207;
+  font-weight: 600;
+}
+
+/* Formulario y Controles */
+.login-form {
+  text-align: left;
+}
+
+.form-label-custom {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  display: block;
+  text-align: left;
+}
+
+.link-forgot-password {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ea8207;
+  text-decoration: none;
+  transition: color 0.15s, text-decoration 0.15s;
+}
+
+.link-forgot-password:hover {
+  color: #d16f00;
+  text-decoration: underline;
+}
+
+.input-group-custom {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group-custom:focus-within {
+  border-color: #ea8207;
+  box-shadow: 0 0 0 3px rgba(234, 130, 7, 0.15);
+}
+
+.input-group-custom.has-error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  user-select: none;
+}
+
+.input-field-custom {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #1f2937;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14.5px;
+  font-weight: 400;
+  padding: 0;
+}
+
+.input-field-custom::placeholder {
+  font-family: 'Poppins', sans-serif;
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.btn-toggle-password {
+  background: transparent;
+  border: none;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #94a3b8;
+  margin-left: 8px;
+  transition: color 0.15s;
+}
+
+.btn-toggle-password:hover {
+  color: #4b5563;
+}
+
+/* Botón principal Iniciar sesión */
+.btn-submit-login {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ea8207;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 2px 4px rgba(234, 130, 7, 0.2);
+}
+
+.btn-submit-login:hover:not(:disabled) {
+  background-color: #db7400;
+  box-shadow: 0 4px 10px rgba(234, 130, 7, 0.3);
+}
+
+.btn-submit-login:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn-submit-login:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+/* Alerta de Error */
+.login-alert-error {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+
+/* Pie de tarjeta */
+.login-footer {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14.5px;
+}
+
+.footer-text {
+  color: #1e293b;
+  font-weight: 400;
+}
+
+.link-register {
+  color: #ea8207;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.link-register:hover {
+  color: #d16f00;
+  text-decoration: underline;
+}

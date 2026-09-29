@@ -1,122 +1,79 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import React, { useContext } from 'react';
+import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
+import LoginPage from './Pages/usuarios/LoginPage';
+import RegisterPage from './Pages/usuarios/RegisterPage';
+import ConfirmacionRegistroPage from './Pages/usuarios/ConfirmacionRegistroPage';
+import AppContext from './Context/AppContext';
+import ForoLogo from './Components/shared/ForoLogo';
 
-function App() {
-  const [count, setCount] = useState(0)
+const Home = () => {
+  const { user, setUser } = useContext(AppContext);
+
+  const handleLogout = () => {
+    localStorage.removeItem('usuarioSesion');
+    if (setUser) setUser(null);
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="container py-5 text-center">
+      <ForoLogo width={180} height={95} className="mb-4" />
+      <h1 className="fw-bold mb-3">Sistema de Foro UPC</h1>
+      <p className="text-muted lead mb-4">
+        Plataforma institucional de gestión y consulta académica.
+      </p>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      {user ? (
+        <div className="card shadow-sm mx-auto p-4" style={{ maxWidth: '480px', borderRadius: '16px' }}>
+          <h4 className="fw-bold text-success mb-2">¡Sesión iniciada con éxito!</h4>
+          <p className="mb-1"><strong>Nombre:</strong> {user.nombre} {user.apellido}</p>
+          <p className="mb-1"><strong>Email:</strong> {user.email}</p>
+          <p className="mb-1"><strong>DNI:</strong> {user.dni}</p>
+          <p className="mb-3"><strong>Rol:</strong> {user.nombreRol || user.rol?.nombre || 'USUARIO'}</p>
+          <button
+            type="button"
+            className="btn btn-outline-danger w-100 fw-bold"
+            onClick={handleLogout}
+          >
+            Cerrar sesión
+          </button>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+      ) : (
+        <div className="d-flex justify-content-center gap-3">
+          <Link
+            to="/login"
+            className="btn px-4 py-2 text-white fw-bold shadow-sm"
+            style={{ backgroundColor: '#ea8207', borderRadius: '10px' }}
+          >
+            Iniciar sesión
+          </Link>
+          <Link
+            to="/registro"
+            className="btn px-4 py-2 fw-bold shadow-sm btn-outline-secondary"
+            style={{ borderRadius: '10px' }}
+          >
+            Registrarse
+          </Link>
         </div>
-      </section>
+      )}
+    </div>
+  );
+};
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/registro" element={<RegisterPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/registro-completado" element={<ConfirmacionRegistroPage />} />
+        <Route path="/confirmacion-registro" element={<ConfirmacionRegistroPage />} />
+        <Route path="/" element={<Home />} />
+        {/* Redirección ante rutas no encontradas */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
