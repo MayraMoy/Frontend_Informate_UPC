@@ -138,6 +138,7 @@
   border-radius: 8px;
   padding: 9px 12px;
   transition: border-color 0.2s, box-shadow 0.2s;
+  overflow: hidden;
 }
 
 .input-group-custom:focus-within {
@@ -154,7 +155,9 @@
 }
 
 .input-field-custom {
-  flex: 1;
+  flex: 1 1 0%;
+  min-width: 0;
+  width: 100%;
   border: none;
   outline: none;
   background: transparent;
