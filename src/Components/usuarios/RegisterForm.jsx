@@ -175,9 +175,10 @@ export const RegisterForm = () => {
       setErrorMsg('Por favor, ingresa tu correo institucional.');
       return;
     }
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(formData.email.trim())) {
-      setErrorMsg('Correo electronico equivocado');
+    const emailTrim = formData.email.trim().toLowerCase();
+    const upcEmailRegex = /^[a-zA-Z0-9._%+-]+@upc\.edu\.ar$/;
+    if (!upcEmailRegex.test(emailTrim)) {
+      setErrorMsg('Debes ingresar un correo institucional de la universidad (@upc.edu.ar).');
       return;
     }
     if (!formData.password) {
@@ -359,6 +360,7 @@ export const RegisterForm = () => {
             disabled={isSubmitting}
           />
         </div>
+        <small className="form-helper-text">Debe ser tu correo oficial (@upc.edu.ar)</small>
       </div>
 
       {/* Fila 3: Contraseña */}
