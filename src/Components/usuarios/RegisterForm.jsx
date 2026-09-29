@@ -226,10 +226,13 @@ export const RegisterForm = () => {
 
       await usuarioService.crear(nuevoUsuarioPayload);
 
-      setSuccessMsg('¡Cuenta creada con éxito! Redirigiendo al inicio de sesión...');
+      setSuccessMsg('¡Cuenta creada con éxito! Redirigiendo a la confirmación...');
+      const registeredEmail = formData.email.trim().toLowerCase();
       setTimeout(() => {
-        navigate('/login');
-      }, 1800);
+        navigate('/registro-completado', {
+          state: { email: registeredEmail },
+        });
+      }, 1000);
     } catch (err) {
       setErrorMsg(err.message || 'Error al crear la cuenta. Inténtalo nuevamente.');
     } finally {

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import LoginPage from './Pages/usuarios/LoginPage';
 import RegisterPage from './Pages/usuarios/RegisterPage';
+import ConfirmacionRegistroPage from './Pages/usuarios/ConfirmacionRegistroPage';
 import AppContext from './Context/AppContext';
 import ForoLogo from './Components/shared/ForoLogo';
 
@@ -65,6 +66,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/registro-completado" element={<ConfirmacionRegistroPage />} />
+        <Route path="/confirmacion-registro" element={<ConfirmacionRegistroPage />} />
         <Route path="/" element={<Home />} />
         {/* Redirección ante rutas no encontradas */}
         <Route path="*" element={<Navigate to="/" replace />} />
