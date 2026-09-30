@@ -1,0 +1,32 @@
+/* Variables de color institucional */
+:root {
+  --color-tag-gold: #c68a00; /* Tono dorado/amarillo para la etiqueta */
+  --text-dark: #1a1a1a;
+  --text-muted: #555555;
+}
+
+/* Estilos de la sección principal */
+.noticias-home {
+  max-width: 1200px;
+}
+
+/* Estilo para la etiqueta superior (Comunidad Universitaria) */
+.noticia-tag {
+  color: var(--color-tag-gold);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+}
+
+/* Estilo para el Título (Noticias Institucionales) */
+.noticia-title {
+  color: var(--text-dark);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* Estilo para la Descripción */
+.noticia-description {
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-weight: 400;
+}

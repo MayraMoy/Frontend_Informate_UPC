@@ -1,0 +1,129 @@
+:root {
+  --primary-yellow: #f5a623;
+  --primary-yellow-hover: #e0951d;
+  --text-yellow: #c68a00;
+  --border-card-color: #e2e8f0;
+  --border-radius-card: 16px;
+}
+
+/* Tarjeta Principal */
+.custom-noticia-card {
+  border: 1px solid var(--border-card-color);
+  border-radius: var(--border-radius-card);
+  background-color: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.custom-noticia-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Recorte de texto para el cuerpo a 3 líneas */
+.noticia-cuerpo-truncado {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+/* Badges según categoría de la imagen */
+.badge-academica {
+  background-color: #fef3c7;
+  color: #92400e;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.badge-investigacion {
+  background-color: #d1fae5;
+  color: #065f46;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.badge-bienestar {
+  background-color: #dbeafe;
+  color: #1e40af;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.badge-default {
+  background-color: #e2e8f0;
+  color: #4a5568;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.badge-categoria {
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.badge-categoria-0 {
+  background-color: #fce7f3;
+  color: #9d174d;
+}
+
+.badge-categoria-1 {
+  background-color: #ccfbf1;
+  color: #115e59;
+}
+
+.badge-categoria-2 {
+  background-color: #ffedd5;
+  color: #9a3412;
+}
+
+.badge-categoria-3 {
+  background-color: #e0e7ff;
+  color: #3730a3;
+}
+
+.badge-categoria-4 {
+  background-color: #ecfccb;
+  color: #3f6212;
+}
+
+.badge-categoria-5 {
+  background-color: #fae8ff;
+  color: #86198f;
+}
+
+.badge-categoria-6 {
+  background-color: #cffafe;
+  color: #155e75;
+}
+
+.badge-categoria-7 {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Enlace "LEER →" */
+.btn-leer {
+  color: var(--text-yellow);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  transition: color 0.15s ease;
+}
+
+.btn-leer .arrow {
+  transition: transform 0.15s ease;
+}
+
+.btn-leer:hover {
+  color: var(--primary-yellow-hover);
+}
+
+.btn-leer:hover .arrow {
+  transform: translateX(3px);
+}

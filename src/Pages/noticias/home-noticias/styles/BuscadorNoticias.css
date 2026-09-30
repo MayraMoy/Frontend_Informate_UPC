@@ -1,0 +1,50 @@
+:root {
+  --border-color-input: #e2e8f0;
+  --focus-ring-color: rgba(245, 166, 35, 0.2);
+  --border-radius-pill: 10px;
+}
+
+/* Contenedor del Input de Búsqueda */
+.input-group-custom .input-group-text,
+.input-group-custom .form-control {
+  border-color: var(--border-color-input);
+  background-color: #ffffff;
+}
+
+.input-group-custom .input-group-text {
+  border-top-left-radius: var(--border-radius-pill);
+  border-bottom-left-radius: var(--border-radius-pill);
+}
+
+.input-group-custom .form-control {
+  border-top-right-radius: var(--border-radius-pill);
+  border-bottom-right-radius: var(--border-radius-pill);
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.input-group-custom .form-control::placeholder {
+  color: #a0aec0;
+}
+
+/* Efecto Focus en la barra de búsqueda */
+.input-group-custom:focus-within .input-group-text,
+.input-group-custom:focus-within .form-control {
+  border-color: #f5a623;
+  box-shadow: 0 0 0 0.2rem var(--focus-ring-color);
+}
+
+/* Selectores Desplegables */
+.custom-select {
+  border-color: var(--border-color-input);
+  border-radius: var(--border-radius-pill);
+  color: #4a5568;
+  font-size: 0.95rem;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.custom-select:focus {
+  border-color: #f5a623;
+  box-shadow: 0 0 0 0.2rem var(--focus-ring-color);
+}

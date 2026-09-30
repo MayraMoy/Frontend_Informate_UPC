@@ -1,0 +1,67 @@
+:root {
+  --pagination-orange: #f5a623;
+  --pagination-orange-hover: #e0951d;
+  --pagination-gray-bg: #dcddde;
+  --pagination-inactive-bg: #f8f9fa;
+  --pagination-inactive-border: #cbd5e1;
+  --pagination-radius: 10px;
+}
+
+/* Reset de estilos por defecto de Bootstrap Pagination */
+.custom-pagination .page-item .page-link {
+  border: none;
+  background: transparent;
+  padding: 0;
+  box-shadow: none !important;
+}
+
+/* Estilo base común para todos los botones cuadrados de la paginación */
+.page-btn {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--pagination-radius) !important;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+/* Botones de Navegación (< y >) */
+.page-btn-nav {
+  background-color: var(--pagination-gray-bg) !important;
+  color: #1a1a1a !important;
+  font-size: 0.85rem;
+}
+
+.page-btn-nav:hover:not(:disabled) {
+  background-color: #cecfd1 !important;
+}
+
+.page-btn-nav:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+/* Página Activa (Número naranja) */
+.page-btn-active {
+  background-color: var(--pagination-orange) !important;
+  color: #000000 !important;
+}
+
+.page-btn-active:hover {
+  background-color: var(--pagination-orange-hover) !important;
+}
+
+/* Página Inactiva (Número blanco con borde) */
+.page-btn-inactive {
+  background-color: var(--pagination-inactive-bg) !important;
+  color: #000000 !important;
+  border: 1px solid var(--pagination-inactive-border) !important;
+}
+
+.page-btn-inactive:hover {
+  background-color: #edf2f7 !important;
+}

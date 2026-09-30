@@ -12,6 +12,7 @@ export const listarCategoria = async () => {
     return response.data;
 }
 
+
 // GET: Consultar una categoria
 export const consultarCategoria = async (id) => {
     const response = await clientAxios.get(`api/categoria-noticias/${id}`);
