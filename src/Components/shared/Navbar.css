@@ -1,0 +1,132 @@
+/* ===================================================
+   Navbar Institucional - Estilos oficiales Informate UPC
+   =================================================== */
+
+.navbar-institucional-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #edf2f7;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Logo */
+.navbar-brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+}
+
+.logo-badge-upc {
+  background-color: #ea8207;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  padding: 6px 12px;
+  border-radius: 8px;
+  line-height: 1;
+}
+
+.logo-text-foro {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+/* Enlaces */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-item-link {
+  font-family: 'Poppins', sans-serif;
+  color: #475569;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.nav-item-link:hover {
+  color: #ea8207;
+}
+
+.nav-item-link.active {
+  color: #ea8207;
+  font-weight: 600;
+  border-bottom-color: #ea8207;
+}
+
+/* Acciones Auth */
+.navbar-auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-nav-login {
+  font-family: 'Poppins', sans-serif;
+  color: #1e293b;
+  background-color: transparent;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.btn-nav-login:hover {
+  border-color: #cbd5e1;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+.btn-nav-register {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ea8207;
+  color: #ffffff;
+  border: 1.5px solid #ea8207;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 4px rgba(234, 130, 7, 0.2);
+}
+
+.btn-nav-register:hover {
+  background-color: #db7400;
+  border-color: #db7400;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .navbar-links {
+    gap: 14px;
+    font-size: 0.85rem;
+  }
+  .navbar-auth-actions {
+    display: none;
+  }
+}
