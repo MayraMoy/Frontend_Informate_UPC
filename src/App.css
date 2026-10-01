@@ -1,7 +1,8 @@
 /* Estilos globales de layout de la aplicación */
 .app-layout {
   min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #fafbfc;
+  background-color: #ffffff;
 }
