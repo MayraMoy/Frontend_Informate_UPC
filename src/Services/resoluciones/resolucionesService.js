@@ -11,7 +11,7 @@ export const resolucionesService = {
    */
   obtenerTodas: async () => {
     try {
-      const response = await api.get('/resoluciones/todos');
+      const response = await api.get('/api/resoluciones/todos');
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
@@ -27,7 +27,7 @@ export const resolucionesService = {
    */
   obtenerPorId: async (id) => {
     try {
-      const response = await api.get(`/resoluciones/${id}`);
+      const response = await api.get(`/api/resoluciones/${id}`);
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
@@ -43,7 +43,7 @@ export const resolucionesService = {
    */
   crear: async (resolucionData) => {
     try {
-      const response = await api.post('/resoluciones', resolucionData);
+      const response = await api.post('/api/resoluciones', resolucionData);
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
@@ -60,7 +60,7 @@ export const resolucionesService = {
    */
   actualizar: async (id, resolucionData) => {
     try {
-      const response = await api.put(`/resoluciones/${id}`, resolucionData);
+      const response = await api.put(`/api/resoluciones/${id}`, resolucionData);
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
@@ -76,7 +76,7 @@ export const resolucionesService = {
    */
   eliminar: async (id) => {
     try {
-      const response = await api.delete(`/resoluciones/${id}`);
+      const response = await api.delete(`/api/resoluciones/${id}`);
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;

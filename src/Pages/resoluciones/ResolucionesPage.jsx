@@ -6,7 +6,6 @@ import { ModalDetalleResolucion } from '../../Components/resoluciones/ModalDetal
 import { PaginacionResoluciones } from '../../Components/resoluciones/PaginacionResoluciones';
 import { resolucionesService } from '../../Services/resoluciones/resolucionesService';
 import { categoriasResolucionService } from '../../Services/resoluciones/categoriasResolucionService';
-import { resolucionesMock, categoriasMock } from './data/resolucionesMock';
 import './ResolucionesPage.css';
 
 /**
@@ -18,6 +17,8 @@ export const ResolucionesPage = () => {
   const [resoluciones, setResoluciones] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const [errorCarga, setErrorCarga] = useState('');
+  const [intentoCarga, setIntentoCarga] = useState(0);
 
   // Estados de filtros
   const [busqueda, setBusqueda] = useState('');
@@ -33,39 +34,45 @@ export const ResolucionesPage = () => {
   const [resolucionSeleccionada, setResolucionSeleccionada] = useState(null);
   const [modalAbierto, setModalAbierto] = useState(false);
 
-  // Carga inicial de datos desde Backend con fallback en Mock
+  // Carga resoluciones y categorías exclusivamente desde el backend.
   useEffect(() => {
+    let activa = true;
+
     const cargarDatos = async () => {
       setCargando(true);
+      setErrorCarga('');
+
       try {
-        // Intenta obtener datos reales del Backend
-        const [resBackend, catBackend] = await Promise.allSettled([
+        const [resBackend, catBackend] = await Promise.all([
           resolucionesService.obtenerTodas(),
-          categoriasResolucionService.obtenerTodas()
+          categoriasResolucionService.obtenerTodas(),
         ]);
 
-        if (resBackend.status === 'fulfilled' && Array.isArray(resBackend.value) && resBackend.value.length > 0) {
-          setResoluciones(resBackend.value);
-        } else {
-          setResoluciones(resolucionesMock);
+        if (!Array.isArray(resBackend) || !Array.isArray(catBackend)) {
+          throw new Error('El backend devolvió un formato de datos inesperado.');
         }
 
-        if (catBackend.status === 'fulfilled' && Array.isArray(catBackend.value) && catBackend.value.length > 0) {
-          setCategorias(catBackend.value);
-        } else {
-          setCategorias(categoriasMock);
-        }
+        if (!activa) return;
+        setResoluciones(resBackend);
+        setCategorias(catBackend);
       } catch (err) {
-        console.warn('Aviso: Utilizando datos mock de resoluciones por indisponibilidad del backend:', err);
-        setResoluciones(resolucionesMock);
-        setCategorias(categoriasMock);
+        if (!activa) return;
+        setErrorCarga(
+          err instanceof Error
+            ? err.message
+            : 'No se pudieron cargar las resoluciones desde el backend.',
+        );
       } finally {
-        setCargando(false);
+        if (activa) setCargando(false);
       }
     };
 
     cargarDatos();
-  }, []);
+
+    return () => {
+      activa = false;
+    };
+  }, [intentoCarga]);
 
   // Lista de años disponibles basados en las resoluciones
   const aniosDisponibles = useMemo(() => {
@@ -179,6 +186,17 @@ export const ResolucionesPage = () => {
           <div className="spinner-border" style={{ color: 'var(--color-primary-orange)' }} role="status">
             <span className="visually-hidden">Cargando resoluciones...</span>
           </div>
+        </div>
+      ) : errorCarga ? (
+        <div className="alert alert-danger d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3" role="alert">
+          <span>No se pudieron cargar los datos desde el backend: {errorCarga}</span>
+          <button
+            type="button"
+            className="btn btn-outline-danger flex-shrink-0"
+            onClick={() => setIntentoCarga((intento) => intento + 1)}
+          >
+            Reintentar
+          </button>
         </div>
       ) : (
         <>
