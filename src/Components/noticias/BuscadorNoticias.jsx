@@ -31,7 +31,7 @@ export const BuscadorNoticias = ({
       <div className="row g-3">
         <div className="col-12 col-md-6 col-lg-7">
           <div className="input-group input-group-custom">
-            <span className="input-group-text bg-white border-end-0 ps-3">
+            <span className="input-group-text">
               <svg
                 width="16"
                 height="16"
@@ -44,10 +44,11 @@ export const BuscadorNoticias = ({
             </span>
             <input
               type="text"
-              className="form-control border-start-0 ps-0 py-2 shadow-none"
+              className="form-control"
               placeholder="Buscar por título o resumen..."
               value={busqueda}
               onChange={handleBusqueda}
+              spellCheck={false}
             />
           </div>
         </div>

@@ -37,23 +37,42 @@ export const useNoticiasHome = () => {
   }), [noticias, categorias]);
 
   const noticiasFiltradas = useMemo(() => {
-    const textoBuscado = busqueda.trim().toLowerCase();
+    const normalizarTexto = (texto) => String(texto ?? '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLocaleLowerCase('es')
+      .trim();
+    const textoBuscado = normalizarTexto(busqueda);
 
-    return noticiasConCategoria.filter((item) => {
-      const coincideBusqueda =
-        !textoBuscado ||
-        item.titulo?.toLowerCase().includes(textoBuscado) ||
-        item.cuerpo?.toLowerCase().includes(textoBuscado);
+    const resultados = noticiasConCategoria.filter((item) => {
+      const textoNoticia = [
+        item.titulo,
+        item.resumen,
+        item.descripcion,
+        item.cuerpo,
+      ].map(normalizarTexto).join(' ');
+      const coincideBusqueda = !textoBuscado || textoNoticia.includes(textoBuscado);
 
       const coincideCategoria =
-        categoria === 'Todas' || item.categoriaNoticia?.nombre === categoria;
+        categoria === 'Todas' ||
+        normalizarTexto(item.categoriaNoticia?.nombre) === normalizarTexto(categoria);
 
-      const coincideFecha =
-        fecha === 'Todas' ||
-        (fecha === 'Recientes' && item.fechaPublicacion) ||
-        (fecha === 'Antiguas' && item.fechaPublicacion);
+      return coincideBusqueda && coincideCategoria;
+    });
 
-      return coincideBusqueda && coincideCategoria && coincideFecha;
+    if (fecha === 'Todas') return resultados;
+
+    return resultados.sort((a, b) => {
+      const fechaA = Date.parse(a.fechaPublicacion);
+      const fechaB = Date.parse(b.fechaPublicacion);
+      const fechaAValida = Number.isFinite(fechaA);
+      const fechaBValida = Number.isFinite(fechaB);
+
+      if (!fechaAValida || !fechaBValida) {
+        return fechaAValida === fechaBValida ? 0 : fechaAValida ? -1 : 1;
+      }
+
+      return fecha === 'Recientes' ? fechaB - fechaA : fechaA - fechaB;
     });
   }, [noticiasConCategoria, busqueda, categoria, fecha]);
 

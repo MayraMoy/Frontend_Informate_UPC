@@ -30,7 +30,7 @@ export const NoticiaCard = ({ noticia }) => {
           </small>
         </div>
 
-        <h5 className="card-title fw-bold text-dark mb-3">
+        <h5 className="card-title fw-bold mb-3">
           {titulo}
         </h5>
 

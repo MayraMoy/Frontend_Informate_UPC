@@ -1,0 +1,279 @@
+/* ===================================================
+   Estilos para Pantalla de Confirmación de Registro
+   Foro UPC - Diseño exacto Figma
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.confirmacion-viewport {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f4f6;
+  padding: 48px 16px;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+.confirmacion-container {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Cabecera fuera de la tarjeta */
+.confirmacion-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.badge-comunidad {
+  display: inline-block;
+  background-color: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde68a;
+  border-radius: 20px;
+  padding: 4px 16px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.confirmacion-title {
+  font-family: 'Poppins', sans-serif;
+  color: #1e293b;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.confirmacion-subtitle {
+  font-family: 'Poppins', sans-serif;
+  color: #64748b;
+  font-size: 14.5px;
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* Tarjeta central blanca */
+.confirmacion-card {
+  position: relative;
+  background-color: #ffffff;
+  width: 100%;
+  border-radius: 24px;
+  padding: 38px 34px 34px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04), 0 20px 45px rgba(0, 0, 0, 0.03);
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Icono circular de sobre */
+.icon-envelope-wrapper {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background-color: #fff7ed;
+  border: 1px solid #ffedd5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+/* Píldora de estado de verificación */
+.pill-verification-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  border-radius: 20px;
+  padding: 5px 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.pill-dot {
+  color: #10b981;
+  font-size: 10px;
+}
+
+/* Título interno de la tarjeta */
+.card-heading {
+  font-family: 'Poppins', sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.card-description {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13.5px;
+  color: #64748b;
+  line-height: 1.55;
+  margin-bottom: 22px;
+  padding: 0 6px;
+}
+
+/* Alerta de éxito al reenviar */
+.alert-resend-success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+/* Casilla de correo de solo lectura */
+.email-display-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 11px 16px;
+  margin-bottom: 18px;
+}
+
+.email-box-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #334155;
+  letter-spacing: 0.2px;
+}
+
+/* Botón Reenviar Correo */
+.btn-resend-email {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ea8207;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  height: 48px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 2px 4px rgba(234, 130, 7, 0.2);
+}
+
+.btn-resend-email:hover:not(:disabled) {
+  background-color: #db7400;
+  box-shadow: 0 4px 10px rgba(234, 130, 7, 0.3);
+}
+
+.btn-resend-email:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn-resend-email:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Helper text de spam */
+.spam-helper-text {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11.5px;
+  color: #94a3b8;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* Separador con la o */
+.confirmacion-separator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.separator-line {
+  flex: 1;
+  height: 1px;
+  background-color: #e5e7eb;
+}
+
+.separator-circle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+
+/* Botón Volver al inicio de sesión */
+.btn-back-login {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+  color: #1e293b;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  width: 100%;
+  height: 46px;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.btn-back-login:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* Pie fuera de la tarjeta */
+.confirmacion-footer {
+  margin-top: 24px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13.5px;
+}
+
+.footer-support-text {
+  color: #64748b;
+  font-weight: 400;
+}
+
+.link-support-institutional {
+  color: #ea8207;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 3px;
+  transition: color 0.15s, text-decoration 0.15s;
+}
+
+.link-support-institutional:hover {
+  color: #d16f00;
+  text-decoration: underline;
+}

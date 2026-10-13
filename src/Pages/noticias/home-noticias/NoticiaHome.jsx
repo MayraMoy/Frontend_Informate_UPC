@@ -49,7 +49,7 @@ export const NoticiasHome = () => {
           <span className="noticia-tag d-inline-block text-uppercase fw-bold mb-2">
             {noticia.tag}
           </span>
-          <h1 className="noticia-title fw-bold display-5 text-dark mb-3">
+          <h1 className="noticia-title fw-bold display-5 mb-3">
             {noticia.title}
           </h1>
           <p className="noticia-description text-secondary col-12 col-lg-8 lead fs-6">
