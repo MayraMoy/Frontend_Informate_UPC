@@ -31,6 +31,7 @@ export const FiltrosResoluciones = ({
           <input
             type="text"
             className="buscador-input"
+            aria-label="Buscar resoluciones por número, título o descripción"
             placeholder="Buscar resolución Ej: 045/2026"
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
@@ -44,6 +45,7 @@ export const FiltrosResoluciones = ({
         <div className="filtro-select-wrapper">
           <select
             className="filtro-select"
+            aria-label="Filtrar resoluciones por año"
             value={anio}
             onChange={(e) => setAnio(e.target.value)}
           >
@@ -60,6 +62,7 @@ export const FiltrosResoluciones = ({
         <div className="filtro-select-wrapper">
           <select
             className="filtro-select"
+            aria-label="Filtrar resoluciones por categoría"
             value={categoria}
             onChange={(e) => setCategoria(e.target.value)}
           >
@@ -76,6 +79,7 @@ export const FiltrosResoluciones = ({
         <div className="filtro-select-wrapper">
           <select
             className="filtro-select"
+            aria-label="Filtrar resoluciones por estado"
             value={estado}
             onChange={(e) => setEstado(e.target.value)}
           >

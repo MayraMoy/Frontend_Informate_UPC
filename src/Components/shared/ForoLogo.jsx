@@ -1,5 +1,5 @@
 import React from 'react';
-import logoImg from '../../assets/logo-foro-upc.png';
+import logoImg from '../../assets/logo-foro-upc-260.png';
 
 /**
  * Logotipo oficial de Foro UPC
@@ -14,6 +14,8 @@ export const ForoLogo = ({ className = '', width = 160, alt = 'Foro UPC' }) => {
       <img
         src={logoImg}
         alt={alt}
+        width="260"
+        height="199"
         style={{
           width: `${width}px`,
           height: 'auto',

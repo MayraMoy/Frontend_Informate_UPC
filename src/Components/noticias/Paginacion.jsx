@@ -7,7 +7,7 @@ export const Paginacion = ({ paginaActual, totalPaginas, onCambiarPagina }) => {
   const paginas = Array.from({ length: totalPaginas }, (_, index) => index + 1);
 
   return (
-    <nav className="d-flex justify-content-center my-4" aria-label="Navegación de páginas">
+    <nav className="paginacion-noticias-nav d-flex justify-content-center my-4" aria-label="Navegación de páginas">
       <ul className="pagination custom-pagination gap-2 mb-0">
         
         {/* Botón Anterior */}
@@ -30,6 +30,8 @@ export const Paginacion = ({ paginaActual, totalPaginas, onCambiarPagina }) => {
               <button
                 className={`page-link page-btn ${esActiva ? 'page-btn-active' : 'page-btn-inactive'}`}
                 onClick={() => onCambiarPagina(numero)}
+                aria-label={`Ir a la página ${numero}`}
+                aria-current={esActiva ? 'page' : undefined}
               >
                 {numero}
               </button>

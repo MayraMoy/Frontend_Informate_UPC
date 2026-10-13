@@ -12,7 +12,8 @@ import './ResolucionesPage.css';
  * Página principal del módulo de Resoluciones Académicas (Foro UPC).
  * Conecta con el Backend y cuenta con datos de respaldo que reflejan fielmente el diseño de referencia.
  */
-export const ResolucionesPage = () => {
+export const ResolucionesPage = ({ headingLevel = 1 }) => {
+  const SectionHeading = headingLevel === 2 ? 'h2' : 'h1';
   // Estados de datos
   const [resoluciones, setResoluciones] = useState([]);
   const [categorias, setCategorias] = useState([]);
@@ -151,15 +152,15 @@ export const ResolucionesPage = () => {
   };
 
   return (
-    <main className="resoluciones-page-container">
+    <section id="resoluciones" className="resoluciones-page-container" aria-labelledby="resoluciones-titulo">
       {/* 1. Encabezado Institucional */}
       <header className="resoluciones-header">
         <span className="resoluciones-tag-eyebrow">
           COMUNIDAD UNIVERSITARIA
         </span>
-        <h1 className="resoluciones-main-title">
+        <SectionHeading id="resoluciones-titulo" className="resoluciones-main-title">
           Resoluciones Académicas
-        </h1>
+        </SectionHeading>
         <p className="resoluciones-subtitle">
           Consulta y descarga las disposiciones oficiales, normativas y actas del Consejo Superior de la Universidad Provincial de Córdoba.
         </p>
@@ -192,7 +193,7 @@ export const ResolucionesPage = () => {
           <span>No se pudieron cargar los datos desde el backend: {errorCarga}</span>
           <button
             type="button"
-            className="btn btn-outline-danger flex-shrink-0"
+            className="btn btn-outline-danger resolucion-retry flex-shrink-0"
             onClick={() => setIntentoCarga((intento) => intento + 1)}
           >
             Reintentar
@@ -236,7 +237,7 @@ export const ResolucionesPage = () => {
         isOpen={modalAbierto}
         onClose={handleCerrarModal}
       />
-    </main>
+    </section>
   );
 };
 

@@ -1,7 +1,7 @@
 :root {
   --primary-yellow: #f5a623;
   --primary-yellow-hover: #e0951d;
-  --text-yellow: #c68a00;
+  --text-yellow: #8a5b00;
   --border-card-color: #e2e8f0;
   --border-radius-card: 16px;
 }
@@ -121,7 +121,7 @@
 }
 
 .btn-leer:hover {
-  color: var(--primary-yellow-hover);
+  color: var(--text-yellow);
 }
 
 .btn-leer:hover .arrow {

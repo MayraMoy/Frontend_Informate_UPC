@@ -1,9 +1,13 @@
 .inicio-landing {
   --landing-title-color: #111827;
   --landing-control-border: #e2e8f0;
-  --landing-control-text: #4a5568;
+  --landing-control-text: #334155;
   --landing-control-focus: #f5a623;
   --landing-control-focus-ring: rgba(245, 166, 35, 0.2);
+}
+
+.inicio-landing [id] {
+  scroll-margin-top: 96px;
 }
 
 .inicio-landing .inicio-hero-title,
@@ -73,6 +77,10 @@
   margin-inline: 8px;
 }
 
+.inicio-landing .paginacion-noticias-nav {
+  justify-content: flex-end !important;
+}
+
 .inicio-landing .input-group-custom,
 .inicio-landing .buscador-input-group {
   min-height: 50px;
@@ -129,7 +137,7 @@
 
 .inicio-landing .input-group-custom .form-control::placeholder,
 .inicio-landing .buscador-input::placeholder {
-  color: #94a3b8;
+  color: #64748b;
   opacity: 1;
 }
 
@@ -173,14 +181,13 @@
 }
 
 .inicio-landing .inicio-hero-button.btn,
-.inicio-landing .btn-limpiar-filtros,
-.inicio-landing .btn-leer-resolucion {
+.inicio-landing .btn-limpiar-filtros {
   min-height: 44px;
   padding: 0.65rem 1rem;
   border: 1px solid var(--landing-control-focus);
   border-radius: 999px;
   background: var(--landing-control-focus);
-  color: #ffffff;
+  color: #111827;
   font-family: inherit;
   font-size: 0.9rem;
   font-weight: 600;
@@ -191,11 +198,33 @@
 }
 
 .inicio-landing .inicio-hero-button.btn:hover,
-.inicio-landing .btn-limpiar-filtros:hover,
-.inicio-landing .btn-leer-resolucion:hover {
+.inicio-landing .btn-limpiar-filtros:hover {
   border-color: #e0951d;
   background: #e0951d;
-  color: #ffffff;
+  color: #111827;
+  box-shadow: none;
+  transform: none;
+}
+
+.inicio-landing .btn-leer-resolucion {
+  min-height: auto;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-primary-orange);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: normal;
+  box-shadow: none;
+}
+
+.inicio-landing .btn-leer-resolucion:hover {
+  border: 0;
+  background: transparent;
+  color: var(--color-primary-hover);
   box-shadow: none;
   transform: none;
 }

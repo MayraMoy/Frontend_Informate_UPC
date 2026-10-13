@@ -3,11 +3,11 @@ import { inicioContenido } from '../data.js';
 import '../styles/inicio.css';
 
 const InicioHero = () => (
-  <section className="inicio-hero container">
+  <section id="inicio" className="inicio-hero container" aria-labelledby="inicio-titulo">
     <div className="row align-items-center gy-5 gx-lg-5">
       <div className="col-12 col-lg-7">
         <div className="inicio-hero-content">
-          <h1 className="inicio-hero-title mb-3">
+          <h1 id="inicio-titulo" className="inicio-hero-title mb-3">
             {inicioContenido.titulo}
             <br />
             en <span>{inicioContenido.tituloDestacado}</span>
@@ -38,7 +38,15 @@ const InicioHero = () => (
           <img
             className="inicio-hero-image img-fluid"
             src={inicioContenido.imagen}
+            srcSet={inicioContenido.imagenResponsive
+              .map(({ src, width }) => `${src} ${width}w`)
+              .join(', ')}
+            sizes="(max-width: 575px) calc(100vw - 24px), (max-width: 991px) 50vw, 420px"
             alt={inicioContenido.imagenAlt}
+            width="1024"
+            height="768"
+            fetchPriority="high"
+            loading="eager"
           />
           <figcaption className="inicio-hero-caption mt-3">
             {inicioContenido.imagenPie}

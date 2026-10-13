@@ -1,7 +1,7 @@
 import { useNoticiaCard } from '../../Pages/noticias/home-noticias/hooks/useNoticiaCard';
 import '../../Pages/noticias/home-noticias/styles/NoticiaCard.css'
 
-export const NoticiaCard = ({ noticia }) => {
+export const NoticiaCard = ({ noticia, headingLevel = 'h2' }) => {
   const { formatearFecha, getBadgeClass, obtenerNombreAutor } = useNoticiaCard(noticia);
 
   if (!noticia) return null;
@@ -15,6 +15,7 @@ export const NoticiaCard = ({ noticia }) => {
     autor,
   } = noticia;
   const nombreCategoria = categoriaNoticia?.nombre;
+  const CardHeading = headingLevel;
 
   return (
     <div className="card h-100 custom-noticia-card p-3">
@@ -26,13 +27,15 @@ export const NoticiaCard = ({ noticia }) => {
             </span>
           )}
           <small className="text-secondary fw-normal">
-            {formatearFecha(fechaPublicacion)}
+            <time dateTime={fechaPublicacion || undefined}>
+              {formatearFecha(fechaPublicacion)}
+            </time>
           </small>
         </div>
 
-        <h5 className="card-title fw-bold mb-3">
+        <CardHeading className="card-title fw-bold mb-3">
           {titulo}
-        </h5>
+        </CardHeading>
 
         <p className="card-text text-secondary small flex-grow-1 noticia-cuerpo-truncado">
           {cuerpo}
