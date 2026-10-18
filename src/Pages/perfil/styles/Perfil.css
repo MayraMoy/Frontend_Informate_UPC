@@ -1,0 +1,93 @@
+.perfil-page {
+  max-width: 960px;
+}
+
+.perfil-heading {
+  margin-bottom: 1.75rem;
+}
+
+.perfil-eyebrow {
+  color: #9a5b06;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.perfil-heading h1 {
+  margin: 0.35rem 0;
+  color: #172033;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 700;
+}
+
+.perfil-heading p {
+  margin: 0;
+  color: #64748b;
+}
+
+.perfil-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid #e7ebf0;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 8px 28px rgb(15 23 42 / 5%);
+}
+
+.perfil-avatar {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff0d6;
+  color: #8a4b00;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.perfil-details {
+  min-width: 0;
+  flex: 1;
+}
+
+.perfil-details h2 {
+  margin: 0 0 1.25rem;
+  color: #172033;
+  font-size: 1.25rem;
+}
+
+.perfil-details dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 1rem;
+  margin: 0;
+}
+
+.perfil-details dl > div {
+  min-width: 0;
+}
+
+.perfil-details dt {
+  margin-bottom: 0.25rem;
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.perfil-details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #263244;
+  font-weight: 600;
+}
+
+@media (max-width: 575.98px) {
+  .perfil-card {
+    flex-direction: column;
+  }
+}

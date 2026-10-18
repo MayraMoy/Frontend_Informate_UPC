@@ -15,15 +15,29 @@ const nombreDeRol = (rol) => {
   return typeof nombre === 'string' ? nombre : '';
 };
 
+const normalizarRol = (rol) => nombreDeRol(rol)
+  .trim()
+  .toUpperCase()
+  .replace(/^ROLE_/, '')
+  .replace(/[\s-]+/g, '_');
+
 export const tieneRolAdministrador = (usuario) => {
   const rol = usuario?.rol ?? usuario?.role ?? usuario?.roles;
   const nombres = Array.isArray(rol) ? rol : [rol];
 
-  return nombres.some((item) => nombreDeRol(item)
-    .trim()
-    .toUpperCase()
-    .replace(/^ROLE_/, '') === 'ADMINISTRADOR');
+  return nombres.some((item) => normalizarRol(item) === 'ADMINISTRADOR');
 };
+
+export const tieneRolPersonalEscuela = (usuario) => {
+  const rol = usuario?.rol ?? usuario?.role ?? usuario?.roles;
+  const nombres = Array.isArray(rol) ? rol : [rol];
+
+  return nombres.some((item) => normalizarRol(item) === 'PERSONAL_ESCUELA');
+};
+
+export const puedeAccederGestion = (usuario) => (
+  tieneRolAdministrador(usuario) || tieneRolPersonalEscuela(usuario)
+);
 
 /** Completa el nombre del rol cuando el login solo devuelve su identificador. */
 export const resolverRolUsuario = async (usuario) => {

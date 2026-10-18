@@ -1,12 +1,13 @@
 import { lazy, Suspense, useContext } from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { Navbar } from './Components/navegacion/Navbar.jsx';
+import { Navbar } from './Components/navegacion/Navbar/Navbar.jsx';
 import AppContext from './Context/AppContext.js';
 import { NoticiasHome } from './Pages/noticias/home-noticias/NoticiaHome.jsx';
 import { ResolucionesPage } from './Pages/resoluciones/ResolucionesPage.jsx';
 import InicioPage from './Pages/inicio/InicioPage.jsx';
 import DashboardAdmin from './Pages/inicio/DashboardAdmin.jsx';
-import { tieneRolAdministrador } from './hooks/useRoles.js';
+import { puedeAccederGestion } from './hooks/useRoles.js';
+import { Sidebar } from './Components/navegacion/sidebar/Sidebar.jsx';
 
 const ConfirmacionRegistroPage = lazy(() =>
   import('./Pages/usuarios/ConfirmacionRegistroPage.jsx').then((module) => ({
@@ -23,6 +24,7 @@ const RegisterPage = lazy(() =>
     default: module.RegisterPage,
   })),
 );
+const Perfil = lazy(() => import('./Pages/perfil/Perfil.jsx'));
 
 const RutaProtegida = ({ children }) => {
   const { user } = useContext(AppContext);
@@ -36,12 +38,13 @@ const RutaProtegida = ({ children }) => {
 const RutaAdministrador = ({ children }) => {
   const { user } = useContext(AppContext);
 
-  return tieneRolAdministrador(user)
+  return puedeAccederGestion(user)
     ? children
     : <Navigate to="/" replace />;
 };
 
 const AppLayout = () => {
+  const { user } = useContext(AppContext);
   const { pathname } = useLocation();
   const ocultarNavbar = ['/login', '/registro', '/register'].includes(pathname);
 
@@ -51,7 +54,9 @@ const AppLayout = () => {
         Saltar al contenido principal
       </a>
       {!ocultarNavbar && <Navbar />}
-      <main id="contenido-principal" className="flex-grow-1" tabIndex={-1}>
+      <div className="app-content-layout">
+        {!ocultarNavbar && <Sidebar user={user} />}
+        <main id="contenido-principal" className="app-main-content flex-grow-1" tabIndex={-1}>
         <Suspense
           fallback={(
             <div className="d-flex justify-content-center py-5" role="status">
@@ -71,6 +76,14 @@ const AppLayout = () => {
               )}
             />
             <Route path="/resoluciones" element={<ResolucionesPage />} />
+            <Route
+              path="/perfil"
+              element={(
+                <RutaProtegida>
+                  <Perfil />
+                </RutaProtegida>
+              )}
+            />
             <Route path="/login" element={<LoginPage />} />
             <Route
               path="/dashboard-admin"
@@ -89,7 +102,8 @@ const AppLayout = () => {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };
