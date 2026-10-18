@@ -28,7 +28,7 @@ const InicioPage = () => {
   return (
     <div className="inicio-landing">
       <InicioHero />
-      <NoticiasHome headingLevel={2} />
+      <NoticiasHome headingLevel={2} variant="carousel" />
       <ResolucionesPage headingLevel={2} />
     </div>
   );

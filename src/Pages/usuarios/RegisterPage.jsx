@@ -1,27 +1,32 @@
 import React from 'react';
 import RegisterForm from '../../Components/usuarios/RegisterForm';
-import './RegisterPage.css';
+import AuthInstitutionPanel from './components/AuthInstitutionPanel.jsx';
+import AuthModeSwitch from './components/AuthModeSwitch.jsx';
+import './styles/RegisterPage.css';
+import './styles/AuthPages.css';
 
 export const RegisterPage = () => {
   return (
-    <div className="register-viewport">
-      <div className="register-container">
-        {/* Cabecera con Badge y Títulos (fuera de la tarjeta blanca) */}
-        <div className="register-header">
-          <span className="badge-comunidad">Comunidad Universitaria</span>
-          <h1 className="register-title">
-            Creá tu cuenta en <span className="brand-highlight">Foro UPC</span>
-          </h1>
-          <p className="register-subtitle">
-            Accedé a noticias institucionales, resoluciones y participá de la comunidad académica.
-          </p>
-        </div>
+    <div className="auth-layout register-viewport">
+      <AuthInstitutionPanel />
 
-        {/* Tarjeta blanca para el formulario */}
-        <div className="register-card">
-          <RegisterForm />
+      <section className="auth-form-panel">
+        <AuthModeSwitch />
+        <div className="register-container">
+          <div className="register-header">
+            <h1 className="register-title">
+              Sumate a <span className="brand-highlight">Foro UPC</span>
+            </h1>
+            <p className="register-subtitle">
+              Creá tu cuenta para acceder a noticias institucionales, resoluciones y participar en la comunidad académica.
+            </p>
+          </div>
+
+          <div className="register-card">
+            <RegisterForm />
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

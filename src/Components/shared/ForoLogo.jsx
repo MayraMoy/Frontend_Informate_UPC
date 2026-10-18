@@ -1,5 +1,5 @@
 import React from 'react';
-import logoImg from '../../assets/logo-foro-upc-260.png';
+import logoImg from '../../assets/logo-upc-corto.png';
 
 /**
  * Logotipo oficial de Foro UPC

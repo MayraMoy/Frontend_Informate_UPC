@@ -12,6 +12,12 @@ export const listarNoticiasPublicadas = async () => {
     return response.data;
 }
 
+// GET: Traer unicamente las 6 ultimas noticias publicadas
+export const listar6Noticias = async () => {
+    const response = await clientAxios.get('api/noticias/ultimas-seis');
+    return response.data;
+}
+
 // GET: Consultar una noticia
 export const consultarNoticia = async (id) => {
     const response = await clientAxios.get(`api/noticias/${id}`);

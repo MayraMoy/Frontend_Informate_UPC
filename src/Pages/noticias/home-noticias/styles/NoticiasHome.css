@@ -2,7 +2,7 @@
 :root {
   --color-tag-gold: #8a5b00;
   --text-dark: #1a1a1a;
-  --text-muted: #555555;
+  --text-muted: #526071;
 }
 
 /* Estilos de la sección principal */
@@ -13,7 +13,7 @@
 /* Estilo para la etiqueta superior (Comunidad Universitaria) */
 .noticia-tag {
   color: var(--color-tag-gold);
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   letter-spacing: 0.08em;
 }
 
@@ -29,6 +29,7 @@
   color: var(--text-muted);
   line-height: 1.6;
   font-weight: 400;
+  max-width: 68ch;
 }
 
 .buscador-noticias-container {

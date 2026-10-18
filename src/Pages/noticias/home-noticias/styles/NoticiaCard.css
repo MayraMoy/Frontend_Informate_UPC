@@ -1,6 +1,6 @@
 :root {
-  --primary-yellow: #f5a623;
-  --primary-yellow-hover: #e0951d;
+  --primary-yellow: #F39C12;
+  --primary-yellow-hover: #D98200;
   --text-yellow: #8a5b00;
   --border-card-color: #e2e8f0;
   --border-radius-card: 16px;
@@ -34,7 +34,7 @@
   background-color: #fef3c7;
   color: #92400e;
   font-weight: 700;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.04em;
 }
 
@@ -42,7 +42,7 @@
   background-color: #d1fae5;
   color: #065f46;
   font-weight: 700;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.04em;
 }
 
@@ -50,7 +50,7 @@
   background-color: #dbeafe;
   color: #1e40af;
   font-weight: 700;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.04em;
 }
 
@@ -58,7 +58,7 @@
   background-color: #e2e8f0;
   color: #4a5568;
   font-weight: 700;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.04em;
 }
 

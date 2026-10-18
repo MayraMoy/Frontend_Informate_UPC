@@ -1,6 +1,6 @@
 :root {
-  --pagination-orange: #f5a623;
-  --pagination-orange-hover: #e0951d;
+  --pagination-orange: #F39C12;
+  --pagination-orange-hover: #D98200;
   --pagination-gray-bg: #dcddde;
   --pagination-inactive-bg: #f8f9fa;
   --pagination-inactive-border: #cbd5e1;
@@ -48,7 +48,7 @@
 /* Página Activa (Número naranja) */
 .page-btn-active {
   background-color: var(--pagination-orange) !important;
-  color: #000000 !important;
+  color: #1f2937 !important;
 }
 
 .page-btn-active:hover {

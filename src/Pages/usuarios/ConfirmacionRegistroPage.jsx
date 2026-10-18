@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './ConfirmacionRegistroPage.css';
+import './styles/ConfirmacionRegistroPage.css';
 
 export const ConfirmacionRegistroPage = () => {
   const location = useLocation();
@@ -59,7 +59,7 @@ export const ConfirmacionRegistroPage = () => {
               height="36"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#ea8207"
+              stroke="#F39C12"
               strokeWidth="1.8"
               strokeLinecap="round"
               strokeLinejoin="round"

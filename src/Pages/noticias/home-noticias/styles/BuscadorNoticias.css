@@ -25,7 +25,7 @@
 }
 
 .input-group-custom:focus-within {
-  border-color: #f5a623;
+  border-color: #F39C12;
   box-shadow: 0 0 0 0.2rem var(--focus-ring-color);
 }
 
@@ -63,6 +63,6 @@
 }
 
 .custom-select:focus {
-  border-color: #f5a623;
+  border-color: #F39C12;
   box-shadow: 0 0 0 0.2rem var(--focus-ring-color);
 }

@@ -1,10 +1,12 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { Footer } from './Components/navegacion/Footer.jsx';
+import { lazy, Suspense, useContext } from 'react';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Navbar } from './Components/navegacion/Navbar.jsx';
+import AppContext from './Context/AppContext.js';
 import { NoticiasHome } from './Pages/noticias/home-noticias/NoticiaHome.jsx';
 import { ResolucionesPage } from './Pages/resoluciones/ResolucionesPage.jsx';
 import InicioPage from './Pages/inicio/InicioPage.jsx';
+import DashboardAdmin from './Pages/inicio/DashboardAdmin.jsx';
+import { tieneRolAdministrador } from './hooks/useRoles.js';
 
 const ConfirmacionRegistroPage = lazy(() =>
   import('./Pages/usuarios/ConfirmacionRegistroPage.jsx').then((module) => ({
@@ -22,13 +24,33 @@ const RegisterPage = lazy(() =>
   })),
 );
 
-const AppRouter = () => (
-  <BrowserRouter>
+const RutaProtegida = ({ children }) => {
+  const { user } = useContext(AppContext);
+  const location = useLocation();
+
+  return user
+    ? children
+    : <Navigate to="/login" replace state={{ from: location }} />;
+};
+
+const RutaAdministrador = ({ children }) => {
+  const { user } = useContext(AppContext);
+
+  return tieneRolAdministrador(user)
+    ? children
+    : <Navigate to="/" replace />;
+};
+
+const AppLayout = () => {
+  const { pathname } = useLocation();
+  const ocultarNavbar = ['/login', '/registro', '/register'].includes(pathname);
+
+  return (
     <div className="d-flex min-vh-100 flex-column">
       <a className="skip-link" href="#contenido-principal">
         Saltar al contenido principal
       </a>
-      <Navbar />
+      {!ocultarNavbar && <Navbar />}
       <main id="contenido-principal" className="flex-grow-1" tabIndex={-1}>
         <Suspense
           fallback={(
@@ -40,9 +62,26 @@ const AppRouter = () => (
         >
           <Routes>
             <Route path="/" element={<InicioPage />} />
-            <Route path="/noticias" element={<NoticiasHome />} />
+            <Route
+              path="/noticias"
+              element={(
+                <RutaProtegida>
+                  <NoticiasHome />
+                </RutaProtegida>
+              )}
+            />
             <Route path="/resoluciones" element={<ResolucionesPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/dashboard-admin"
+              element={(
+                <RutaProtegida>
+                  <RutaAdministrador>
+                    <DashboardAdmin />
+                  </RutaAdministrador>
+                </RutaProtegida>
+              )}
+            />
             <Route path="/registro" element={<RegisterPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/registro-completado" element={<ConfirmacionRegistroPage />} />
@@ -51,8 +90,13 @@ const AppRouter = () => (
           </Routes>
         </Suspense>
       </main>
-      <Footer />
     </div>
+  );
+};
+
+const AppRouter = () => (
+  <BrowserRouter>
+    <AppLayout />
   </BrowserRouter>
 );
 

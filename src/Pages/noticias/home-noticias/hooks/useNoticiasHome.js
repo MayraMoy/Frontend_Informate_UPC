@@ -1,8 +1,21 @@
 import { useEffect, useMemo, useState } from 'react';
-import { listarNoticiasPublicadas } from '../../../../Services/noticias/noticiasServices';
+import { listar6Noticias, listarNoticiasPublicadas } from '../../../../Services/noticias/noticiasServices';
 import { listarCategoria } from '../../../../Services/noticias/categoriasServices';
 
-export const useNoticiasHome = () => {
+const ordenarPorFechaDescendente = (noticias) => [...noticias].sort((a, b) => {
+  const fechaA = Date.parse(a.fechaPublicacion);
+  const fechaB = Date.parse(b.fechaPublicacion);
+  const fechaAValida = Number.isFinite(fechaA);
+  const fechaBValida = Number.isFinite(fechaB);
+
+  if (!fechaAValida || !fechaBValida) {
+    return fechaAValida === fechaBValida ? 0 : fechaAValida ? -1 : 1;
+  }
+
+  return fechaB - fechaA;
+});
+
+export const useNoticiasHome = ({ soloUltimasSeis = false, cargarCategorias = true } = {}) => {
   const [noticias, setNoticias] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,15 +24,21 @@ export const useNoticiasHome = () => {
   const [fecha, setFecha] = useState('Todas');
 
   useEffect(() => {
-    listarNoticiasPublicadas()
-      .then((data) => setNoticias(data))
+    const cargarNoticias = soloUltimasSeis ? listar6Noticias : listarNoticiasPublicadas;
+
+    cargarNoticias()
+      .then((data) => {
+        setNoticias(ordenarPorFechaDescendente(data));
+      })
       .catch((err) => console.error('Error al cargar noticias:', err))
       .finally(() => setLoading(false));
 
-    listarCategoria()
-      .then((data) => setCategorias(data))
-      .catch((err) => console.error('Error al cargar categorías:', err));
-  }, []);
+    if (cargarCategorias) {
+      listarCategoria()
+        .then((data) => setCategorias(data))
+        .catch((err) => console.error('Error al cargar categorías:', err));
+    }
+  }, [soloUltimasSeis, cargarCategorias]);
 
   const noticiasConCategoria = useMemo(() => noticias.map((item) => {
     const categoriaActual = item.categoriaNoticia;

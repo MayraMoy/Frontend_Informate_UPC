@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { FiltrosResoluciones } from '../../Components/resoluciones/FiltrosResoluciones';
 import { TablaResoluciones } from '../../Components/resoluciones/TablaResoluciones';
 import { ResolucionCardDestacada } from '../../Components/resoluciones/ResolucionCardDestacada';
@@ -155,15 +156,14 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
     <section id="resoluciones" className="resoluciones-page-container" aria-labelledby="resoluciones-titulo">
       {/* 1. Encabezado Institucional */}
       <header className="resoluciones-header">
-        <span className="resoluciones-tag-eyebrow">
-          COMUNIDAD UNIVERSITARIA
-        </span>
-        <SectionHeading id="resoluciones-titulo" className="resoluciones-main-title">
-          Resoluciones Académicas
-        </SectionHeading>
-        <p className="resoluciones-subtitle">
-          Consulta y descarga las disposiciones oficiales, normativas y actas del Consejo Superior de la Universidad Provincial de Córdoba.
-        </p>
+        <div className="resoluciones-header-content">
+          <SectionHeading id="resoluciones-titulo" className="resoluciones-main-title">
+            Ver Últimas Resoluciones
+          </SectionHeading>
+        </div>
+        <Link className="resoluciones-more-link" to="/login">
+          Saber más <span aria-hidden="true">→</span>
+        </Link>
       </header>
 
       {/* 2. Barra de Búsqueda y Filtros Avanzados */}
