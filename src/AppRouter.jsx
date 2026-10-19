@@ -15,12 +15,12 @@ const ConfirmacionRegistroPage = lazy(() =>
   })),
 );
 const LoginPage = lazy(() =>
-  import('./Pages/usuarios/LoginPage.jsx').then((module) => ({
+  import('./Components/usuarios/login/LoginPage.jsx').then((module) => ({
     default: module.LoginPage,
   })),
 );
 const RegisterPage = lazy(() =>
-  import('./Pages/usuarios/RegisterPage.jsx').then((module) => ({
+  import('./Components/usuarios/register/RegisterPage.jsx').then((module) => ({
     default: module.RegisterPage,
   })),
 );

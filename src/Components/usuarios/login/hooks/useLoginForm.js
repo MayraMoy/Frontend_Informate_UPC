@@ -40,11 +40,26 @@ const useLoginForm = () => {
 
     try {
       setIsSubmitting(true);
-      const respuestaLogin = await usuarioService.iniciarSesion(email, formData.password);
-      const usuarioLogueado = await resolverRolUsuario(respuestaLogin);
+      const respuestaLogin = await usuarioService.iniciarSesion(
+        email,
+        formData.password,
+      );
+      const usuarioRespuesta = respuestaLogin.usuario ?? respuestaLogin;
+      const usuarioLogueado = await resolverRolUsuario(usuarioRespuesta);
 
+      // Guardar el JWT para que Axios lo envíe en las próximas peticiones.
+      if (respuestaLogin.token) {
+        localStorage.setItem('token', respuestaLogin.token);
+      } else {
+        throw new Error('El servidor no devolvió el token de autenticación.');
+      }
+
+      // Guardar los datos del usuario.
       setUser?.(usuarioLogueado);
-      localStorage.setItem('usuarioSesion', JSON.stringify(usuarioLogueado));
+      localStorage.setItem(
+        'usuarioSesion',
+        JSON.stringify(usuarioLogueado),
+      );
 
       const destino = location.state?.from;
       const rutaDestino = tieneRolAdministrador(usuarioLogueado)

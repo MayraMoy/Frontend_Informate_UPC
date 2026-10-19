@@ -157,29 +157,30 @@ export const usuarioService = {
   },
 
   /**
-   * Verifica las credenciales mediante el backend.
-   */
+ * Inicia sesión mediante el backend y devuelve el token JWT
+ * junto con los datos del usuario autenticado.
+ */
   iniciarSesion: async (email, password) => {
     try {
-        const response = await api.post('api/usuarios/login', {
-            email: email.trim().toLowerCase(),
-            contraseña: password,
-        });
+      const response = await api.post('api/usuarios/login', {
+        email: email.trim().toLowerCase(),
+        contraseña: password,
+      });
 
-        return response.data;
+      return response.data;
     } catch (error) {
-        const mensaje =
-            error.response?.data?.message ||
-            error.response?.data ||
-            error.message;
+      const mensaje =
+        error.response?.data?.message ||
+        error.response?.data ||
+        error.message;
 
-        throw new Error(
-            typeof mensaje === 'string'
-                ? mensaje
-                : 'Error al iniciar sesión'
-        );
+      throw new Error(
+        typeof mensaje === 'string'
+        ? mensaje
+        : 'Error al iniciar sesión'
+      );
     }
-},
+  },
 
   /**
    * Cierra una sesión registrada en el backend.

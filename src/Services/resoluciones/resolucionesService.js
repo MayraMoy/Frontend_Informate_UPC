@@ -5,6 +5,21 @@ import api from '../axiosConfig';
  */
 export const resolucionesService = {
   /**
+   * Obtiene las seis resoluciones más recientes (endpoint público).
+   * Endpoint: GET /api/resoluciones/ultimas-seis
+   * @returns {Promise<Array>} Lista de ResolucionResponseDTO
+   */
+  listar6Resoluciones: async () => {
+    try {
+      const response = await api.get('/api/resoluciones/ultimas-seis');
+      return response.data;
+    } catch (error) {
+      const mensaje = error.response?.data?.message || error.response?.data || error.message;
+      throw new Error(mensaje || 'Error al obtener las seis resoluciones más recientes');
+    }
+  },
+
+  /**
    * Obtiene la lista completa de resoluciones.
    * Endpoint: GET /api/resoluciones/todos
    * @returns {Promise<Array>} Lista de ResolucionResponseDTO

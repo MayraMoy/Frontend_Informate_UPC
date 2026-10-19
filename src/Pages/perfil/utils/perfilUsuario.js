@@ -18,6 +18,10 @@ export const obtenerNombreUsuario = (usuario) => {
 };
 
 export const obtenerRolesUsuario = (usuario) => {
+  if (usuario?.nombreRol) {
+    return nombreRol(usuario.nombreRol) || 'Usuario';
+  }
+
   const roles = usuario?.rol ?? usuario?.role ?? usuario?.roles;
   const listaRoles = Array.isArray(roles) ? roles : [roles];
   const nombres = listaRoles.map(nombreRol).filter(Boolean);

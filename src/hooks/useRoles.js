@@ -4,40 +4,50 @@ const nombreDeRol = (rol) => {
   if (typeof rol === 'string') return rol;
   if (!rol || typeof rol !== 'object') return '';
 
-  const nombre = rol.nombre
-    ?? rol.nombreRol
-    ?? rol.name
-    ?? rol.authority
-    ?? rol.descripcion
-    ?? rol.descripcionRol
-    ?? rol.rol;
+  const nombre =
+    rol.nombreRol ??
+    rol.nombre ??
+    rol.name ??
+    rol.authority ??
+    rol.descripcion ??
+    rol.descripcionRol ??
+    rol.rol;
 
   return typeof nombre === 'string' ? nombre : '';
 };
 
-const normalizarRol = (rol) => nombreDeRol(rol)
-  .trim()
-  .toUpperCase()
-  .replace(/^ROLE_/, '')
-  .replace(/[\s-]+/g, '_');
+const normalizarRol = (rol) =>
+  nombreDeRol(rol)
+    .trim()
+    .toUpperCase()
+    .replace(/^ROLE_/, '')
+    .replace(/[\s-]+/g, '_');
 
-export const tieneRolAdministrador = (usuario) => {
-  const rol = usuario?.rol ?? usuario?.role ?? usuario?.roles;
-  const nombres = Array.isArray(rol) ? rol : [rol];
+const obtenerRolesUsuario = (usuario) => {
+  if (!usuario) return [];
 
-  return nombres.some((item) => normalizarRol(item) === 'ADMINISTRADOR');
+  if (usuario.nombreRol) {
+    return [usuario.nombreRol];
+  }
+
+  const rol = usuario.rol ?? usuario.role ?? usuario.roles;
+
+  return Array.isArray(rol) ? rol : rol ? [rol] : [];
 };
 
-export const tieneRolPersonalEscuela = (usuario) => {
-  const rol = usuario?.rol ?? usuario?.role ?? usuario?.roles;
-  const nombres = Array.isArray(rol) ? rol : [rol];
+export const tieneRolAdministrador = (usuario) =>
+  obtenerRolesUsuario(usuario).some(
+    (rol) => normalizarRol(rol) === 'ADMINISTRADOR'
+  );
 
-  return nombres.some((item) => normalizarRol(item) === 'PERSONAL_ESCUELA');
-};
+export const tieneRolPersonalEscuela = (usuario) =>
+  obtenerRolesUsuario(usuario).some(
+    (rol) => normalizarRol(rol) === 'PERSONAL_ESCOLAR'
+  );
 
-export const puedeAccederGestion = (usuario) => (
-  tieneRolAdministrador(usuario) || tieneRolPersonalEscuela(usuario)
-);
+export const puedeAccederGestion = (usuario) =>
+  tieneRolAdministrador(usuario) ||
+  tieneRolPersonalEscuela(usuario);
 
 /** Completa el nombre del rol cuando el login solo devuelve su identificador. */
 export const resolverRolUsuario = async (usuario) => {
