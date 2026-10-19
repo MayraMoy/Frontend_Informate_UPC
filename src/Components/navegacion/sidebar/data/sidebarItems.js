@@ -11,7 +11,7 @@ export const sidebarGroups = [
     icono: 'noticias',
     opciones: [
       { etiqueta: 'Crear noticia', ruta: '/noticias/crear' },
-      { etiqueta: 'Ver noticias', ruta: '/noticias' },
+      { etiqueta: 'Ver noticias', ruta: '/noticias/ver' },
       { etiqueta: 'Pendientes de revisión', ruta: '/noticias/pendientes' },
     ],
   },

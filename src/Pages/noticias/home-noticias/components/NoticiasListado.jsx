@@ -1,6 +1,6 @@
-import { BuscadorNoticias } from '../../../../Components/noticias/BuscadorNoticias.jsx';
-import { NoticiaCard } from '../../../../Components/noticias/NoticiaCard.jsx';
-import { Paginacion } from '../../../../Components/noticias/Paginacion.jsx';
+import { BuscadorNoticias } from '../../logeado-noticias/ver-noticias/components/BuscadorNoticias.jsx';
+import { NoticiaCard } from '../../logeado-noticias/ver-noticias/components/NoticiaCard.jsx';
+import { Paginacion } from '../../logeado-noticias/ver-noticias/components/Paginacion.jsx';
 import { usePaginacionNoticias } from '../hooks/usePaginacionNoticias.js';
 
 const NoticiasListado = ({ noticias, loading, headingLevel, busqueda, setBusqueda, categoria, setCategoria, categorias, fecha, setFecha }) => {

@@ -25,6 +25,15 @@ const RegisterPage = lazy(() =>
   })),
 );
 const Perfil = lazy(() => import('./Pages/perfil/Perfil.jsx'));
+const CrearNoticia = lazy(() =>
+  import('./Pages/noticias/logeado-noticias/crear-noticia/CrearNoticia.jsx'),
+);
+const VerNoticias = lazy(() =>
+  import('./Pages/noticias/logeado-noticias/ver-noticias/VerNoticias.jsx'),
+);
+const PendientesNoticias = lazy(() =>
+  import('./Pages/noticias/logeado-noticias/pendientes/PendientesNoticias.jsx'),
+);
 
 const RutaProtegida = ({ children }) => {
   const { user } = useContext(AppContext);
@@ -72,6 +81,36 @@ const AppLayout = () => {
               element={(
                 <RutaProtegida>
                   <NoticiasHome />
+                </RutaProtegida>
+              )}
+            />
+            <Route
+              path="/noticias/crear"
+              element={(
+                <RutaProtegida>
+                  <RutaAdministrador>
+                    <CrearNoticia />
+                  </RutaAdministrador>
+                </RutaProtegida>
+              )}
+            />
+            <Route
+              path="/noticias/ver"
+              element={(
+                <RutaProtegida>
+                  <RutaAdministrador>
+                    <VerNoticias />
+                  </RutaAdministrador>
+                </RutaProtegida>
+              )}
+            />
+            <Route
+              path="/noticias/pendientes"
+              element={(
+                <RutaProtegida>
+                  <RutaAdministrador>
+                    <PendientesNoticias />
+                  </RutaAdministrador>
                 </RutaProtegida>
               )}
             />
