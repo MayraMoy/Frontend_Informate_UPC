@@ -17,9 +17,14 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
+    const esLogin = /(?:^|\/)api\/usuarios\/login\/?$/i.test(config.url || '');
 
-    if (token) {
+    // El login es público: un token viejo puede hacer que el backend lo rechace
+    // antes de validar las credenciales nuevas.
+    if (token && !esLogin) {
       config.headers.Authorization = `Bearer ${token}`;
+    } else if (esLogin) {
+      delete config.headers.Authorization;
     }
 
     return config;

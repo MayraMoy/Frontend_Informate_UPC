@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FiltrosResoluciones } from '../../Components/resoluciones/FiltrosResoluciones';
 import { TablaResoluciones } from '../../Components/resoluciones/TablaResoluciones';
@@ -7,6 +7,7 @@ import { ModalDetalleResolucion } from '../../Components/resoluciones/ModalDetal
 import { PaginacionResoluciones } from '../../Components/resoluciones/PaginacionResoluciones';
 import { resolucionesService } from '../../Services/resoluciones/resolucionesService';
 import { categoriasResolucionService } from '../../Services/resoluciones/categoriasResolucionService';
+import AppContext from '../../Context/AppContext';
 import './ResolucionesPage.css';
 
 /**
@@ -15,6 +16,7 @@ import './ResolucionesPage.css';
  */
 export const ResolucionesPage = ({ headingLevel = 1 }) => {
   const SectionHeading = headingLevel === 2 ? 'h2' : 'h1';
+  const { user } = useContext(AppContext);
   // Estados de datos
   const [resoluciones, setResoluciones] = useState([]);
   const [categorias, setCategorias] = useState([]);
@@ -46,7 +48,9 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
 
       try {
         const [resBackend, catBackend] = await Promise.all([
-          resolucionesService.obtenerTodas(),
+          user
+            ? resolucionesService.obtenerTodas()
+            : resolucionesService.listar6Resoluciones(),
           categoriasResolucionService.obtenerTodas(),
         ]);
 
@@ -74,7 +78,7 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
     return () => {
       activa = false;
     };
-  }, [intentoCarga]);
+  }, [intentoCarga, user]);
 
   // Lista de años disponibles basados en las resoluciones
   const aniosDisponibles = useMemo(() => {
