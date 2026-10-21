@@ -1,0 +1,37 @@
+/* Variables de color institucional */
+:root {
+  --color-tag-gold: #8a5b00;
+  --text-dark: #1a1a1a;
+  --text-muted: #526071;
+}
+
+/* Estilos de la sección principal */
+.noticias-home {
+  max-width: 1200px;
+}
+
+/* Estilo para la etiqueta superior (Comunidad Universitaria) */
+.noticia-tag {
+  color: var(--color-tag-gold);
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+}
+
+/* Estilo para el Título (Noticias Institucionales) */
+.noticia-title {
+  color: var(--text-dark);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* Estilo para la Descripción */
+.noticia-description {
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-weight: 400;
+  max-width: 68ch;
+}
+
+.buscador-noticias-container {
+  width: 100%;
+}

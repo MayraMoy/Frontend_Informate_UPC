@@ -1,0 +1,147 @@
+.user-menu {
+  position: relative;
+}
+
+.user-menu-trigger {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid #e8edf2;
+  border-radius: 999px;
+  background: #fff;
+  color: #1f2937;
+  text-align: left;
+}
+
+.user-menu-trigger:hover,
+.user-menu-trigger:focus-visible {
+  border-color: #f0b44f;
+  background: #fffaf2;
+}
+
+.user-menu-avatar {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff0d6;
+  color: #8a4b00;
+  font-weight: 700;
+}
+
+.user-menu-identity {
+  min-width: 0;
+  display: grid;
+  line-height: 1.2;
+}
+
+.user-menu-name {
+  max-width: 170px;
+  overflow: hidden;
+  font-size: 0.82rem;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-menu-role {
+  max-width: 170px;
+  overflow: hidden;
+  color: #64748b;
+  font-size: 0.7rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-menu-chevron {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  margin-left: 0.1rem;
+  color: #64748b;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 180ms ease, color 180ms ease;
+}
+
+.user-menu-trigger:hover .user-menu-chevron,
+.user-menu-trigger:focus-visible .user-menu-chevron {
+  color: #8a4b00;
+}
+
+.user-menu-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .user-menu-chevron {
+    transition: none;
+  }
+}
+
+.user-menu-dropdown {
+  position: absolute;
+  z-index: 1030;
+  top: calc(100% + 0.55rem);
+  right: 0;
+  width: 220px;
+  padding: 0.35rem;
+  border: 1px solid #e8edf2;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgb(15 23 42 / 14%);
+}
+
+.user-menu-dropdown button {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.7rem;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #263244;
+  text-align: left;
+  font-size: 0.88rem;
+}
+
+.user-menu-dropdown button:hover,
+.user-menu-dropdown button:focus-visible {
+  background: #fff6e8;
+}
+
+.user-menu-item-icon {
+  display: inline-flex;
+  color: #8a4b00;
+}
+
+.user-menu-item-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+@media (max-width: 991.98px) {
+  .user-menu {
+    width: 100%;
+  }
+
+  .user-menu-trigger {
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  .user-menu-dropdown {
+    position: static;
+    width: 100%;
+    margin-top: 0.45rem;
+    box-shadow: none;
+  }
+}
