@@ -8,6 +8,7 @@ import InicioPage from './Pages/inicio/InicioPage.jsx';
 import DashboardAdmin from './Pages/inicio/DashboardAdmin.jsx';
 import { puedeAccederGestion } from './hooks/useRoles.js';
 import { Sidebar } from './Components/navegacion/sidebar/Sidebar.jsx';
+import { Footer } from './Components/navegacion/Footer/Footer.jsx';
 
 const ConfirmacionRegistroPage = lazy(() =>
   import('./Pages/usuarios/ConfirmacionRegistroPage.jsx').then((module) => ({
@@ -143,6 +144,7 @@ const AppLayout = () => {
         </Suspense>
         </main>
       </div>
+      {!ocultarNavbar && <Footer />}
     </div>
   );
 };
