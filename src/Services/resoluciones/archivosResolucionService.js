@@ -11,7 +11,7 @@ export const archivosResolucionService = {
    */
   obtenerTodos: async () => {
     try {
-      const response = await api.get('/archivos/todos');
+      const response = await api.get('/api/archivos/todos');
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
@@ -27,7 +27,7 @@ export const archivosResolucionService = {
    */
   obtenerPorId: async (id) => {
     try {
-      const response = await api.get(`/archivos/${id}`);
+      const response = await api.get(`/api/archivos/${id}`);
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
@@ -43,7 +43,7 @@ export const archivosResolucionService = {
    */
   guardar: async (archivoData) => {
     try {
-      const response = await api.post('/archivos', archivoData);
+      const response = await api.post('/api/archivos', archivoData);
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
@@ -60,7 +60,7 @@ export const archivosResolucionService = {
    */
   actualizar: async (id, archivoData) => {
     try {
-      const response = await api.put(`/archivos/${id}`, archivoData);
+      const response = await api.put(`/api/archivos/${id}`, archivoData);
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
@@ -76,7 +76,7 @@ export const archivosResolucionService = {
    */
   eliminar: async (id) => {
     try {
-      const response = await api.delete(`/archivos/${id}`);
+      const response = await api.delete(`/api/archivos/${id}`);
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;

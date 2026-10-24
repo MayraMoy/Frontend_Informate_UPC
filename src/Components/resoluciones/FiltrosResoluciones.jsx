@@ -15,7 +15,8 @@ export const FiltrosResoluciones = ({
   categorias = [],
   estado,
   setEstado,
-  onLimpiarFiltros
+  onLimpiarFiltros,
+  esPublico = false,
 }) => {
   return (
     <div className="filtros-resoluciones-container mb-4">
@@ -75,20 +76,22 @@ export const FiltrosResoluciones = ({
           </select>
         </div>
 
-        {/* Dropdown Estados */}
-        <div className="filtro-select-wrapper">
-          <select
-            className="filtro-select"
-            aria-label="Filtrar resoluciones por estado"
-            value={estado}
-            onChange={(e) => setEstado(e.target.value)}
-          >
-            <option value="">Todos los estados</option>
-            <option value="Vigente">Vigente</option>
-            <option value="Archivado">Archivado</option>
-            <option value="Pendiente">Pendiente</option>
-          </select>
-        </div>
+        {/* Dropdown Estados (solo visible para usuarios autenticados con permisos) */}
+        {!esPublico && (
+          <div className="filtro-select-wrapper">
+            <select
+              className="filtro-select"
+              aria-label="Filtrar resoluciones por estado"
+              value={estado}
+              onChange={(e) => setEstado(e.target.value)}
+            >
+              <option value="">Todos los estados</option>
+              <option value="Vigente">Vigente</option>
+              <option value="Archivado">Archivado</option>
+              <option value="Pendiente">Pendiente</option>
+            </select>
+          </div>
+        )}
 
         {/* Botón Limpiar filtros */}
         <div>

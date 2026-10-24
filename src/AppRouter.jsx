@@ -35,6 +35,17 @@ const PendientesNoticias = lazy(() =>
   import('./Pages/noticias/logeado-noticias/pendientes/PendientesNoticias.jsx'),
 );
 
+// Páginas del módulo de Resoluciones
+const CrearResolucionPage = lazy(() =>
+  import('./Pages/resoluciones/CrearResolucionPage.jsx'),
+);
+const ResolucionesPendientesPage = lazy(() =>
+  import('./Pages/resoluciones/ResolucionesPendientesPage.jsx'),
+);
+const ComentariosPendientesPage = lazy(() =>
+  import('./Pages/resoluciones/ComentariosPendientesPage.jsx'),
+);
+
 const RutaProtegida = ({ children }) => {
   const { user } = useContext(AppContext);
   const location = useLocation();
@@ -115,6 +126,36 @@ const AppLayout = () => {
               )}
             />
             <Route path="/resoluciones" element={<ResolucionesPage />} />
+            <Route
+              path="/resoluciones/crear"
+              element={(
+                <RutaProtegida>
+                  <RutaAdministrador>
+                    <CrearResolucionPage />
+                  </RutaAdministrador>
+                </RutaProtegida>
+              )}
+            />
+            <Route
+              path="/resoluciones/pendientes"
+              element={(
+                <RutaProtegida>
+                  <RutaAdministrador>
+                    <ResolucionesPendientesPage />
+                  </RutaAdministrador>
+                </RutaProtegida>
+              )}
+            />
+            <Route
+              path="/resoluciones/comentarios-pendientes"
+              element={(
+                <RutaProtegida>
+                  <RutaAdministrador>
+                    <ComentariosPendientesPage />
+                  </RutaAdministrador>
+                </RutaProtegida>
+              )}
+            />
             <Route
               path="/perfil"
               element={(

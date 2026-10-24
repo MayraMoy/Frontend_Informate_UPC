@@ -1,0 +1,95 @@
+.modal-editar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 24, 39, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  padding: 1rem;
+}
+
+.modal-editar-card {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #111827;
+  position: relative;
+}
+
+.modal-editar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2px solid #F39C12;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.badge-edicion-admin {
+  display: inline-block;
+  background-color: #FEF3C7;
+  color: #92400E;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.modal-editar-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+  color: #111827;
+}
+
+.modal-editar-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #334155;
+  margin-bottom: 0.35rem;
+}
+
+.select-estado-destacado {
+  font-weight: 600;
+  border: 2px solid #F39C12 !important;
+  background-color: #FFFBEB;
+}
+
+.modal-editar-pdf-box {
+  background-color: #F8FAFC;
+  border: 1.5px dashed #CBD5E1;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+}
+
+.badge-pdf-icon {
+  background-color: #FEE2E2;
+  color: #DC2626;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+  border: 1px solid #FECACA;
+}
+
+.modal-editar-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid #E2E8F0;
+}
