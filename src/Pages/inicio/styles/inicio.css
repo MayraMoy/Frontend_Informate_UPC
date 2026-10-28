@@ -207,7 +207,7 @@
   inset-block: 0;
   left: 50%;
   width: 100vw;
-  background: #111827;
+  background: #1e293b;
   transform: translateX(-50%);
   overflow: hidden;
   pointer-events: none;
@@ -219,7 +219,20 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  opacity: 0.42;
+  opacity: 0.6;
+}
+
+.inicio-hero-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(15, 23, 42, 0.72) 0%,
+    rgba(15, 23, 42, 0.5) 45%,
+    rgba(15, 23, 42, 0.15) 100%
+  );
+  pointer-events: none;
 }
 
 .inicio-hero-layout {
@@ -255,10 +268,13 @@
 .inicio-hero-description {
   max-width: 60ch;
   margin: 0 0 1.8rem;
-  color: #ffffff;
-  font-size: 1rem;
-  line-height: 1.6;
-  text-shadow: 0 1px 10px rgba(15, 23, 42, 0.45);
+  color: #f8fafc;
+  font-size: 1.02rem;
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  -webkit-font-smoothing: antialiased;
 }
 
 .inicio-hero-actions {
@@ -307,6 +323,15 @@
 }
 
 @media (max-width: 991.98px) {
+  .inicio-hero-background::after {
+    background: linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.7) 0%,
+      rgba(15, 23, 42, 0.45) 55%,
+      rgba(15, 23, 42, 0.2) 100%
+    );
+  }
+
   .inicio-landing .inicio-hero.container {
     padding-top: 1.25rem;
     padding-bottom: 2.5rem;

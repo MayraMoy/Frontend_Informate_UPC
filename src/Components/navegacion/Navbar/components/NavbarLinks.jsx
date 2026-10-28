@@ -1,16 +1,20 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { NavbarIcon } from '../icons/NavbarIcon.jsx';
 
+/**
+ * Enlaces de navegación del Main Nav.
+ * Limpio de iconos decorativos y con soporte de Active State sutil de 2px en dorado.
+ */
 export const NavbarLinks = ({ onNavigate }) => {
   const navigate = useNavigate();
   const { pathname, hash } = useLocation();
+
   const inicioActivo = pathname === '/' && (!hash || hash === '#inicio');
   const noticiasActivas = pathname === '/noticias' || (pathname === '/' && hash === '#noticias');
   const resolucionesActivas = pathname === '/resoluciones' || (pathname === '/' && hash === '#resoluciones');
 
   const handleSectionNavigation = (sectionId) => (event) => {
     event.preventDefault();
-    onNavigate();
+    onNavigate?.();
 
     if (pathname === '/') {
       const section = document.getElementById(sectionId);
@@ -27,27 +31,50 @@ export const NavbarLinks = ({ onNavigate }) => {
   };
 
   return (
-    <ul className="navbar-links navbar-nav mx-auto mb-2 mb-lg-0 fw-medium">
-      <li className="nav-item">
-        <Link className="nav-link px-3 text-dark" to="/#inicio" onClick={handleSectionNavigation('inicio')} aria-current={inicioActivo ? 'page' : undefined}>
-          <NavbarIcon name="inicio" /><span>Inicio</span>
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link px-3 text-dark" to="/#noticias" onClick={handleSectionNavigation('noticias')} aria-current={noticiasActivas ? 'location' : undefined}>
-          <NavbarIcon name="noticias" /><span>Noticias</span>
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link px-3 text-dark" to="/#resoluciones" onClick={handleSectionNavigation('resoluciones')} aria-current={resolucionesActivas ? 'location' : undefined}>
-          <NavbarIcon name="resoluciones" /><span>Resoluciones</span>
-        </Link>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link px-3 text-dark" href="mailto:soporte@upc.edu.ar" onClick={onNavigate}>
-          <NavbarIcon name="contacto" /><span>Contacto</span>
-        </a>
-      </li>
-    </ul>
+    <nav className="main-nav-links" aria-label="Secciones del sitio">
+      <ul className="navbar-links-list">
+        <li className="navbar-links-item">
+          <Link
+            className={`navbar-link-item${inicioActivo ? ' is-active' : ''}`}
+            to="/#inicio"
+            onClick={handleSectionNavigation('inicio')}
+            aria-current={inicioActivo ? 'page' : undefined}
+          >
+            Inicio
+          </Link>
+        </li>
+        <li className="navbar-links-item">
+          <Link
+            className={`navbar-link-item${noticiasActivas ? ' is-active' : ''}`}
+            to="/#noticias"
+            onClick={handleSectionNavigation('noticias')}
+            aria-current={noticiasActivas ? 'location' : undefined}
+          >
+            Novedades
+          </Link>
+        </li>
+        <li className="navbar-links-item">
+          <Link
+            className={`navbar-link-item${resolucionesActivas ? ' is-active' : ''}`}
+            to="/#resoluciones"
+            onClick={handleSectionNavigation('resoluciones')}
+            aria-current={resolucionesActivas ? 'location' : undefined}
+          >
+            Resoluciones
+          </Link>
+        </li>
+        <li className="navbar-links-item">
+          <a
+            className="navbar-link-item"
+            href="mailto:contacto@upc.edu.ar"
+            onClick={onNavigate}
+          >
+            Contacto
+          </a>
+        </li>
+      </ul>
+    </nav>
   );
 };
+
+export default NavbarLinks;

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../../../Context/AppContext.js';
+import { limpiarCredencialesLocales } from '../../../utils/authStorage.js';
 
 const useUserMenu = (onNavigate) => {
   const [abierto, setAbierto] = useState(false);
@@ -31,7 +32,7 @@ const useUserMenu = (onNavigate) => {
   };
 
   const cerrarSesion = () => {
-    localStorage.removeItem('usuarioSesion');
+    limpiarCredencialesLocales();
     setUser(null);
     setAbierto(false);
     onNavigate?.();
