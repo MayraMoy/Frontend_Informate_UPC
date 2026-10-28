@@ -2,9 +2,14 @@ import React from 'react';
 
 /**
  * Tabla principal de resoluciones académicas fiel a las imágenes del diseño.
- * Incluye badges de categoría suaves, punto indicador de estado y botón LEER.
+ * Incluye badges de categoría suaves, punto indicador de estado, botón LEER y botón EDITAR para admins.
  */
-export const TablaResoluciones = ({ resoluciones = [], onVerDetalle }) => {
+export const TablaResoluciones = ({
+  resoluciones = [],
+  onVerDetalle,
+  onEditar,
+  esAdmin = false,
+}) => {
   if (!resoluciones || resoluciones.length === 0) {
     return (
       <div className="tabla-vacia-alerta text-center p-4">
@@ -94,13 +99,25 @@ export const TablaResoluciones = ({ resoluciones = [], onVerDetalle }) => {
                   {renderEstadoBadge(res.estado)}
                 </td>
                 <td className="celda-accion text-end">
-                  <button
-                    type="button"
-                    className="btn-leer-resolucion"
-                    onClick={() => onVerDetalle && onVerDetalle(res)}
-                  >
-                    LEER <span className="arrow-icon">→</span>
-                  </button>
+                  <div className="d-inline-flex align-items-center gap-2">
+                    {esAdmin && (
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-warning text-dark font-weight-bold"
+                        onClick={() => onEditar && onEditar(res)}
+                        title="Modificar estado o contenido de esta resolución"
+                      >
+                        ✏️ EDITAR
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      className="btn-leer-resolucion"
+                      onClick={() => onVerDetalle && onVerDetalle(res)}
+                    >
+                      LEER <span className="arrow-icon">→</span>
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

@@ -9,8 +9,15 @@ import React, { useEffect } from 'react';
  * - Chips de etiquetas
  * - Caja de descarga de documento PDF
  * - Historial de versiones y observaciones
+ * - Botón de edición directa para administradores
  */
-export const ModalDetalleResolucion = ({ resolucion, isOpen, onClose }) => {
+export const ModalDetalleResolucion = ({
+  resolucion,
+  isOpen,
+  onClose,
+  onEditar,
+  esAdmin = false,
+}) => {
   // Manejo de tecla Escape para cerrar modal
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -77,7 +84,7 @@ export const ModalDetalleResolucion = ({ resolucion, isOpen, onClose }) => {
   const codigoId = resolucion.codigoResolucion || `RES-2026-${String(resolucion.idResolucion || 1).padStart(3, '0')}`;
   const nombreArchivo = resolucion.archivoPrincipal?.nombre || `${resolucion.numeroResolucion?.replace(/[\s./]/g, '_') || 'Resolucion'}.pdf`;
 
-  // Historial de versiones fallback
+  // Historial de versiones
   const historial = resolucion.historialVersiones || [
     { version: versionTexto, fecha: '17/04/2026', descripcion: `Publicada por ${resolucion.rolAutor || 'Secretaría'}` },
     { version: 'v1', fecha: '15/04/2026', descripcion: 'Aprobada por Autoridad' },
@@ -89,7 +96,26 @@ export const ModalDetalleResolucion = ({ resolucion, isOpen, onClose }) => {
     : ['CALENDARIO', '2026', 'RECTORADO'];
 
   const descargarArchivo = () => {
-    alert(`Descargando archivo oficial: ${nombreArchivo}`);
+    const url = resolucion.archivoPrincipal?.url;
+    if (url) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = nombreArchivo;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } else {
+      const contenido = `UNIVERSIDAD PROVINCIAL DE CÓRDOBA\n\nResolución Oficial: ${resolucion.numeroResolucion}\nTítulo: ${resolucion.titulo}\nCategoría: ${resolucion.nombreCategoria || 'ACADÉMICA'}\nEstado: ${resolucion.estado}\nVersión: ${versionTexto}\n\nDescripción:\n${resolucion.descripcion || 'Sin descripción'}\n\nObservaciones:\n${resolucion.observaciones || 'Ninguna'}`;
+      const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = nombreArchivo.replace(/\.pdf$/i, '.txt');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
+    }
   };
 
   return (
@@ -103,50 +129,44 @@ export const ModalDetalleResolucion = ({ resolucion, isOpen, onClose }) => {
           onClick={onClose}
           aria-label="Cerrar modal"
         >
-          &times;
+          ×
         </button>
 
-        {/* 1. Header Superior */}
-        <div className="modal-detalle-top mb-3">
-          <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <div className="d-flex align-items-center gap-2">
-              <span className={`badge-categoria-pill ${getCategoriaBadgeClass(resolucion.nombreCategoria)}`}>
-                {resolucion.nombreCategoria || 'ACADÉMICA'}
-              </span>
-              {renderEstadoBadge(resolucion.estado)}
-              <span className="badge-version-pill">{versionTexto}</span>
-            </div>
-            <div className="id-resolucion-tag">
-              ID resolución: <strong>{codigoId}</strong>
-            </div>
+        {/* 1. Header con badges */}
+        <div className="modal-detalle-top-bar d-flex justify-content-between align-items-center mb-3">
+          <div className="modal-badges-group d-flex align-items-center gap-2">
+            <span className={`badge-categoria-pill ${getCategoriaBadgeClass(resolucion.nombreCategoria)}`}>
+              {resolucion.nombreCategoria || 'ACADÉMICA'}
+            </span>
+            {renderEstadoBadge(resolucion.estado)}
+            <span className="badge-version-pill">{versionTexto}</span>
           </div>
+          <span className="modal-codigo-id text-muted font-monospace">{codigoId}</span>
         </div>
 
-        {/* 2. Título de la Resolución */}
-        <h2 className="modal-resolucion-titulo mb-2">
+        {/* 2. Título principal */}
+        <h3 className="modal-resolucion-titulo mb-1">
           {resolucion.numeroResolucion} — {resolucion.titulo}
-        </h2>
+        </h3>
 
-        {/* 3. Metadatos de autor, rol y fecha */}
+        {/* 3. Metadatos de autor y fecha */}
         <div className="modal-resolucion-meta text-muted mb-3">
           <span>{resolucion.nombreAutor || 'Esmeralda Nieves Urtizbey'}</span>
-          <span className="meta-separator">·</span>
+          <span className="separador">·</span>
           <span>Rol: {resolucion.rolAutor || 'Secretaría'}</span>
-          <span className="meta-separator">|</span>
+          <span className="separador">|</span>
           <span>{formatearFechaLarga(resolucion.fechaCreacion)}</span>
         </div>
 
-        {/* 4. Cuerpo / Descripción en caja gris */}
+        {/* 4. Cuerpo de la resolución */}
         <div className="modal-resolucion-cuerpo mb-3">
-          <p className="mb-0">
-            {resolucion.descripcion || 'Sin descripción disponible para esta resolución.'}
-          </p>
+          <p>{resolucion.descripcion || 'Sin descripción disponible para esta resolución institucional.'}</p>
         </div>
 
-        {/* 5. Etiquetas / Tags */}
-        <div className="modal-resolucion-etiquetas d-flex flex-wrap gap-2 mb-3">
+        {/* 5. Chips de Etiquetas */}
+        <div className="modal-etiquetas-group d-flex flex-wrap gap-2 mb-3">
           {etiquetas.map((tag, idx) => (
-            <span key={idx} className="chip-etiqueta">
+            <span key={idx} className="etiqueta-chip">
               {tag}
             </span>
           ))}
@@ -191,6 +211,22 @@ export const ModalDetalleResolucion = ({ resolucion, isOpen, onClose }) => {
         {resolucion.observaciones && (
           <div className="modal-observaciones text-muted pt-2 border-top">
             <em>Obs: {resolucion.observaciones}</em>
+          </div>
+        )}
+
+        {/* 9. Botón Editar exclusivo para Administradores */}
+        {esAdmin && (
+          <div className="mt-4 pt-3 border-top text-end">
+            <button
+              type="button"
+              className="btn btn-warning px-4 font-weight-bold"
+              onClick={() => {
+                onClose();
+                onEditar && onEditar(resolucion);
+              }}
+            >
+              ✏️ Modificar Resolución (Modo Admin)
+            </button>
           </div>
         )}
 

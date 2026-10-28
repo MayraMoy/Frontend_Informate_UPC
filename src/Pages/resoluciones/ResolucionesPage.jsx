@@ -4,10 +4,12 @@ import { FiltrosResoluciones } from '../../Components/resoluciones/FiltrosResolu
 import { TablaResoluciones } from '../../Components/resoluciones/TablaResoluciones';
 import { ResolucionCardDestacada } from '../../Components/resoluciones/ResolucionCardDestacada';
 import { ModalDetalleResolucion } from '../../Components/resoluciones/ModalDetalleResolucion';
+import { ModalEditarResolucion } from '../../Components/resoluciones/ModalEditarResolucion';
 import { PaginacionResoluciones } from '../../Components/resoluciones/PaginacionResoluciones';
 import { resolucionesService } from '../../Services/resoluciones/resolucionesService';
 import { categoriasResolucionService } from '../../Services/resoluciones/categoriasResolucionService';
 import AppContext from '../../Context/AppContext';
+import { puedeAccederGestion } from '../../hooks/useRoles';
 import './ResolucionesPage.css';
 
 /**
@@ -17,6 +19,8 @@ import './ResolucionesPage.css';
 export const ResolucionesPage = ({ headingLevel = 1 }) => {
   const SectionHeading = headingLevel === 2 ? 'h2' : 'h1';
   const { user } = useContext(AppContext);
+  const esAdmin = puedeAccederGestion(user);
+
   // Estados de datos
   const [resoluciones, setResoluciones] = useState([]);
   const [categorias, setCategorias] = useState([]);
@@ -38,7 +42,11 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
   const [resolucionSeleccionada, setResolucionSeleccionada] = useState(null);
   const [modalAbierto, setModalAbierto] = useState(false);
 
-  // Carga resoluciones y categorías exclusivamente desde el backend.
+  // Estado del modal de edición de administrador
+  const [resolucionAEditar, setResolucionAEditar] = useState(null);
+  const [modalEdicionAbierto, setModalEdicionAbierto] = useState(false);
+
+  // Carga resoluciones y categorías desde el backend.
   useEffect(() => {
     let activa = true;
 
@@ -59,7 +67,13 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
         }
 
         if (!activa) return;
-        setResoluciones(resBackend);
+
+        // Regla de Negocio: Los usuarios sin sesión iniciada solo pueden ver resoluciones aprobadas (VIGENTE).
+        const resolucionesFinales = user
+          ? resBackend
+          : resBackend.filter((r) => String(r.estado).toUpperCase() === 'VIGENTE');
+
+        setResoluciones(resolucionesFinales);
         setCategorias(catBackend);
       } catch (err) {
         if (!activa) return;
@@ -156,18 +170,36 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
     setModalAbierto(false);
   };
 
+  // Abrir modal de edición
+  const handleEditarResolucion = (res) => {
+    setResolucionAEditar(res);
+    setModalEdicionAbierto(true);
+  };
+
+  const handleCerrarModalEdicion = () => {
+    setResolucionAEditar(null);
+    setModalEdicionAbierto(false);
+  };
+
+  // Callback cuando se guarda la edición exitosamente
+  const handleGuardadoExitoso = () => {
+    setIntentoCarga((prev) => prev + 1);
+  };
+
   return (
     <section id="resoluciones" className="resoluciones-page-container" aria-labelledby="resoluciones-titulo">
       {/* 1. Encabezado Institucional */}
       <header className="resoluciones-header">
         <div className="resoluciones-header-content">
           <SectionHeading id="resoluciones-titulo" className="resoluciones-main-title">
-            Ver Últimas Resoluciones
+            {user ? 'Resoluciones Académicas' : 'Ver Últimas Resoluciones'}
           </SectionHeading>
         </div>
-        <Link className="resoluciones-more-link" to="/login">
-          Saber más <span aria-hidden="true">→</span>
-        </Link>
+        {!user && (
+          <Link className="resoluciones-more-link" to="/login">
+            Saber más <span aria-hidden="true">→</span>
+          </Link>
+        )}
       </header>
 
       {/* 2. Barra de Búsqueda y Filtros Avanzados */}
@@ -183,6 +215,7 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
         estado={estado}
         setEstado={(val) => { setEstado(val); setPaginaActual(1); }}
         onLimpiarFiltros={handleLimpiarFiltros}
+        esPublico={!user}
       />
 
       {/* 3. Indicador de carga o Tabla Principal */}
@@ -208,6 +241,8 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
           <TablaResoluciones
             resoluciones={resolucionesPaginadas}
             onVerDetalle={handleVerDetalle}
+            onEditar={handleEditarResolucion}
+            esAdmin={esAdmin}
           />
 
           {/* Sección de Resoluciones Destacadas o Recientes */}
@@ -240,7 +275,20 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
         resolucion={resolucionSeleccionada}
         isOpen={modalAbierto}
         onClose={handleCerrarModal}
+        onEditar={handleEditarResolucion}
+        esAdmin={esAdmin}
       />
+
+      {/* 5. Modal de Edición de Administrador */}
+      {modalEdicionAbierto && (
+        <ModalEditarResolucion
+          resolucion={resolucionAEditar}
+          categorias={categorias}
+          isOpen={modalEdicionAbierto}
+          onClose={handleCerrarModalEdicion}
+          onGuardadoExitoso={handleGuardadoExitoso}
+        />
+      )}
     </section>
   );
 };
