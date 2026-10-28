@@ -1,10 +1,14 @@
 import clientAxios from '../axiosConfig';
 
 // POST: Crear una nueva noticia
-export const crearNoticia = async (NoticiaResponse) => {
-    const response = await clientAxios.post('api/noticias', NoticiaResponse);
+export const crearNoticia = async (noticiaRequest, usuarioId) => {
+    const response = await clientAxios.post('api/noticias',noticiaRequest,
+        {
+            params: { usuarioId }
+        }
+    );
     return response.data;
-}
+};
 
 // GET: Traer todas las noticias
 export const listarNoticiasPublicadas = async () => {

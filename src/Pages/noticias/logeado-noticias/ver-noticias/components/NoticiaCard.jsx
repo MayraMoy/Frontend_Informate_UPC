@@ -1,4 +1,5 @@
 import { useNoticiaCard } from '../../../home-noticias/hooks/useNoticiaCard.js';
+import ContenidoNoticia from '../../crear-noticia/components/ContenidoNoticia.jsx';
 import '../styles/NoticiaCard.css';
 
 export const NoticiaCard = ({ noticia, headingLevel = 'h2' }) => {
@@ -37,9 +38,7 @@ export const NoticiaCard = ({ noticia, headingLevel = 'h2' }) => {
           {titulo}
         </CardHeading>
 
-        <p className="card-text text-secondary small flex-grow-1 noticia-cuerpo-truncado">
-          {cuerpo}
-        </p>
+        <ContenidoNoticia cuerpo={cuerpo} />
 
         <hr className="my-3 text-muted opacity-25" />
 
