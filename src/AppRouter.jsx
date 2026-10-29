@@ -35,6 +35,9 @@ const VerNoticias = lazy(() =>
 const EditarNoticia = lazy(() =>
   import('./Pages/noticias/logeado-noticias/editar-noticia/EditarNoticia.jsx'),
 );
+const DetalleNoticia = lazy(() =>
+  import('./Pages/noticias/detalle-noticia/DetalleNoticia.jsx'),
+);
 const PendientesNoticias = lazy(() =>
   import('./Pages/noticias/logeado-noticias/pendientes/PendientesNoticias.jsx'),
 );
@@ -127,6 +130,14 @@ const AppLayout = () => {
                   <RutaAdministrador>
                     <EditarNoticia />
                   </RutaAdministrador>
+                </RutaProtegida>
+              )}
+            />
+            <Route
+              path="/noticias/:id"
+              element={(
+                <RutaProtegida>
+                  <DetalleNoticia />
                 </RutaProtegida>
               )}
             />

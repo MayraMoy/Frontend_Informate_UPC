@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useNoticiaCard } from '../../../home-noticias/hooks/useNoticiaCard.js';
 import ContenidoNoticia from '../../crear-noticia/components/ContenidoNoticia.jsx';
 import '../styles/NoticiaCard.css';
@@ -35,7 +36,13 @@ export const NoticiaCard = ({ noticia, headingLevel = 'h2' }) => {
         </div>
 
         <CardHeading className="card-title fw-bold mb-3">
-          {titulo}
+          <Link
+            to={`/noticias/${id}`}
+            state={{ noticia }}
+            className="text-decoration-none text-dark"
+          >
+            {titulo}
+          </Link>
         </CardHeading>
 
         <ContenidoNoticia cuerpo={cuerpo} />
@@ -46,12 +53,13 @@ export const NoticiaCard = ({ noticia, headingLevel = 'h2' }) => {
           <small className="text-secondary fw-normal me-2 text-truncate">
             {obtenerNombreAutor(autor)}
           </small>
-          <a
-            href={`/noticias/${id}`}
+          <Link
+            to={`/noticias/${id}`}
+            state={{ noticia }}
             className="btn-leer text-decoration-none fw-bold d-flex align-items-center gap-1 flex-shrink-0"
           >
             LEER <span className="arrow">&rarr;</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

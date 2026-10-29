@@ -20,16 +20,24 @@ const NovedadCard = ({ noticia, headingLevel, onEditar }) => {
   return (
     <article className="novedad-card">
       <div className="novedad-card-media">
-        {imagen?.url && !imagenFallida ? (
-          <img
-            src={imagen.url}
-            alt={imagen.epigrafe || noticia.titulo}
-            loading="lazy"
-            onError={() => setImagenFallida(true)}
-          />
-        ) : (
-          <div className="novedad-card-image-placeholder"><IconoImagen /></div>
-        )}
+        <Link
+          to={`/noticias/${noticia.id}`}
+          state={{ noticia }}
+          tabIndex={-1}
+          aria-hidden="true"
+          className="d-block w-100 h-100"
+        >
+          {imagen?.url && !imagenFallida ? (
+            <img
+              src={imagen.url}
+              alt={imagen.epigrafe || noticia.titulo}
+              loading="lazy"
+              onError={() => setImagenFallida(true)}
+            />
+          ) : (
+            <div className="novedad-card-image-placeholder"><IconoImagen /></div>
+          )}
+        </Link>
       </div>
 
       <div className="novedad-card-content">
@@ -47,7 +55,9 @@ const NovedadCard = ({ noticia, headingLevel, onEditar }) => {
           </time>
         </div>
         <Heading className="novedad-card-title">
-          <Link to={`/noticias/${noticia.id}`}>{noticia.titulo}</Link>
+          <Link to={`/noticias/${noticia.id}`} state={{ noticia }}>
+            {noticia.titulo}
+          </Link>
         </Heading>
 
         {onEditar && (

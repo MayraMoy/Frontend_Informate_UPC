@@ -9,9 +9,30 @@ import {
   agregarImagen,
   modificarImagen,
   eliminarImagen,
+  consultarImagenesPorNoticia,
 } from '../../../../../Services/noticias/imagenesServices';
 import archivoService from '../../../../../Services/archivos/archivoService';
 import { LIMITES_EDICION } from '../data/editarNoticiaData';
+
+export const normalizarImagenes = (candidatas) => {
+  if (!candidatas) return [];
+  const lista = Array.isArray(candidatas) ? candidatas : [candidatas];
+  return lista
+    .map((img, idx) => {
+      if (!img) return null;
+      if (typeof img === 'string') {
+        return { id: idx, url: img, epigrafe: '' };
+      }
+      const url = img.url || img.ruta || img.imagenUrl || img.urlImagen || img.preview;
+      if (!url) return null;
+      return {
+        id: img.id ?? img.idImagen ?? img.id_imagen ?? idx,
+        url,
+        epigrafe: img.epigrafe ?? img.pieDeFoto ?? img.descripcion ?? '',
+      };
+    })
+    .filter(Boolean);
+};
 
 export const resolverCategoriaId = (noticia, listaCategorias = []) => {
   if (!noticia) return '';
@@ -123,15 +144,14 @@ export const useEditarNoticia = (id, user, categorias = [], noticiaInicial = nul
   );
 
   // Estados de imágenes
-  const [imagenesExistentes, setImagenesExistentes] = useState(() =>
-    Array.isArray(noticiaInicial?.imagenes)
-      ? noticiaInicial.imagenes.map((img) => ({
-          id: img.id,
-          url: img.url,
-          epigrafe: img.epigrafe || '',
-        }))
-      : []
-  );
+  const [imagenesExistentes, setImagenesExistentes] = useState(() => {
+    const raw =
+      noticiaInicial?.imagenes ||
+      noticiaInicial?.imagenNoticias ||
+      noticiaInicial?.imagenesNoticias ||
+      noticiaInicial?.imagen;
+    return normalizarImagenes(raw);
+  });
   const [nuevasImagenes, setNuevasImagenes] = useState([]);
   const [imagenesAEliminar, setImagenesAEliminar] = useState([]);
   const [errorImagenes, setErrorImagenes] = useState('');
@@ -195,14 +215,63 @@ export const useEditarNoticia = (id, user, categorias = [], noticiaInicial = nul
           data.estado || noticiaInicial?.estado || 'PUBLICADA';
         setEstado(String(estadoNoticia).toUpperCase());
 
-        if (Array.isArray(data.imagenes) && data.imagenes.length > 0) {
-          setImagenesExistentes(
-            data.imagenes.map((img) => ({
-              id: img.id,
-              url: img.url,
-              epigrafe: img.epigrafe || '',
-            }))
+        // 1. Extraer imágenes de data o de noticiaInicial
+        let imgsFinales = normalizarImagenes(
+          data.imagenes || data.imagenNoticias || data.imagenesNoticias || data.imagen
+        );
+
+        if (imgsFinales.length === 0 && noticiaInicial) {
+          imgsFinales = normalizarImagenes(
+            noticiaInicial.imagenes ||
+            noticiaInicial.imagenNoticias ||
+            noticiaInicial.imagenesNoticias ||
+            noticiaInicial.imagen
           );
+        }
+
+        // 2. Si aún no hay imágenes, consultar el endpoint específico de imágenes de la noticia
+        if (imgsFinales.length === 0 && id) {
+          try {
+            const respImgs = await consultarImagenesPorNoticia(id);
+            const rawImgs = Array.isArray(respImgs)
+              ? respImgs
+              : Array.isArray(respImgs?.data)
+              ? respImgs.data
+              : [];
+            const imgsNormalizadas = normalizarImagenes(rawImgs);
+            if (imgsNormalizadas.length > 0) {
+              imgsFinales = imgsNormalizadas;
+            }
+          } catch (errImgs) {
+            console.warn('No se encontraron imágenes en consultarImagenesPorNoticia:', errImgs);
+          }
+        }
+
+        // 3. Fallback de imágenes en listado de noticias públicas
+        if (imgsFinales.length === 0 && id) {
+          try {
+            const listaPublicas = await listarNoticiasPublicadas();
+            const coincidencia = (Array.isArray(listaPublicas) ? listaPublicas : []).find(
+              (n) => String(n.id) === String(id)
+            );
+            if (coincidencia) {
+              const imgsPub = normalizarImagenes(
+                coincidencia.imagenes ||
+                coincidencia.imagenNoticias ||
+                coincidencia.imagenesNoticias ||
+                coincidencia.imagen
+              );
+              if (imgsPub.length > 0) {
+                imgsFinales = imgsPub;
+              }
+            }
+          } catch (errLista) {
+            console.warn('Fallback de imágenes en lista de noticias:', errLista);
+          }
+        }
+
+        if (imgsFinales.length > 0) {
+          setImagenesExistentes(imgsFinales);
         }
       } catch (err) {
         if (!activo) return;
