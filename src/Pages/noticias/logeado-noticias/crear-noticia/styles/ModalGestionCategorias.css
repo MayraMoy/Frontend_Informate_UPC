@@ -1,0 +1,619 @@
+/* ==========================================================================
+   Modal de Gestión de Categorías y Etiquetas - UPC
+   Diseño Espacioso, Con Profundidad Visual y Acorde a la Identidad
+   ========================================================================== */
+
+.modal-categorias__overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.75rem;
+  animation: modalCategoriasFadeIn 0.2s ease-out;
+}
+
+@keyframes modalCategoriasFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-categorias__dialogo {
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow:
+    0 25px 50px -12px rgba(15, 23, 42, 0.22),
+    0 12px 24px -8px rgba(15, 23, 42, 0.08);
+  width: 100%;
+  max-width: 740px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  font-family: var(--font-primary, 'Poppins', sans-serif);
+  animation: modalCategoriasScaleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalCategoriasScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* 1. Encabezado con contraste sutil y estructura visual */
+.modal-categorias__encabezado {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.75rem 2.25rem 1.35rem;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #fbfcfe;
+}
+
+.modal-categorias__encabezado-texto {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-categorias__titulo {
+  font-size: 1.34rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.modal-categorias__subtitulo {
+  font-size: 0.88rem;
+  color: #475569;
+  margin: 0.35rem 0 0;
+  line-height: 1.45;
+}
+
+.modal-categorias__btn-cerrar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #64748b;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.18s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 0;
+}
+
+.modal-categorias__btn-cerrar:hover {
+  background-color: #f8fafc;
+  color: #0f172a;
+  border-color: #94a3b8;
+  transform: rotate(90deg);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* 2. Alertas de Feedback */
+.modal-categorias__alerta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.35rem;
+  margin: 1rem 2.25rem 0;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.modal-categorias__alerta--exito {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.modal-categorias__alerta--error {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* 3. Bloque de Creación con jerarquía tipográfica */
+.modal-categorias__creacion-bloque {
+  padding: 1.45rem 2.25rem 1.25rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.modal-categorias__seccion-titulo {
+  font-size: 0.96rem;
+  font-weight: 750;
+  color: #1e293b;
+  margin: 0 0 0.65rem;
+  letter-spacing: -0.01em;
+}
+
+.modal-categorias__crear-formulario {
+  display: flex;
+  gap: 0.85rem;
+}
+
+.modal-categorias__crear-input-wrap {
+  flex: 1;
+}
+
+.modal-categorias__input-texto {
+  width: 100%;
+  height: 46px;
+  padding: 0 1.15rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 11px;
+  font-size: 0.92rem;
+  color: #0f172a;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  transition: all 0.18s ease;
+}
+
+.modal-categorias__input-texto:focus {
+  border-color: #ea8207;
+  outline: none;
+  box-shadow: 0 0 0 3.5px rgba(234, 130, 7, 0.18);
+}
+
+.modal-categorias__btn-crear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 46px;
+  padding: 0 1.5rem;
+  background: linear-gradient(135deg, #f59e0b 0%, #ea8207 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 11px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 3px 10px rgba(234, 130, 7, 0.3);
+}
+
+.modal-categorias__btn-crear:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ea8207 0%, #d97706 100%);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 16px rgba(234, 130, 7, 0.38);
+}
+
+.modal-categorias__btn-crear:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.modal-categorias__btn-plus {
+  font-size: 1.25rem;
+  line-height: 1;
+  font-weight: 600;
+}
+
+/* 4. Cabecera de la Lista (Sin diseño de píldora) con Buscador Integrado */
+.modal-categorias__lista-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.35rem 2.25rem 0.95rem;
+  gap: 1.25rem;
+}
+
+.modal-categorias__lista-titulo-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+/* Total sin diseño de píldora: limpio, elegante e integrado */
+.modal-categorias__contador-texto {
+  font-size: 0.92rem;
+  font-weight: 750;
+  color: #ea8207;
+  letter-spacing: -0.01em;
+}
+
+.modal-categorias__filtro-input-wrapper {
+  position: relative;
+  width: 270px;
+}
+
+.modal-categorias__filtro-icono {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.modal-categorias__filtro-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 1.75rem 0 2.35rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.86rem;
+  color: #0f172a;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  transition: all 0.18s ease;
+}
+
+.modal-categorias__filtro-input:focus {
+  border-color: #ea8207;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(234, 130, 7, 0.16);
+}
+
+.modal-categorias__filtro-limpiar {
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s ease;
+}
+
+.modal-categorias__filtro-limpiar:hover {
+  color: #0f172a;
+}
+
+/* 5. Tabla de Etiquetas con presencia y profundidad visual */
+.modal-categorias__tabla-contenedor {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 360px;
+  padding: 0 2.25rem 1.35rem;
+}
+
+.modal-categorias__tabla {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow:
+    0 4px 16px -2px rgba(15, 23, 42, 0.06),
+    0 2px 4px -1px rgba(15, 23, 42, 0.04);
+}
+
+.modal-categorias__tabla th {
+  position: sticky;
+  top: 0;
+  background-color: #f8fafc;
+  padding: 0.95rem 1.35rem;
+  text-align: left;
+  font-size: 0.76rem;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #334155;
+  border-bottom: 1.5px solid #e2e8f0;
+  z-index: 2;
+}
+
+.modal-categorias__tabla td {
+  padding: 1.1rem 1.35rem;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.modal-categorias__tabla tr:last-child td {
+  border-bottom: none;
+}
+
+.modal-categorias__tabla tr {
+  transition: background-color 0.15s ease;
+}
+
+.modal-categorias__tabla tr:hover {
+  background-color: #f8fafc;
+}
+
+.modal-categorias__fila--editando {
+  background-color: #fffbeb !important;
+}
+
+.modal-categorias__celda-id {
+  width: 90px;
+}
+
+.modal-categorias__id-badge {
+  font-family: monospace;
+  font-size: 0.82rem;
+  font-weight: 750;
+  background-color: #f8fafc;
+  color: #334155;
+  padding: 0.25rem 0.6rem;
+  border-radius: 7px;
+  display: inline-block;
+  border: 1.5px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.modal-categorias__nombre-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.modal-categorias__nombre-tag {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.modal-categorias__edicion-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.modal-categorias__input-edicion {
+  width: 100%;
+  max-width: 320px;
+  height: 38px;
+  padding: 0 0.85rem;
+  border: 1.5px solid #ea8207;
+  border-radius: 9px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0f172a;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(234, 130, 7, 0.15);
+}
+
+.modal-categorias__input-edicion:focus {
+  outline: none;
+  box-shadow: 0 0 0 3.5px rgba(234, 130, 7, 0.25);
+}
+
+/* 6. Botones de acción en tabla (Sin texto, con fondo blanco, bordes e íconos estilizados) */
+.modal-categorias__btn-accion {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+  flex-shrink: 0;
+}
+
+/* Botón Editar: fondo blanco, borde gris, ícono gris */
+.modal-categorias__btn-accion--editar {
+  background-color: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #64748b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.modal-categorias__btn-accion--editar:hover {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+  color: #1e293b;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.modal-categorias__btn-accion--editar:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Botón Eliminar: fondo blanco, borde rojo, ícono rojo */
+.modal-categorias__btn-accion--eliminar {
+  background-color: #ffffff;
+  border: 1.5px solid #ef4444;
+  color: #dc2626;
+  box-shadow: 0 1px 3px rgba(220, 38, 38, 0.1);
+}
+
+.modal-categorias__btn-accion--eliminar:hover {
+  background-color: #fef2f2;
+  border-color: #dc2626;
+  color: #b91c1c;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.18);
+  transform: translateY(-2px);
+}
+
+.modal-categorias__btn-accion--eliminar:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(220, 38, 38, 0.08);
+}
+
+/* Botón Guardar en fila (ícono): fondo blanco, borde verde, ícono verde */
+.modal-categorias__btn-accion--guardar {
+  background-color: #ffffff;
+  border: 1.5px solid #10b981;
+  color: #059669;
+  box-shadow: 0 1px 3px rgba(16, 185, 129, 0.12);
+}
+
+.modal-categorias__btn-accion--guardar:hover:not(:disabled) {
+  background-color: #ecfdf5;
+  border-color: #059669;
+  color: #047857;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.22);
+  transform: translateY(-1.5px);
+}
+
+.modal-categorias__btn-accion--guardar:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(16, 185, 129, 0.12);
+}
+
+/* Botón Cancelar en fila (ícono): fondo blanco, borde gris, ícono gris */
+.modal-categorias__btn-accion--cancelar {
+  background-color: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #64748b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.modal-categorias__btn-accion--cancelar:hover:not(:disabled) {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+  color: #1e293b;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1.5px);
+}
+
+.modal-categorias__btn-accion--cancelar:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Confirmar Eliminar con buena visibilidad e íconos consistentes */
+.modal-categorias__confirmar-eliminar-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.modal-categorias__aviso-eliminar {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #b91c1c;
+}
+
+.modal-categorias__btn-accion--confirmar-eliminar {
+  background-color: #ffffff;
+  border: 1.5px solid #ef4444;
+  color: #dc2626;
+  box-shadow: 0 1px 3px rgba(220, 38, 38, 0.12);
+}
+
+.modal-categorias__btn-accion--confirmar-eliminar:hover:not(:disabled) {
+  background-color: #fef2f2;
+  border-color: #dc2626;
+  color: #b91c1c;
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2);
+  transform: translateY(-1.5px);
+}
+
+.modal-categorias__btn-accion--confirmar-eliminar:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(220, 38, 38, 0.08);
+}
+
+.modal-categorias__estado-vacio {
+  padding: 3.5rem 2rem;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.92rem;
+}
+
+.modal-categorias__nota-limitacion {
+  font-size: 0.81rem;
+  color: #64748b;
+  text-align: center;
+  margin: 0.85rem 0 0.25rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* 7. Pie del modal con jerarquía y botón destacado */
+.modal-categorias__pie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.35rem 2.25rem;
+  border-top: 1px solid #f1f5f9;
+  background-color: #fafbfc;
+}
+
+.modal-categorias__pie-info {
+  font-size: 0.84rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.modal-categorias__btn-listo {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 11px;
+  padding: 0.65rem 1.85rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.2);
+  flex-shrink: 0;
+}
+
+.modal-categorias__btn-listo:hover {
+  background: #020617;
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.25);
+}
+
+/* Acceso rápido en select de creación/edición */
+.crear-noticia__btn-gestionar-categorias {
+  background: none;
+  border: none;
+  color: #ea8207;
+  font-size: 0.82rem;
+  font-weight: 650;
+  cursor: pointer;
+  padding: 0.15rem 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.crear-noticia__btn-gestionar-categorias:hover {
+  color: #d97706;
+  text-decoration: underline;
+}
+
+.crear-noticia__option-gestionar {
+  font-weight: 700;
+  color: #ea8207;
+  background-color: #fffbeb;
+}
+
+
+

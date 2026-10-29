@@ -11,6 +11,7 @@ const CamposNoticia = ({
   categorias,
   cargandoCategorias,
   errorCategorias,
+  onRecargarCategorias,
   onChange,
   imagenes = [],
   errorImagenes = "",
@@ -68,6 +69,7 @@ const CamposNoticia = ({
             categorias={categorias}
             cargando={cargandoCategorias}
             errorCarga={errorCategorias}
+            onRecargarCategorias={onRecargarCategorias}
             value={valores.categoriaId}
             onChange={onChange}
             error={errores.categoriaId}

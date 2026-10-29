@@ -14,21 +14,6 @@ export const MetadatosNoticia = ({
 
   return (
     <header className="detalle-noticia-metadatos">
-      {/* Fila superior: Categoría + Tiempo de lectura (sin estado de noticia) */}
-      <div className="detalle-noticia-metadatos-top">
-        {categoriaNombre && (
-          <span className={`badge rounded-pill px-3 py-1.5 ${categoriaBadgeClass}`}>
-            {categoriaNombre.toUpperCase()}
-          </span>
-        )}
-
-        {tiempoLectura && (
-          <span className="detalle-noticia-tiempo-lectura">
-            <IconoReloj />
-            <span>{tiempoLectura}</span>
-          </span>
-        )}
-      </div>
 
       {/* Fila inferior: Autor y Fechas */}
       <div className="detalle-noticia-autor-fila">

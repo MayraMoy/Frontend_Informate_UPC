@@ -10,7 +10,7 @@ import {
 } from '../../../../Services/noticias/categoriasServices';
 import { usuarioService } from '../../../../Services/usuarios/usuarioService';
 import { tieneRolAdministrador } from '../../../../hooks/useRoles';
-import { resolverCategoriaId } from '../../logeado-noticias/editar-noticia/hooks/useEditarNoticia';
+import { resolverCategoriaId } from '../../logeado-noticias/editar-noticia/utils/categoriaHelpers';
 
 const contarPalabras = (html = '') => {
   if (!html) return 0;
@@ -89,11 +89,13 @@ const extraerNombreUsuario = (u) => {
 
 const extraerNombreCategoriaDirecto = (obj) => {
   if (!obj) return '';
-  if (typeof obj.categoriaNoticia === 'object' && obj.categoriaNoticia?.nombre) {
-    return String(obj.categoriaNoticia.nombre).trim();
+  if (typeof obj.categoriaNoticia === 'object' && obj.categoriaNoticia !== null) {
+    const nom = obj.categoriaNoticia.nombre || obj.categoriaNoticia.nombreCategoria || obj.categoriaNoticia.categoria;
+    if (nom) return String(nom).trim();
   }
-  if (typeof obj.categoria === 'object' && obj.categoria?.nombre) {
-    return String(obj.categoria.nombre).trim();
+  if (typeof obj.categoria === 'object' && obj.categoria !== null) {
+    const nom = obj.categoria.nombre || obj.categoria.nombreCategoria || obj.categoria.categoria;
+    if (nom) return String(nom).trim();
   }
   if (typeof obj.categoriaNoticia === 'string' && isNaN(obj.categoriaNoticia)) {
     return obj.categoriaNoticia.trim();
@@ -103,6 +105,9 @@ const extraerNombreCategoriaDirecto = (obj) => {
   }
   if (obj.nombreCategoria) return String(obj.nombreCategoria).trim();
   if (obj.categoriaNombre) return String(obj.categoriaNombre).trim();
+  if (obj.categoriaNoticiaNombre) return String(obj.categoriaNoticiaNombre).trim();
+  if (obj.nombre_categoria) return String(obj.nombre_categoria).trim();
+  if (obj.categoria_nombre) return String(obj.categoria_nombre).trim();
   return '';
 };
 
@@ -386,7 +391,9 @@ export const useDetalleNoticia = (id, user, locationStateNoticia = null) => {
 
     if (catId && categorias.length > 0) {
       const encontrada = categorias.find(
-        (c) => String(c?.id ?? c?.idCategoria ?? c?.id_categoria ?? '') === String(catId)
+        (c) =>
+          String(c?.id ?? c?.idCategoria ?? c?.id_categoria ?? c?.idCategoriaNoticia ?? '') ===
+          String(catId)
       );
       if (encontrada?.nombre) return encontrada.nombre;
     }
@@ -451,10 +458,25 @@ export const useDetalleNoticia = (id, user, locationStateNoticia = null) => {
     () => formatearFechaLegible(noticia?.fechaPublicacion),
     [noticia?.fechaPublicacion]
   );
+
+  const huboModificacion = useMemo(() => {
+    const fechaAct = noticia?.fechaActualizacion || noticia?.fechaModificacion || noticia?.fechaEdicion;
+    const fechaCrea = noticia?.fechaCreacion;
+    if (!fechaAct) return false;
+    if (!fechaCrea) return true;
+    const msAct = new Date(fechaAct).getTime();
+    const msCrea = new Date(fechaCrea).getTime();
+    if (isNaN(msAct) || isNaN(msCrea)) {
+      return Boolean(fechaAct && fechaAct !== fechaCrea);
+    }
+    return (msAct - msCrea) > 2000;
+  }, [noticia?.fechaActualizacion, noticia?.fechaModificacion, noticia?.fechaEdicion, noticia?.fechaCreacion]);
+
   const fechaActualizacion = useMemo(
-    () => formatearFechaLegible(noticia?.fechaActualizacion, true),
-    [noticia?.fechaActualizacion]
+    () => (huboModificacion ? formatearFechaLegible(noticia?.fechaActualizacion || noticia?.fechaModificacion, true) : null),
+    [huboModificacion, noticia?.fechaActualizacion, noticia?.fechaModificacion]
   );
+
   const fechaCreacion = useMemo(
     () => formatearFechaLegible(noticia?.fechaCreacion),
     [noticia?.fechaCreacion]

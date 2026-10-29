@@ -147,71 +147,116 @@
   line-height: 1.35;
 }
 
-/* Bloque de Fechas */
+/* Bloque de Fechas y Trazabilidad (Timeline Editorial) */
 .editar-noticia__fechas-bloque {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  padding: 1rem 0;
+  padding: 1.15rem 0 1rem;
   border-top: 1px solid #f1f5f9;
   border-bottom: 1px solid #f1f5f9;
   margin-bottom: 1.25rem;
 }
 
 .editar-noticia__fechas-titulo {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 700;
-  color: #94a3b8;
-  margin: 0 0 0.25rem 0;
+  letter-spacing: 0.07em;
+  font-weight: 750;
+  color: #64748b;
+  margin: 0 0 0.95rem 0;
 }
 
-.editar-noticia__fecha-fila {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.65rem;
-}
-
-.editar-noticia__fecha-icono {
-  width: 28px;
-  height: 28px;
-  border-radius: 7px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f1f5f9;
-  color: #475569;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.editar-noticia__fecha-icono--edicion {
-  background-color: #eff6ff;
-  color: #2563eb;
-}
-
-.editar-noticia__fecha-icono--publicacion {
-  background-color: #ecfdf5;
-  color: #059669;
-}
-
-.editar-noticia__fecha-datos {
+.editar-noticia__timeline {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: 1.05rem;
+  position: relative;
+  padding-left: 0.2rem;
 }
 
-.editar-noticia__fecha-etiqueta {
-  font-size: 0.74rem;
-  font-weight: 600;
-  color: #64748b;
+.editar-noticia__timeline::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  bottom: 14px;
+  width: 2px;
+  background-color: #e2e8f0;
+  z-index: 0;
 }
 
-.editar-noticia__fecha-texto {
+.editar-noticia__timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.editar-noticia__timeline-icono {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-color: #ffffff;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.editar-noticia__timeline-icono--creacion {
+  border-color: #bfdbfe;
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.editar-noticia__timeline-icono--edicion {
+  border-color: #fde68a;
+  color: #d97706;
+  background-color: #fffbeb;
+}
+
+.editar-noticia__timeline-icono--publicacion {
+  border-color: #a7f3d0;
+  color: #059669;
+  background-color: #ecfdf5;
+}
+
+.editar-noticia__timeline-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  padding-top: 0.15rem;
+}
+
+.editar-noticia__timeline-encabezado {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  line-height: 1.35;
+}
+
+.editar-noticia__timeline-accion {
   font-size: 0.84rem;
-  font-weight: 550;
+  font-weight: 600;
+  color: #475569;
+}
+
+.editar-noticia__timeline-autor {
+  font-size: 0.87rem;
+  font-weight: 750;
   color: #0f172a;
+}
+
+.editar-noticia__timeline-fecha {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #64748b;
+  letter-spacing: -0.01em;
 }
 
 /* Botones de acción */

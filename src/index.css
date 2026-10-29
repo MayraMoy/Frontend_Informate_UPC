@@ -192,21 +192,86 @@ body {
    ========================= */
 
 .badge-academica {
-  background-color: var(--category-academica-bg);
-  color: var(--category-academica-text);
-  font-weight: 600;
+  background-color: var(--category-academica-bg, #fef3c7) !important;
+  color: var(--category-academica-text, #92400e) !important;
+  font-weight: 700 !important;
+  border: 1px solid #fde68a !important;
 }
 
 .badge-investigacion {
-  background-color: var(--category-investigacion-bg);
-  color: var(--category-investigacion-text);
-  font-weight: 600;
+  background-color: var(--category-investigacion-bg, #dbeafe) !important;
+  color: var(--category-investigacion-text, #1e40af) !important;
+  font-weight: 700 !important;
+  border: 1px solid #bfdbfe !important;
 }
 
 .badge-bienestar {
-  background-color: var(--category-bienestar-bg);
-  color: var(--category-bienestar-text);
-  font-weight: 600;
+  background-color: var(--category-bienestar-bg, #d1fae5) !important;
+  color: var(--category-bienestar-text, #065f46) !important;
+  font-weight: 700 !important;
+  border: 1px solid #a7f3d0 !important;
+}
+
+.badge-default {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  font-weight: 700 !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.badge-categoria {
+  font-weight: 700 !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.04em !important;
+  border: 1px solid transparent;
+}
+
+.badge-categoria-0 {
+  background-color: #fce7f3 !important;
+  color: #9d174d !important;
+  border-color: #fbcfe8 !important;
+}
+
+.badge-categoria-1 {
+  background-color: #ccfbf1 !important;
+  color: #115e59 !important;
+  border-color: #99f6e4 !important;
+}
+
+.badge-categoria-2 {
+  background-color: #ffedd5 !important;
+  color: #9a3412 !important;
+  border-color: #fed7aa !important;
+}
+
+.badge-categoria-3 {
+  background-color: #e0e7ff !important;
+  color: #3730a3 !important;
+  border-color: #c7d2fe !important;
+}
+
+.badge-categoria-4 {
+  background-color: #ecfccb !important;
+  color: #3f6212 !important;
+  border-color: #d9f99d !important;
+}
+
+.badge-categoria-5 {
+  background-color: #fae8ff !important;
+  color: #86198f !important;
+  border-color: #f5d0fe !important;
+}
+
+.badge-categoria-6 {
+  background-color: #cffafe !important;
+  color: #155e75 !important;
+  border-color: #a5f3fc !important;
+}
+
+.badge-categoria-7 {
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+  border-color: #fecaca !important;
 }
 
 

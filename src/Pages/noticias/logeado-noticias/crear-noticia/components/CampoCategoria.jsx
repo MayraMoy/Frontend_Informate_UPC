@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { IconoAlerta } from "./IconosNoticia";
+import ModalGestionCategorias from "./ModalGestionCategorias";
 
 const obtenerIdCategoria = (cat) =>
   String(
@@ -22,11 +23,14 @@ const CampoCategoria = ({
   categorias = [],
   value = "",
   onChange,
+  onRecargarCategorias,
   error,
   cargando = false,
   errorCarga = "",
   requerido = true,
 }) => {
+  const [modalAbierto, setModalAbierto] = useState(false);
+
   const categoriaSeleccionada = categorias.find((c) => {
     const idCat = obtenerIdCategoria(c);
     if (idCat && String(idCat) === String(value)) return true;
@@ -47,13 +51,51 @@ const CampoCategoria = ({
     });
   };
 
+  const manejarChangeSelect = (e) => {
+    onChange?.(e);
+  };
+
   return (
     <div className={`crear-noticia__campo ${error ? "crear-noticia__campo--con-error" : ""}`}>
-      <div className="crear-noticia__campo-encabezado">
-        <label htmlFor="categoriaId" className="crear-noticia__label">
+      {/* Modal / Pestaña de Gestión de Categorías */}
+      <ModalGestionCategorias
+        isOpen={modalAbierto}
+        onClose={() => setModalAbierto(false)}
+        categoriasIniciales={categorias}
+        onCategoriasActualizadas={() => {
+          onRecargarCategorias?.();
+        }}
+        onSeleccionarCategoria={(nuevaId) => {
+          seleccionarRapido(nuevaId);
+        }}
+      />
+
+      <div className="crear-noticia__campo-encabezado d-flex align-items-center justify-content-between">
+        <label htmlFor="categoriaId" className="crear-noticia__label mb-0">
           Categoría
           {requerido && <span className="crear-noticia__requerido" aria-hidden="true"> *</span>}
         </label>
+
+        <button
+          type="button"
+          className="crear-noticia__btn-gestionar-categorias"
+          onClick={() => setModalAbierto(true)}
+          title="Administrar categorías y etiquetas"
+        >
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+          <span>Gestionar</span>
+        </button>
       </div>
 
       <div className="crear-noticia__select-wrapper">
@@ -61,7 +103,7 @@ const CampoCategoria = ({
           id="categoriaId"
           name="categoriaId"
           value={valorSelect}
-          onChange={onChange}
+          onChange={manejarChangeSelect}
           disabled={cargando || Boolean(errorCarga)}
           aria-invalid={Boolean(error)}
           aria-describedby={
@@ -86,29 +128,6 @@ const CampoCategoria = ({
           ▾
         </span>
       </div>
-
-      {/* Sugerencias rápidas en chips */}
-      {categorias.length > 0 && !cargando && (
-        <div className="crear-noticia__categorias-chips" role="group" aria-label="Categorías sugeridas">
-          <span className="crear-noticia__chips-label">Atajos:</span>
-          {categorias.slice(0, 6).map((cat) => {
-            const idChip = obtenerIdCategoria(cat);
-            const activa =
-              valorSelect === idChip || normalizarTexto(cat.nombre) === normalizarTexto(value);
-            return (
-              <button
-                key={idChip || cat.nombre}
-                type="button"
-                className={`crear-noticia__chip ${activa ? "crear-noticia__chip--activa" : ""}`}
-                onClick={() => seleccionarRapido(idChip)}
-                aria-pressed={activa}
-              >
-                {cat.nombre}
-              </button>
-            );
-          })}
-        </div>
-      )}
 
       {errorCarga && (
         <span id="categoriaId-carga-error" className="crear-noticia__error" role="alert">

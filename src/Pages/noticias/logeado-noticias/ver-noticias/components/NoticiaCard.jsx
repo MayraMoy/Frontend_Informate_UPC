@@ -14,9 +14,16 @@ export const NoticiaCard = ({ noticia, headingLevel = 'h2' }) => {
     cuerpo,
     fechaPublicacion,
     categoriaNoticia,
+    categoria,
     autor,
   } = noticia;
-  const nombreCategoria = categoriaNoticia?.nombre;
+  const nombreCategoria =
+    categoriaNoticia?.nombre ||
+    categoria?.nombre ||
+    noticia.nombreCategoria ||
+    noticia.categoriaNombre ||
+    (typeof categoriaNoticia === 'string' && isNaN(categoriaNoticia) ? categoriaNoticia : '') ||
+    (typeof categoria === 'string' && isNaN(categoria) ? categoria : '');
   const CardHeading = headingLevel;
 
   return (

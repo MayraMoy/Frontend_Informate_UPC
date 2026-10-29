@@ -6,6 +6,7 @@ export const PanelPublicacionEditar = ({
   estado,
   onChangeEstado,
   esAdmin,
+  user,
   noticia,
   guardando,
   onSubmit,
@@ -16,16 +17,13 @@ export const PanelPublicacionEditar = ({
     <div className="crear-noticia__card-sidebar crear-noticia__card-sidebar--publicacion">
       <div className="crear-noticia__card-sidebar-encabezado">
         <h2 className="crear-noticia__card-sidebar-titulo">Publicación</h2>
-        <span className={`editar-noticia__estado-pill editar-noticia__estado-pill--${(estado || '').toLowerCase()}`}>
-          {estado}
-        </span>
       </div>
 
       {/* Selector de Estado según ROL */}
       <SeccionEstadoNoticia estado={estado} onChangeEstado={onChangeEstado} esAdmin={esAdmin} />
 
-      {/* Historial de Fechas Relevantes */}
-      <SeccionRegistroFechas noticia={noticia} estadoActual={estado} />
+      {/* Historial de Fechas y Trazabilidad */}
+      <SeccionRegistroFechas noticia={noticia} estadoActual={estado} user={user} />
 
       {/* Botones de acción */}
       <div className="editar-noticia__acciones-botones">

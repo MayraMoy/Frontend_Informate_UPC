@@ -51,8 +51,20 @@
   color: #cbd5e1;
 }
 
-.detalle-noticia-breadcrumb-pagina {
+.detalle-noticia-breadcrumb-btn-volver {
+  background: none;
+  border: none;
+  padding: 0;
   color: #475569;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.detalle-noticia-breadcrumb-btn-volver:hover {
+  color: #0f172a;
+  text-decoration: underline;
 }
 
 .detalle-noticia-btn-editar {
@@ -351,11 +363,21 @@
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 16px;
-  padding: 1.75rem;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 1.4rem;
+}
+
+.detalle-noticia__sidebar-encabezado {
+  padding-bottom: 0.95rem;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 1.1rem;
+}
+
+.detalle-noticia__sidebar-icono-titulo {
+  color: #0284c7;
+  flex-shrink: 0;
 }
 
 .detalle-noticia__sidebar-titulo {
@@ -363,99 +385,253 @@
   font-weight: 800;
   color: #0f172a;
   margin: 0;
-  padding-bottom: 0.95rem;
-  border-bottom: 1px solid #f1f5f9;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
 .detalle-noticia__sidebar-seccion {
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
+  padding-bottom: 1.1rem;
+  margin-bottom: 1.1rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.detalle-noticia__sidebar-seccion:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 .detalle-noticia__sidebar-etiqueta {
-  font-size: 0.74rem;
-  font-weight: 700;
+  font-size: 0.72rem;
+  font-weight: 750;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #64748b;
+  margin-bottom: 0.15rem;
 }
 
-/* Autor: integrado en la card general, sin recuadro interno */
+/* 1. Categoría */
+.detalle-noticia__sidebar-categoria-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge,
+.detalle-noticia-categoria-badge {
+  font-weight: 700;
+  font-size: 0.76rem;
+  letter-spacing: 0.05em;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;
+  background-color: #f1f5f9;
+  color: #334155;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge-investigacion,
+.detalle-noticia-pagina .badge-investigacion {
+  background-color: #dbeafe !important;
+  color: #1e40af !important;
+  border: 1px solid #bfdbfe !important;
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge-academica,
+.detalle-noticia-pagina .badge-academica {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+  border: 1px solid #fde68a !important;
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge-bienestar,
+.detalle-noticia-pagina .badge-bienestar {
+  background-color: #d1fae5 !important;
+  color: #065f46 !important;
+  border: 1px solid #a7f3d0 !important;
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge-default,
+.detalle-noticia-pagina .badge-default {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge-categoria,
+.detalle-noticia-pagina .badge-categoria {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge-categoria-0,
+.detalle-noticia-pagina .badge-categoria-0 {
+  background-color: #fce7f3 !important;
+  color: #9d174d !important;
+  border: 1px solid #fbcfe8 !important;
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge-categoria-1,
+.detalle-noticia-pagina .badge-categoria-1 {
+  background-color: #ccfbf1 !important;
+  color: #115e59 !important;
+  border: 1px solid #99f6e4 !important;
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge-categoria-2,
+.detalle-noticia-pagina .badge-categoria-2 {
+  background-color: #ffedd5 !important;
+  color: #9a3412 !important;
+  border: 1px solid #fed7aa !important;
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge-categoria-3,
+.detalle-noticia-pagina .badge-categoria-3 {
+  background-color: #e0e7ff !important;
+  color: #3730a3 !important;
+  border: 1px solid #c7d2fe !important;
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge-categoria-4,
+.detalle-noticia-pagina .badge-categoria-4 {
+  background-color: #ecfccb !important;
+  color: #3f6212 !important;
+  border: 1px solid #d9f99d !important;
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge-categoria-5,
+.detalle-noticia-pagina .badge-categoria-5 {
+  background-color: #fae8ff !important;
+  color: #86198f !important;
+  border: 1px solid #f5d0fe !important;
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge-categoria-6,
+.detalle-noticia-pagina .badge-categoria-6 {
+  background-color: #cffafe !important;
+  color: #155e75 !important;
+  border: 1px solid #a5f3fc !important;
+}
+
+.detalle-noticia__sidebar-categoria-wrap .badge-categoria-7,
+.detalle-noticia-pagina .badge-categoria-7 {
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+  border: 1px solid #fecaca !important;
+}
+
+/* 2. Autor */
 .detalle-noticia__sidebar-autor {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: transparent;
-  border: none;
-  padding: 0.15rem 0 0;
+}
+
+.detalle-noticia__sidebar-autor-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
 }
 
 .detalle-noticia__sidebar-autor-nombre {
   font-weight: 700;
   color: #0f172a;
   font-size: 0.98rem;
+  line-height: 1.3;
 }
 
-/* Fechas: lista limpia en texto directo, sin recuadro interno */
+.detalle-noticia__sidebar-autor-rol {
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: #64748b;
+}
+
+/* 3. Fechas con estructura visual clara e iconos */
 .detalle-noticia__sidebar-fechas-lista {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  background: transparent;
-  border: none;
-  padding: 0.15rem 0 0;
+  gap: 0.75rem;
 }
 
 .detalle-noticia__sidebar-fecha-item {
   display: flex;
-  align-items: baseline;
-  gap: 0.45rem;
-  font-size: 0.88rem;
-  line-height: 1.45;
+  align-items: flex-start;
+  gap: 0.65rem;
 }
 
-.detalle-noticia__sidebar-fecha-label {
-  font-size: 0.82rem;
+.detalle-noticia__sidebar-fecha-icono {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.detalle-noticia__sidebar-fecha-icono--publicada {
+  background-color: #ecfdf5;
+  color: #059669;
+}
+
+.detalle-noticia__sidebar-fecha-icono--creada {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.detalle-noticia__sidebar-fecha-icono--actualizada {
+  background-color: #fffbeb;
+  color: #d97706;
+}
+
+.detalle-noticia__sidebar-fecha-datos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.detalle-noticia__sidebar-fecha-tipo {
+  font-size: 0.74rem;
   font-weight: 600;
   color: #64748b;
-  min-width: 84px;
 }
 
 .detalle-noticia__sidebar-fecha-valor {
   font-size: 0.88rem;
-  font-weight: 600;
+  font-weight: 650;
   color: #0f172a;
+  line-height: 1.35;
 }
 
-/* Métricas de lectura: texto en línea sin pastillas ni tarjetas internas */
-.detalle-noticia__sidebar-lectura-texto {
+/* 4. Métricas de lectura con chips */
+.detalle-noticia__sidebar-lectura-chips {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
-  font-size: 0.88rem;
-  color: #334155;
-  font-weight: 600;
-  background: transparent;
-  border: none;
-  padding: 0.15rem 0 0;
 }
 
-.detalle-noticia__sidebar-lectura-dato {
+.detalle-noticia__sidebar-chip {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
 }
 
-.detalle-noticia__sidebar-lectura-dato svg {
-  color: #f59e0b;
-}
-
-.detalle-noticia__sidebar-separador-punto {
-  color: #cbd5e1;
-  font-weight: 700;
+.detalle-noticia__sidebar-chip svg {
+  color: #d97706;
+  width: 14px;
+  height: 14px;
 }
 
 /* 9. Estados de Carga y Error */

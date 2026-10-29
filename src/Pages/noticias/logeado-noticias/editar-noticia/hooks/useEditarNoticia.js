@@ -13,124 +13,20 @@ import {
 } from '../../../../../Services/noticias/imagenesServices';
 import archivoService from '../../../../../Services/archivos/archivoService';
 import { LIMITES_EDICION } from '../data/editarNoticiaData';
+import { normalizarImagenes, formatearImagenesParaPreview } from '../utils/imagenHelpers';
+import { resolverCategoriaId } from '../utils/categoriaHelpers';
+import { validarEdicionNoticia } from '../utils/validarEdicionNoticia';
 
-export const normalizarImagenes = (candidatas) => {
-  if (!candidatas) return [];
-  const lista = Array.isArray(candidatas) ? candidatas : [candidatas];
-  return lista
-    .map((img, idx) => {
-      if (!img) return null;
-      if (typeof img === 'string') {
-        return { id: idx, url: img, epigrafe: '' };
-      }
-      const url = img.url || img.ruta || img.imagenUrl || img.urlImagen || img.preview;
-      if (!url) return null;
-      return {
-        id: img.id ?? img.idImagen ?? img.id_imagen ?? idx,
-        url,
-        epigrafe: img.epigrafe ?? img.pieDeFoto ?? img.descripcion ?? '',
-      };
-    })
-    .filter(Boolean);
-};
+export { normalizarImagenes, resolverCategoriaId };
 
-export const resolverCategoriaId = (noticia, listaCategorias = []) => {
-  if (!noticia) return '';
-
-  const obtenerId = (cat) =>
-    String(
-      cat?.id ??
-      cat?.idCategoria ??
-      cat?.id_categoria ??
-      cat?.idCategoriaNoticia ??
-      cat?.id_categoria_noticia ??
-      ''
-    ).trim();
-
-  const normalizar = (txt) =>
-    String(txt || '')
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .trim()
-      .toLowerCase();
-
-  // 1. Extraer cualquier ID numérico o directo de categoría en noticia
-  const posiblesIds = [
-    typeof noticia.categoriaNoticia === 'object' ? obtenerId(noticia.categoriaNoticia) : null,
-    typeof noticia.categoria === 'object' ? obtenerId(noticia.categoria) : null,
-    noticia.categoriaNoticia !== null && noticia.categoriaNoticia !== undefined && !isNaN(noticia.categoriaNoticia)
-      ? String(noticia.categoriaNoticia)
-      : null,
-    noticia.categoria !== null && noticia.categoria !== undefined && !isNaN(noticia.categoria)
-      ? String(noticia.categoria)
-      : null,
-    noticia.categoriaId,
-    noticia.categoria_id,
-    noticia.idCategoria,
-    noticia.id_categoria,
-    noticia.categoriaNoticiaId,
-    noticia.categoria_noticia_id,
-    noticia.idCategoriaNoticia,
-    noticia.id_categoria_noticia,
-  ].filter((val) => val !== undefined && val !== null && String(val).trim() !== '' && !isNaN(val));
-
-  // Buscar coincidencia directa en la lista de categorías por ID
-  for (const rawId of posiblesIds) {
-    const idStr = String(rawId).trim();
-    if (listaCategorias && listaCategorias.length > 0) {
-      const encontrada = listaCategorias.find((c) => obtenerId(c) === idStr);
-      if (encontrada) {
-        return obtenerId(encontrada);
-      }
-    } else {
-      return idStr;
-    }
-  }
-
-  // 2. Extraer cualquier nombre textual de categoría en noticia
-  const posiblesNombres = [
-    typeof noticia.categoriaNoticia === 'object' ? noticia.categoriaNoticia?.nombre : null,
-    typeof noticia.categoriaNoticia === 'string' && isNaN(noticia.categoriaNoticia)
-      ? noticia.categoriaNoticia
-      : null,
-    typeof noticia.categoria === 'object' ? noticia.categoria?.nombre : null,
-    typeof noticia.categoria === 'string' && isNaN(noticia.categoria)
-      ? noticia.categoria
-      : null,
-    noticia.nombreCategoria,
-    noticia.nombre_categoria,
-    noticia.categoriaNombre,
-    noticia.categoria_nombre,
-  ].filter((val) => val && typeof val === 'string' && val.trim() !== '');
-
-  // Buscar coincidencia por nombre textual en listaCategorias
-  for (const rawNombre of posiblesNombres) {
-    const buscado = normalizar(rawNombre);
-    if (listaCategorias && listaCategorias.length > 0) {
-      const encontrada = listaCategorias.find((c) => normalizar(c.nombre) === buscado);
-      if (encontrada) {
-        return obtenerId(encontrada);
-      }
-    }
-  }
-
-  // Si aún no hubo match y tenemos un rawId, devolverlo como fallback
-  if (posiblesIds.length > 0) {
-    return String(posiblesIds[0]).trim();
-  }
-
-  // Si tenemos un nombre y la lista aún no cargó, devolver el nombre temporalmente
-  if (posiblesNombres.length > 0) {
-    return String(posiblesNombres[0]).trim();
-  }
-
-  return '';
-};
-
+/**
+ * Hook centralizado para la gestión del estado, validación y persistencia
+ * en el módulo de edición de noticias institucionales.
+ */
 export const useEditarNoticia = (id, user, categorias = [], noticiaInicial = null) => {
   const esAdmin = tieneRolAdministrador(user);
 
-  // Estados de carga e información original (inicializados con noticiaInicial si viene por router state)
+  // Estados de carga e información original
   const [cargandoNoticia, setCargandoNoticia] = useState(!noticiaInicial);
   const [errorCarga, setErrorCarga] = useState('');
   const [noticiaOriginal, setNoticiaOriginal] = useState(noticiaInicial);
@@ -197,9 +93,46 @@ export const useEditarNoticia = (id, user, categorias = [], noticiaInicial = nul
           }
         }
 
+        // Preservar autor y datos de trazabilidad previos si el endpoint puntual vino sin ellos
+        let autorResuelto =
+          data?.autor ||
+          noticiaInicial?.autor ||
+          data?.usuario ||
+          noticiaInicial?.usuario;
+
+        let nombreAutorResuelto =
+          data?.nombreAutor ||
+          noticiaInicial?.nombreAutor;
+
+        let idAutorResuelto =
+          data?.idAutor ||
+          noticiaInicial?.idAutor ||
+          data?.autorId ||
+          noticiaInicial?.autorId ||
+          (typeof autorResuelto === 'number' ? autorResuelto : autorResuelto?.id);
+
+        if (!autorResuelto && !nombreAutorResuelto && id) {
+          try {
+            const listaPublicas = await listarNoticiasPublicadas();
+            const coincidencia = (Array.isArray(listaPublicas) ? listaPublicas : []).find(
+              (n) => String(n.id) === String(id)
+            );
+            if (coincidencia) {
+              autorResuelto = coincidencia.autor || coincidencia.usuario;
+              nombreAutorResuelto = coincidencia.nombreAutor || coincidencia.autorNombre;
+              idAutorResuelto = coincidencia.idAutor || coincidencia.autorId || coincidencia.autor?.id;
+            }
+          } catch (errLista) {
+            console.warn('Fallback de autor en lista de noticias:', errLista);
+          }
+        }
+
         const noticiaCombinada = {
           ...(noticiaInicial || {}),
           ...data,
+          autor: autorResuelto || data?.autor || noticiaInicial?.autor,
+          nombreAutor: nombreAutorResuelto || data?.nombreAutor || noticiaInicial?.nombreAutor,
+          idAutor: idAutorResuelto || data?.idAutor || noticiaInicial?.idAutor,
           ...(idCat ? { categoriaId: idCat } : {}),
         };
 
@@ -276,7 +209,6 @@ export const useEditarNoticia = (id, user, categorias = [], noticiaInicial = nul
       } catch (err) {
         if (!activo) return;
         console.error('Error al cargar noticia:', err);
-        // Si teníamos noticiaInicial, no mostramos pantalla de error bloqueante
         if (!noticiaInicial) {
           setErrorCarga('No se pudo cargar la información de la noticia solicitada.');
         }
@@ -472,48 +404,21 @@ export const useEditarNoticia = (id, user, categorias = [], noticiaInicial = nul
     });
   };
 
-  // Validación completa
+  // Validación completa delegada a la función utilitaria
   const validarFormulario = useCallback(() => {
-    const nuevosErrores = {};
+    const { esValido, errores: errs, errorImagenes: errImgs } = validarEdicionNoticia({
+      titulo,
+      cuerpo,
+      categoriaId,
+      imagenesExistentes,
+      nuevasImagenes,
+      errorImagenesActual: errorImagenes,
+    });
 
-    const tituloLimpio = titulo.trim();
-    if (!tituloLimpio) {
-      nuevosErrores.titulo = 'El título de la noticia es obligatorio.';
-    } else if (tituloLimpio.length > LIMITES_EDICION.titulo) {
-      nuevosErrores.titulo = `El título no puede superar ${LIMITES_EDICION.titulo} caracteres.`;
-    }
-
-    const textoPlano = cuerpo
-      .replace(/<[^>]*>/g, ' ')
-      .replace(/&nbsp;/g, ' ')
-      .trim();
-
-    if (!textoPlano) {
-      nuevosErrores.cuerpo = 'El cuerpo de la noticia es obligatorio.';
-    }
-
-    if (!categoriaId) {
-      nuevosErrores.categoriaId = 'Seleccioná una categoría.';
-    }
-
-    // Obligatoriedad de epígrafe en cada imagen (existente o nueva)
-    const existentesSinEpigrafe = imagenesExistentes.filter((img) => !img.epigrafe?.trim());
-    const nuevasSinEpigrafe = nuevasImagenes.filter((img) => !img.epigrafe?.trim());
-    const totalSinEpigrafe = existentesSinEpigrafe.length + nuevasSinEpigrafe.length;
-
-    if (totalSinEpigrafe > 0) {
-      nuevosErrores.imagenes =
-        totalImagenes === 1
-          ? 'El epígrafe de la imagen es obligatorio para guardar los cambios.'
-          : `Cada imagen agregada debe incluir un epígrafe obligatorio (${totalSinEpigrafe} sin completar).`;
-      setErrorImagenes(nuevosErrores.imagenes);
-    } else if (errorImagenes && errorImagenes.toLowerCase().includes('epígrafe')) {
-      setErrorImagenes('');
-    }
-
-    setErrores(nuevosErrores);
-    return Object.keys(nuevosErrores).length === 0 && !errorImagenes && totalSinEpigrafe === 0;
-  }, [titulo, cuerpo, categoriaId, imagenesExistentes, nuevasImagenes, totalImagenes, errorImagenes]);
+    setErrores(errs);
+    setErrorImagenes(errImgs);
+    return esValido;
+  }, [titulo, cuerpo, categoriaId, imagenesExistentes, nuevasImagenes, errorImagenes]);
 
   // Guardar cambios
   const guardarCambios = async () => {
@@ -527,20 +432,19 @@ export const useEditarNoticia = (id, user, categorias = [], noticiaInicial = nul
     setGuardando(true);
 
     try {
-      // Determinar idAutor requerido por el backend
+      // Determinar idAutor requerido por el backend (priorizar el autor original para no sobreescribir la creación)
       const idAutor =
-        user?.idUsuario ??
-        user?.id ??
-        user?.usuarioId ??
+        noticiaOriginal?.idAutor ??
+        noticiaOriginal?.autorId ??
         noticiaOriginal?.autor?.id ??
         noticiaOriginal?.autor?.idUsuario ??
-        noticiaOriginal?.autorId ??
-        noticiaOriginal?.idAutor ??
-        noticiaOriginal?.usuarioId ??
+        (typeof noticiaOriginal?.autor === 'number' ? noticiaOriginal.autor : null) ??
+        noticiaInicial?.idAutor ??
+        noticiaInicial?.autorId ??
         noticiaInicial?.autor?.id ??
         noticiaInicial?.autor?.idUsuario ??
-        noticiaInicial?.idAutor ??
-        noticiaInicial?.autorId;
+        user?.idUsuario ??
+        user?.id;
 
       // 1. Datos base
       const payload = {
@@ -605,10 +509,22 @@ export const useEditarNoticia = (id, user, categorias = [], noticiaInicial = nul
       setNuevasImagenes([]);
       setImagenesAEliminar([]);
 
-      // Recargar datos actualizados
+      // Recargar datos actualizados conservando el creador original y registrando la edición de esta sesión
       try {
         const actualizada = await consultarNoticia(id);
-        setNoticiaOriginal(actualizada);
+        setNoticiaOriginal((prev) => ({
+          ...(prev || {}),
+          ...actualizada,
+          // Preservar creador
+          autor: prev?.autor || actualizada?.autor,
+          nombreAutor: prev?.nombreAutor || actualizada?.nombreAutor,
+          idAutor: prev?.idAutor || actualizada?.idAutor,
+          // Registrar modificación de la sesión actual
+          editor: user,
+          usuarioModificacion: user,
+          modificadoPor: user,
+          fechaActualizacion: new Date().toISOString(),
+        }));
         if (Array.isArray(actualizada.imagenes)) {
           setImagenesExistentes(
             actualizada.imagenes.map((img) => ({
@@ -637,11 +553,7 @@ export const useEditarNoticia = (id, user, categorias = [], noticiaInicial = nul
     }
   };
 
-  // Colección de imágenes formateada para vista previa
-  const imagenesParaPreview = [
-    ...imagenesExistentes.map((img) => ({ id: `ex-${img.id}`, preview: img.url, epigrafe: img.epigrafe })),
-    ...nuevasImagenes.map((img) => ({ id: `nu-${img.tempId}`, preview: img.preview, epigrafe: img.epigrafe })),
-  ];
+  const imagenesParaPreview = formatearImagenesParaPreview(imagenesExistentes, nuevasImagenes);
 
   return {
     esAdmin,
@@ -662,6 +574,7 @@ export const useEditarNoticia = (id, user, categorias = [], noticiaInicial = nul
     guardando,
     errorGuardado,
     mensajeExito,
+    limpiarMensajeExito: () => setMensajeExito(''),
     manejarCambioTitulo,
     manejarCambioCuerpo,
     manejarCambioCategoria,
@@ -674,3 +587,5 @@ export const useEditarNoticia = (id, user, categorias = [], noticiaInicial = nul
     guardarCambios,
   };
 };
+
+export default useEditarNoticia;

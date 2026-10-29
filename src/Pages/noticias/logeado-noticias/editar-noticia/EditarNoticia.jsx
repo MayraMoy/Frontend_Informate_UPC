@@ -5,12 +5,10 @@ import useCategorias from '../../../../hooks/useCategorias';
 import { useEditarNoticia } from './hooks/useEditarNoticia';
 import { EncabezadoEditarNoticia } from './components/EncabezadoEditarNoticia';
 import { FormularioEditarNoticia } from './components/FormularioEditarNoticia';
+import { ModalConfirmacionEdicion } from './components/ModalConfirmacionEdicion';
 import VistaPreviaNoticia from '../crear-noticia/components/VistaPreviaNoticia';
-import {
-  IconoEditar,
-  IconoCheck,
-  IconoAlerta,
-} from '../crear-noticia/components/IconosNoticia';
+import { IconoEditar, IconoAlerta } from '../crear-noticia/components/IconosNoticia';
+import { PESTANAS_EDICION } from './data/editarNoticiaData';
 import './styles/EditarNoticia.css';
 
 const EditarNoticia = () => {
@@ -20,9 +18,14 @@ const EditarNoticia = () => {
   const noticiaInicial = location.state?.noticia || null;
   const { user } = useContext(AppContext);
 
-  const [pestanaActiva, setPestanaActiva] = useState('editor'); // "editor" | "preview"
+  const [pestanaActiva, setPestanaActiva] = useState(PESTANAS_EDICION.EDITOR);
 
-  const { categorias, cargando: cargandoCategorias, error: errorCategorias } = useCategorias();
+  const {
+    categorias,
+    cargando: cargandoCategorias,
+    error: errorCategorias,
+    recargarCategorias,
+  } = useCategorias();
 
   const {
     esAdmin,
@@ -43,6 +46,7 @@ const EditarNoticia = () => {
     guardando,
     errorGuardado,
     mensajeExito,
+    limpiarMensajeExito,
     manejarCambioTitulo,
     manejarCambioCuerpo,
     manejarCambioCategoria,
@@ -59,7 +63,7 @@ const EditarNoticia = () => {
     if (e) e.preventDefault();
     const exito = await guardarCambios();
     if (!exito) {
-      setPestanaActiva('editor');
+      setPestanaActiva(PESTANAS_EDICION.EDITOR);
     }
   };
 
@@ -103,27 +107,12 @@ const EditarNoticia = () => {
           onCambiarPestana={setPestanaActiva}
         />
 
-        {/* Mensaje de éxito al guardar */}
-        {mensajeExito && (
-          <section className="crear-noticia__exito-banner mb-4" role="status">
-            <div className="crear-noticia__exito-icono">
-              <IconoCheck />
-            </div>
-            <div className="crear-noticia__exito-texto">
-              <h3>{mensajeExito}</h3>
-              <p>Los cambios se guardaron correctamente en la plataforma.</p>
-            </div>
-            <div className="crear-noticia__exito-botones">
-              <button
-                type="button"
-                className="crear-noticia__boton-exito-principal"
-                onClick={() => navigate('/noticias/ver')}
-              >
-                Volver al listado
-              </button>
-            </div>
-          </section>
-        )}
+        {/* Modal emergente de confirmación tras registrar cambios */}
+        <ModalConfirmacionEdicion
+          isOpen={Boolean(mensajeExito)}
+          onVolverListado={() => navigate('/noticias/ver')}
+          onCerrar={limpiarMensajeExito}
+        />
 
         {/* Alerta de error en guardado */}
         {errorGuardado && (
@@ -134,7 +123,7 @@ const EditarNoticia = () => {
         )}
 
         {/* Renderizado condicional según pestaña */}
-        {pestanaActiva === 'preview' ? (
+        {pestanaActiva === PESTANAS_EDICION.PREVIEW ? (
           <div className="crear-noticia__preview-seccion">
             <VistaPreviaNoticia
               valores={{ titulo, cuerpo, categoriaId }}
@@ -146,7 +135,7 @@ const EditarNoticia = () => {
               <button
                 type="button"
                 className="crear-noticia__boton-secundario"
-                onClick={() => setPestanaActiva('editor')}
+                onClick={() => setPestanaActiva(PESTANAS_EDICION.EDITOR)}
               >
                 <IconoEditar />
                 <span>Volver al editor</span>
@@ -170,8 +159,10 @@ const EditarNoticia = () => {
             categorias={categorias}
             cargandoCategorias={cargandoCategorias}
             errorCategorias={errorCategorias}
+            onRecargarCategorias={recargarCategorias}
             noticiaOriginal={noticiaOriginal}
             esAdmin={esAdmin}
+            user={user}
             guardando={guardando}
             errores={errores}
             errorImagenes={errorImagenes}
@@ -189,7 +180,7 @@ const EditarNoticia = () => {
             onEliminarExistente={manejarEliminarExistente}
             onEliminarNueva={manejarEliminarNueva}
             onSubmit={manejarSubmit}
-            onVerPreview={() => setPestanaActiva('preview')}
+            onVerPreview={() => setPestanaActiva(PESTANAS_EDICION.PREVIEW)}
             onCancelar={() => navigate('/noticias/ver')}
           />
         )}

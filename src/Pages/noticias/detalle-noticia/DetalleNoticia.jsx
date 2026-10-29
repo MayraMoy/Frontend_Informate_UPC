@@ -58,7 +58,15 @@ const DetalleNoticia = () => {
     <main className="detalle-noticia-pagina">
       <div className="detalle-noticia-contenedor">
         {/* Encabezado superior amplio con botón de Edición */}
-        <EncabezadoDetalleNoticia noticia={noticia} imagenes={imagenes} esAdmin={esAdmin} />
+        <EncabezadoDetalleNoticia
+          noticia={{
+            ...noticia,
+            nombreAutor,
+            autor: noticia?.autor || (typeof nombreAutor === 'string' ? { nombre: nombreAutor } : nombreAutor),
+          }}
+          imagenes={imagenes}
+          esAdmin={esAdmin}
+        />
 
         {/* Layout en grilla amplia: Columna Principal de Lectura y Columna Lateral Informativa */}
         <div className="detalle-noticia-grid">

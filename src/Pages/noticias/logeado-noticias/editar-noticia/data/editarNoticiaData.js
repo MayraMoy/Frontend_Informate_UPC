@@ -13,3 +13,7 @@ export const LIMITES_EDICION = {
   tiposPermitidos: ['image/jpeg', 'image/png', 'image/webp'],
 };
 
+export const PESTANAS_EDICION = {
+  EDITOR: 'editor',
+  PREVIEW: 'preview',
+};

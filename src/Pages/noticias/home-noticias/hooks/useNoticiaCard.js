@@ -1,3 +1,34 @@
+export const obtenerNombreCategoria = (noticia, categorias = []) => {
+  if (typeof noticia?.categoriaNoticia === 'object' && noticia?.categoriaNoticia?.nombre) {
+    return noticia.categoriaNoticia.nombre;
+  }
+  if (typeof noticia?.categoria === 'object' && noticia?.categoria?.nombre) {
+    return noticia.categoria.nombre;
+  }
+  if (noticia?.nombreCategoria) return noticia.nombreCategoria;
+  if (noticia?.categoriaNombre) return noticia.categoriaNombre;
+  if (typeof noticia?.categoriaNoticia === 'string' && isNaN(noticia.categoriaNoticia)) {
+    return noticia.categoriaNoticia;
+  }
+  if (typeof noticia?.categoria === 'string' && isNaN(noticia.categoria)) {
+    return noticia.categoria;
+  }
+  const idCat =
+    noticia?.categoriaNoticia?.id ||
+    noticia?.categoria?.id ||
+    (typeof noticia?.categoriaNoticia === 'number' ? noticia.categoriaNoticia : null) ||
+    (typeof noticia?.categoria === 'number' ? noticia.categoria : null) ||
+    noticia?.idCategoria ||
+    noticia?.categoriaId;
+  if (idCat && Array.isArray(categorias) && categorias.length > 0) {
+    const encontrada = categorias.find(
+      (c) => String(c?.id ?? c?.idCategoria ?? c?.id_categoria ?? '') === String(idCat)
+    );
+    if (encontrada?.nombre) return encontrada.nombre;
+  }
+  return '';
+};
+
 export const useNoticiaCard = (noticia) => {
   const formatearFecha = (fechaStr) => {
     if (!fechaStr) return '';
@@ -37,10 +68,13 @@ export const useNoticiaCard = (noticia) => {
     return autorObj.nombre || autorObj.username || 'Institucional';
   };
 
+  const resolverCategoria = (categorias = []) => obtenerNombreCategoria(noticia, categorias);
+
   return {
     noticia,
     formatearFecha,
     getBadgeClass,
     obtenerNombreAutor,
+    resolverCategoria,
   };
 };
