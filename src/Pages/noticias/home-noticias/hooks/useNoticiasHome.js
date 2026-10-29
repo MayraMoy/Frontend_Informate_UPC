@@ -22,6 +22,12 @@ export const useNoticiasHome = ({ soloUltimasSeis = false, cargarCategorias = tr
   const [busqueda, setBusqueda] = useState('');
   const [categoria, setCategoria] = useState('Todas');
   const [fecha, setFecha] = useState('Todas');
+  const [recargaTrigger, setRecargaTrigger] = useState(0);
+
+  const recargar = () => {
+    setLoading(true);
+    setRecargaTrigger((prev) => prev + 1);
+  };
 
   useEffect(() => {
     const cargarNoticias = soloUltimasSeis ? listar6Noticias : listarNoticiasPublicadas;
@@ -38,7 +44,7 @@ export const useNoticiasHome = ({ soloUltimasSeis = false, cargarCategorias = tr
         .then((data) => setCategorias(data))
         .catch((err) => console.error('Error al cargar categorías:', err));
     }
-  }, [soloUltimasSeis, cargarCategorias]);
+  }, [soloUltimasSeis, cargarCategorias, recargaTrigger]);
 
   const noticiasConCategoria = useMemo(() => noticias.map((item) => {
     const categoriaActual = item.categoriaNoticia;
@@ -105,5 +111,6 @@ export const useNoticiasHome = ({ soloUltimasSeis = false, cargarCategorias = tr
     setCategoria,
     fecha,
     setFecha,
+    recargar,
   };
 };

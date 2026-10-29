@@ -2,11 +2,9 @@ import clientAxios from '../axiosConfig';
 
 // POST: Crear una nueva noticia
 export const crearNoticia = async (noticiaRequest, usuarioId) => {
-    const response = await clientAxios.post('api/noticias',noticiaRequest,
-        {
-            params: { usuarioId }
-        }
-    );
+    const response = await clientAxios.post('api/noticias', noticiaRequest, {
+        params: { usuarioId }
+    });
     return response.data;
 };
 
@@ -14,13 +12,19 @@ export const crearNoticia = async (noticiaRequest, usuarioId) => {
 export const listarNoticiasPublicadas = async () => {
     const response = await clientAxios.get('api/noticias/todos');
     return response.data;
-}
+};
 
 // GET: Traer unicamente las 6 ultimas noticias publicadas
 export const listar6Noticias = async () => {
     const response = await clientAxios.get('api/noticias/ultimas-seis');
     return response.data;
-}
+};
+
+// GET: Traer todas las noticias pendientes de revision
+export const listarNoticiasPendientes = async () => {
+    const response = await clientAxios.get('api/noticias/noticias-pendientes');
+    return response.data;
+};
 
 // GET: Consultar una noticia
 export const consultarNoticia = async (id) => {
@@ -29,8 +33,9 @@ export const consultarNoticia = async (id) => {
 };
 
 // PUT: Editar una Noticia
-export const editarNoticia = async (id, noticiaResponse) => {
-    const response = await clientAxios.put(`api/noticias/${id}`, noticiaResponse);
+export const editarNoticia = async (id, noticiaResponse, idAutor) => {
+    const params = idAutor ? { idAutor } : {};
+    const response = await clientAxios.put(`api/noticias/${id}`, noticiaResponse, { params });
     return response.data;
 };
 

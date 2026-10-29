@@ -1,6 +1,23 @@
 import React from "react";
 import { IconoAlerta } from "./IconosNoticia";
 
+const obtenerIdCategoria = (cat) =>
+  String(
+    cat?.id ??
+    cat?.idCategoria ??
+    cat?.id_categoria ??
+    cat?.idCategoriaNoticia ??
+    cat?.id_categoria_noticia ??
+    ""
+  );
+
+const normalizarTexto = (txt) =>
+  String(txt || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase();
+
 const CampoCategoria = ({
   categorias = [],
   value = "",
@@ -10,9 +27,16 @@ const CampoCategoria = ({
   errorCarga = "",
   requerido = true,
 }) => {
-  const categoriaSeleccionada = categorias.find(
-    (c) => String(c.id) === String(value)
-  );
+  const categoriaSeleccionada = categorias.find((c) => {
+    const idCat = obtenerIdCategoria(c);
+    if (idCat && String(idCat) === String(value)) return true;
+    if (c.nombre && normalizarTexto(c.nombre) === normalizarTexto(value)) return true;
+    return false;
+  });
+
+  const valorSelect = categoriaSeleccionada
+    ? obtenerIdCategoria(categoriaSeleccionada)
+    : String(value || "");
 
   const seleccionarRapido = (id) => {
     onChange?.({
@@ -30,18 +54,13 @@ const CampoCategoria = ({
           Categoría
           {requerido && <span className="crear-noticia__requerido" aria-hidden="true"> *</span>}
         </label>
-        {categoriaSeleccionada && (
-          <span className="crear-noticia__categoria-badge-preview">
-            Seleccionada: <strong>{categoriaSeleccionada.nombre}</strong>
-          </span>
-        )}
       </div>
 
       <div className="crear-noticia__select-wrapper">
         <select
           id="categoriaId"
           name="categoriaId"
-          value={value}
+          value={valorSelect}
           onChange={onChange}
           disabled={cargando || Boolean(errorCarga)}
           aria-invalid={Boolean(error)}
@@ -54,11 +73,14 @@ const CampoCategoria = ({
             {cargando ? "Cargando categorías disponibles..." : "— Seleccioná una categoría —"}
           </option>
 
-          {categorias.map((categoria) => (
-            <option key={categoria.id} value={categoria.id}>
-              {categoria.nombre}
-            </option>
-          ))}
+          {categorias.map((categoria) => {
+            const idOpt = obtenerIdCategoria(categoria);
+            return (
+              <option key={idOpt || categoria.nombre} value={idOpt}>
+                {categoria.nombre}
+              </option>
+            );
+          })}
         </select>
         <span className="crear-noticia__select-flecha" aria-hidden="true">
           ▾
@@ -70,13 +92,15 @@ const CampoCategoria = ({
         <div className="crear-noticia__categorias-chips" role="group" aria-label="Categorías sugeridas">
           <span className="crear-noticia__chips-label">Atajos:</span>
           {categorias.slice(0, 6).map((cat) => {
-            const activa = String(value) === String(cat.id);
+            const idChip = obtenerIdCategoria(cat);
+            const activa =
+              valorSelect === idChip || normalizarTexto(cat.nombre) === normalizarTexto(value);
             return (
               <button
-                key={cat.id}
+                key={idChip || cat.nombre}
                 type="button"
                 className={`crear-noticia__chip ${activa ? "crear-noticia__chip--activa" : ""}`}
-                onClick={() => seleccionarRapido(cat.id)}
+                onClick={() => seleccionarRapido(idChip)}
                 aria-pressed={activa}
               >
                 {cat.nombre}

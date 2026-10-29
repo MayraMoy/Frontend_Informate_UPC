@@ -31,6 +31,14 @@ const useCrearNoticia = () => {
         return { exito: false };
       }
 
+      const imagenSinEpigrafe = imagenes.find(
+        (img) => !(img.epigrafe || "").trim()
+      );
+      if (imagenSinEpigrafe) {
+        setError("Cada imagen añadida debe tener un epígrafe obligatorio.");
+        return { exito: false };
+      }
+
       setGuardando(true);
       setError("");
 

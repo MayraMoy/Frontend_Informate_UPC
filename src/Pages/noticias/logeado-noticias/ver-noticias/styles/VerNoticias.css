@@ -1,0 +1,220 @@
+/* ==========================================================================
+   Página Ver Noticias - Informate UPC
+   Diseño Amplio, Espacioso y Moderno
+   ========================================================================== */
+
+.ver-noticias-pagina {
+  background-color: #f6f7f9;
+  min-height: calc(100vh - 68px);
+  width: 100%;
+  padding: 2.25rem clamp(1.25rem, 3.5vw, 3.5rem) 4rem;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.ver-noticias-contenedor {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* Encabezado Principal */
+.ver-noticias-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+.ver-noticias-header-texto {
+  display: flex;
+  flex-direction: column;
+}
+
+.ver-noticias-titulo {
+  margin: 0;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+}
+
+.ver-noticias-subtitulo {
+  margin: 0.35rem 0 0;
+  color: #64748b;
+  font-size: 0.94rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* Panel de Filtros / Buscador */
+.ver-noticias-filtros-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.ver-noticias-filtros-card .buscador-noticias-container {
+  margin-bottom: 0 !important;
+}
+
+/* Grid de Noticias Amplia */
+.ver-noticias-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .ver-noticias-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ver-noticias-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.75rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .ver-noticias-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+  }
+}
+
+/* Tarjeta individual en Ver Noticias */
+.ver-noticias-grid .novedad-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.ver-noticias-grid .novedad-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  border-color: #cbd5e1;
+}
+
+.ver-noticias-grid .novedad-card-media {
+  height: 220px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #f1f5f9;
+}
+
+.ver-noticias-grid .novedad-card-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 1.25rem 1.35rem 1.35rem;
+  gap: 0.65rem;
+}
+
+.ver-noticias-grid .novedad-card-date {
+  font-size: 0.82rem;
+  color: #64748b;
+  font-weight: 500;
+  margin: 0;
+}
+
+.ver-noticias-grid .novedad-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.4;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ver-noticias-grid .novedad-card-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.ver-noticias-grid .novedad-card-title a:hover {
+  color: var(--primary-yellow-hover, #D98200);
+  text-decoration: none;
+}
+
+/* Botón de Editar en la Tarjeta */
+.novedad-card-acciones {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 0.75rem;
+}
+
+.novedad-card-btn-editar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #334155;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.novedad-card-btn-editar:hover {
+  background-color: #fffdf5;
+  border-color: #fde68a;
+  color: #92400e;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15);
+}
+
+.novedad-card-btn-editar svg {
+  color: #d97706;
+}
+
+/* Estado vacío y carga */
+.ver-noticias-estado-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: 16px;
+  color: #64748b;
+  gap: 0.75rem;
+}
+
+.ver-noticias-estado-vacio p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #475569;
+}
+

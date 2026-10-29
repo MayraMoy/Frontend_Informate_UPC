@@ -130,57 +130,71 @@ const CampoImagenes = ({
       {/* Lista de imágenes cargadas */}
       {imagenes.length > 0 && (
         <div className="crear-noticia__imagenes-lista">
-          {imagenes.map((imagen, indice) => (
-            <div key={imagen.id} className="crear-noticia__imagen-tarjeta">
-              <div className="crear-noticia__imagen-preview-wrapper">
-                <img
-                  src={imagen.preview}
-                  alt={imagen.epigrafe || imagen.archivo.name}
-                  className="crear-noticia__imagen-preview"
-                />
-                <span className="crear-noticia__imagen-badge">
-                  {indice === 0 ? "Portada" : `Foto ${indice + 1}`}
-                </span>
-              </div>
+          {imagenes.map((imagen, indice) => {
+            const epigrafeFaltante = !(imagen.epigrafe || "").trim();
+            const tieneErrorEpigrafe = Boolean(error) && epigrafeFaltante;
 
-              <div className="crear-noticia__imagen-info">
-                <div className="crear-noticia__imagen-meta">
-                  <span className="crear-noticia__imagen-nombre" title={imagen.archivo.name}>
-                    {imagen.archivo.name}
-                  </span>
-                  <span className="crear-noticia__imagen-peso">
-                    {formatearTamano(imagen.archivo.size)}
-                  </span>
-                </div>
-
-                <div className="crear-noticia__imagen-epigrafe-campo">
-                  <label htmlFor={`epigrafe-${imagen.id}`} className="crear-noticia__sublabel">
-                    Epígrafe:
-                  </label>
-                  <input
-                    id={`epigrafe-${imagen.id}`}
-                    type="text"
-                    className="crear-noticia__input crear-noticia__input--epigrafe"
-                    value={imagen.epigrafe || ""}
-                    onChange={(e) => onCambiarEpigrafe?.(imagen.id, e.target.value)}
-                    placeholder="Descripción o epígrafe"
-                    maxLength={200}
+            return (
+              <div key={imagen.id} className="crear-noticia__imagen-tarjeta">
+                <div className="crear-noticia__imagen-preview-wrapper">
+                  <img
+                    src={imagen.preview}
+                    alt={imagen.epigrafe || imagen.archivo.name}
+                    className="crear-noticia__imagen-preview"
                   />
+                  <span className="crear-noticia__imagen-badge">
+                    {indice === 0 ? "Portada" : `Foto ${indice + 1}`}
+                  </span>
                 </div>
-              </div>
 
-              <button
-                type="button"
-                className="crear-noticia__imagen-boton-eliminar"
-                onClick={() => onQuitarImagen?.(imagen.id)}
-                title="Quitar imagen"
-                aria-label={`Quitar ${imagen.archivo.name}`}
-              >
-                <IconoTrash />
-                <span>Quitar</span>
-              </button>
-            </div>
-          ))}
+                <div className="crear-noticia__imagen-info">
+                  <div className="crear-noticia__imagen-meta">
+                    <span className="crear-noticia__imagen-nombre" title={imagen.archivo.name}>
+                      {imagen.archivo.name}
+                    </span>
+                    <span className="crear-noticia__imagen-peso">
+                      {formatearTamano(imagen.archivo.size)}
+                    </span>
+                  </div>
+
+                  <div className="crear-noticia__imagen-epigrafe-campo">
+                    <label htmlFor={`epigrafe-${imagen.id}`} className="crear-noticia__sublabel">
+                      Epígrafe <span className="crear-noticia__requerido" title="Obligatorio">*</span>
+                    </label>
+                    <input
+                      id={`epigrafe-${imagen.id}`}
+                      type="text"
+                      className={`crear-noticia__input crear-noticia__input--epigrafe ${
+                        tieneErrorEpigrafe ? "crear-noticia__input--error" : ""
+                      }`}
+                      value={imagen.epigrafe || ""}
+                      onChange={(e) => onCambiarEpigrafe?.(imagen.id, e.target.value)}
+                      placeholder="Epígrafe obligatorio para esta foto"
+                      maxLength={200}
+                      aria-required="true"
+                      aria-invalid={tieneErrorEpigrafe}
+                    />
+                    {tieneErrorEpigrafe && (
+                      <span className="crear-noticia__error-epigrafe" role="alert">
+                        Ingresá un epígrafe para esta imagen
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  className="crear-noticia__imagen-boton-eliminar"
+                  onClick={() => onQuitarImagen?.(imagen.id)}
+                  title="Quitar imagen"
+                  aria-label={`Quitar ${imagen.archivo.name}`}
+                >
+                  <IconoTrash />
+                  <span>Quitar</span>
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

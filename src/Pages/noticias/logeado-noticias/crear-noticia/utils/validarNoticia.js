@@ -1,6 +1,6 @@
 import { NOTICIA_LIMITES } from "../data/crearNoticiaData";
 
-const validarNoticia = (noticia) => {
+const validarNoticia = (noticia, imagenes = []) => {
   const errores = {};
 
   const tituloLimpio = (noticia?.titulo || "").trim();
@@ -24,6 +24,18 @@ const validarNoticia = (noticia) => {
 
   if (!noticia?.categoriaId) {
     errores.categoriaId = "Seleccioná una categoría para clasificar la noticia.";
+  }
+
+  if (Array.isArray(imagenes) && imagenes.length > 0) {
+    const imagenesSinEpigrafe = imagenes.filter(
+      (img) => !(img.epigrafe || "").trim()
+    );
+    if (imagenesSinEpigrafe.length > 0) {
+      errores.imagenes =
+        imagenes.length === 1
+          ? "El epígrafe de la imagen es obligatorio para poder publicar la noticia."
+          : `Cada imagen agregada debe incluir un epígrafe obligatorio (${imagenesSinEpigrafe.length} pendiente${imagenesSinEpigrafe.length > 1 ? "s" : ""}).`;
+    }
   }
 
   return errores;

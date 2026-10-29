@@ -32,6 +32,9 @@ const CrearNoticia = lazy(() =>
 const VerNoticias = lazy(() =>
   import('./Pages/noticias/logeado-noticias/ver-noticias/VerNoticias.jsx'),
 );
+const EditarNoticia = lazy(() =>
+  import('./Pages/noticias/logeado-noticias/editar-noticia/EditarNoticia.jsx'),
+);
 const PendientesNoticias = lazy(() =>
   import('./Pages/noticias/logeado-noticias/pendientes/PendientesNoticias.jsx'),
 );
@@ -68,15 +71,16 @@ const AppLayout = () => {
   const { user } = useContext(AppContext);
   const { pathname } = useLocation();
   const ocultarNavbar = ['/login', '/registro', '/register'].includes(pathname);
+  const tieneSidebar = !ocultarNavbar && puedeAccederGestion(user);
 
   return (
-    <div className="d-flex min-vh-100 flex-column">
+    <div className={`d-flex min-vh-100 flex-column${tieneSidebar ? ' app-layout-with-sidebar' : ''}`}>
       <a className="skip-link" href="#contenido-principal">
         Saltar al contenido principal
       </a>
       {!ocultarNavbar && <Navbar />}
       <div className="app-content-layout">
-        {!ocultarNavbar && <Sidebar user={user} />}
+        {tieneSidebar && <Sidebar user={user} />}
         <main id="contenido-principal" className="app-main-content flex-grow-1" tabIndex={-1}>
         <Suspense
           fallback={(
@@ -112,6 +116,16 @@ const AppLayout = () => {
                 <RutaProtegida>
                   <RutaAdministrador>
                     <VerNoticias />
+                  </RutaAdministrador>
+                </RutaProtegida>
+              )}
+            />
+            <Route
+              path="/noticias/editar/:id"
+              element={(
+                <RutaProtegida>
+                  <RutaAdministrador>
+                    <EditarNoticia />
                   </RutaAdministrador>
                 </RutaProtegida>
               )}

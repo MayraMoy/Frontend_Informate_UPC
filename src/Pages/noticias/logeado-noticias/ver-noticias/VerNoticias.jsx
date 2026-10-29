@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useNoticiasHome } from '../../home-noticias/hooks/useNoticiasHome.js';
 import { usePaginacionNoticias } from '../../home-noticias/hooks/usePaginacionNoticias.js';
 import NovedadCard from '../../home-noticias/components/NovedadCard.jsx';
@@ -5,8 +6,10 @@ import { BuscadorNoticias } from './components/BuscadorNoticias.jsx';
 import { Paginacion } from './components/Paginacion.jsx';
 import '../../home-noticias/styles/NoticiasHome.css';
 import '../../home-noticias/styles/NovedadesCarousel.css';
+import './styles/VerNoticias.css';
 
 const VerNoticias = () => {
+  const navigate = useNavigate();
   const {
     noticias,
     categorias,
@@ -18,6 +21,7 @@ const VerNoticias = () => {
     fecha,
     setFecha,
   } = useNoticiasHome();
+
   const {
     paginaActual,
     totalPaginas,
@@ -25,56 +29,75 @@ const VerNoticias = () => {
     cambiarPagina,
     reiniciarPagina,
   } = usePaginacionNoticias(noticias);
+
+  const handleEditarNoticia = (noticia) => {
+    navigate(`/noticias/editar/${noticia.id}`, { state: { noticia } });
+  };
+
   const actualizarFiltro = (setter) => (valor) => {
     setter(valor);
     reiniciarPagina();
   };
 
   return (
-    <section className="noticias-home container my-5" aria-labelledby="noticias-titulo">
-      <header className="mb-4">
-        <h1 id="noticias-titulo" className="noticia-title fw-bold display-5 mb-3">
-          Noticias Institucionales
-        </h1>
-        <p className="noticia-description text-secondary col-12 col-lg-8 lead fs-6">
-          Consultá las novedades y filtrá por categoría o fecha.
-        </p>
-      </header>
+    <div className="ver-noticias-pagina">
+      <div className="ver-noticias-contenedor">
+        <header className="ver-noticias-header">
+          <div className="ver-noticias-header-texto">
+            <h1 id="noticias-titulo" className="ver-noticias-titulo">
+              Noticias Institucionales
+            </h1>
+            <p className="ver-noticias-subtitulo">
+              Consultá las novedades publicadas, filtrá por categoría o fecha y gestioná el contenido institucional.
+            </p>
+          </div>
+        </header>
 
-      <BuscadorNoticias
-        busqueda={busqueda}
-        setBusqueda={actualizarFiltro(setBusqueda)}
-        categoria={categoria}
-        setCategoria={actualizarFiltro(setCategoria)}
-        categorias={categorias}
-        fecha={fecha}
-        setFecha={actualizarFiltro(setFecha)}
-      />
-
-      {loading ? (
-        <div className="novedades-status" role="status" aria-live="polite">
-          Cargando noticias...
+        <div className="ver-noticias-filtros-card">
+          <BuscadorNoticias
+            busqueda={busqueda}
+            setBusqueda={actualizarFiltro(setBusqueda)}
+            categoria={categoria}
+            setCategoria={actualizarFiltro(setCategoria)}
+            categorias={categorias}
+            fecha={fecha}
+            setFecha={actualizarFiltro(setFecha)}
+          />
         </div>
-      ) : noticiasPaginadas.length > 0 ? (
-        <div className="novedades-cards mt-4" aria-live="polite" aria-atomic="true">
-          {noticiasPaginadas.map((noticia) => (
-            <NovedadCard key={noticia.id} noticia={noticia} headingLevel="h2" />
-          ))}
-        </div>
-      ) : (
-        <p className="text-secondary py-4" role="status">
-          No se encontraron noticias con los filtros seleccionados.
-        </p>
-      )}
 
-      {!loading && totalPaginas > 1 && (
-        <Paginacion
-          paginaActual={paginaActual}
-          totalPaginas={totalPaginas}
-          onCambiarPagina={cambiarPagina}
-        />
-      )}
-    </section>
+        {loading ? (
+          <div className="ver-noticias-estado-vacio" role="status" aria-live="polite">
+            <div className="spinner-border text-warning" aria-hidden="true" />
+            <p>Cargando noticias...</p>
+          </div>
+        ) : noticiasPaginadas.length > 0 ? (
+          <div className="ver-noticias-grid" aria-live="polite" aria-atomic="true">
+            {noticiasPaginadas.map((noticia) => (
+              <NovedadCard
+                key={noticia.id}
+                noticia={noticia}
+                headingLevel="h2"
+                onEditar={handleEditarNoticia}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="ver-noticias-estado-vacio" role="status">
+            <p>No se encontraron noticias con los filtros seleccionados.</p>
+          </div>
+        )}
+
+        {!loading && totalPaginas > 1 && (
+          <div className="d-flex justify-content-center mt-2">
+            <Paginacion
+              paginaActual={paginaActual}
+              totalPaginas={totalPaginas}
+              onCambiarPagina={cambiarPagina}
+            />
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

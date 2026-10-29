@@ -87,126 +87,132 @@ const FormularioNoticia = ({
 
   return (
     <div className="crear-noticia-pagina">
-      {/* Encabezado limpio sin cards ni emojis */}
-      <header className="crear-noticia__encabezado-principal">
-        <div className="crear-noticia__titulo-bloque">
-          <h1 className="crear-noticia__titulo">Crear noticia</h1>
-        </div>
-
-        {/* Pestañas Editor / Vista previa integradas */}
-        <div className="crear-noticia__pestanas" role="tablist" aria-label="Modo de trabajo">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={pestanaActiva === "editor"}
-            className={`crear-noticia__pestana-btn ${
-              pestanaActiva === "editor" ? "crear-noticia__pestana-btn--activa" : ""
-            }`}
-            onClick={() => setPestanaActiva("editor")}
-          >
-            <IconoEditar />
-            <span>Redactar</span>
-          </button>
-
-          <button
-            type="button"
-            role="tab"
-            aria-selected={pestanaActiva === "preview"}
-            className={`crear-noticia__pestana-btn ${
-              pestanaActiva === "preview" ? "crear-noticia__pestana-btn--activa" : ""
-            }`}
-            onClick={() => setPestanaActiva("preview")}
-          >
-            <IconoOjo />
-            <span>Vista previa</span>
-            {(formulario.valores.titulo || formulario.imagenes.length > 0) && (
-              <span className="crear-noticia__pestana-punto-activo" title="Contenido disponible" />
-            )}
-          </button>
-        </div>
-      </header>
-
-      {/* Banner de éxito */}
-      {mensajeExito && (
-        <section className="crear-noticia__exito-banner" role="status">
-          <div className="crear-noticia__exito-icono">
-            <IconoCheck />
+      <div className="crear-noticia__contenedor-ancho">
+        {/* Encabezado limpio con pestañas integradas */}
+        <header className="crear-noticia__encabezado-principal">
+          <div className="crear-noticia__titulo-bloque">
+            <h1 className="crear-noticia__titulo">Crear noticia</h1>
+            <p className="crear-noticia__subtitulo">
+              Redactá, adjuntá imágenes y publicá novedades institucionales en el portal
+            </p>
           </div>
-          <div className="crear-noticia__exito-texto">
-            <h3>{mensajeExito}</h3>
-            <p>La noticia ya se encuentra registrada en el sistema.</p>
-          </div>
-          <div className="crear-noticia__exito-botones">
+
+          {/* Pestañas Editor / Vista previa integradas */}
+          <div className="crear-noticia__pestanas" role="tablist" aria-label="Modo de trabajo">
             <button
               type="button"
-              className="crear-noticia__boton-exito-principal"
-              onClick={() => {
-                setMensajeExito("");
-                setPestanaActiva("editor");
-              }}
-            >
-              Crear otra noticia
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* Contenido según pestaña */}
-      {pestanaActiva === "preview" ? (
-        <div className="crear-noticia__preview-seccion">
-          <VistaPreviaNoticia
-            valores={formulario.valores}
-            categorias={categorias}
-            imagenes={formulario.imagenes}
-            usuario={user}
-          />
-          <div className="crear-noticia__preview-acciones-pie">
-            <button
-              type="button"
-              className="crear-noticia__boton-secundario"
+              role="tab"
+              aria-selected={pestanaActiva === "editor"}
+              className={`crear-noticia__pestana-btn ${
+                pestanaActiva === "editor" ? "crear-noticia__pestana-btn--activa" : ""
+              }`}
               onClick={() => setPestanaActiva("editor")}
             >
               <IconoEditar />
-              <span>Volver a redactar</span>
+              <span>Redactar</span>
             </button>
+
             <button
               type="button"
-              className="crear-noticia__boton-principal"
-              onClick={manejarEnvio}
-              disabled={creacion.guardando}
+              role="tab"
+              aria-selected={pestanaActiva === "preview"}
+              className={`crear-noticia__pestana-btn ${
+                pestanaActiva === "preview" ? "crear-noticia__pestana-btn--activa" : ""
+              }`}
+              onClick={() => setPestanaActiva("preview")}
             >
-              <span>Publicar noticia</span>
+              <IconoOjo />
+              <span>Vista previa</span>
+              {(formulario.valores.titulo || formulario.imagenes.length > 0) && (
+                <span className="crear-noticia__pestana-punto-activo" title="Contenido disponible" />
+              )}
             </button>
           </div>
-        </div>
-      ) : (
-        <form
-          className="crear-noticia__form"
-          onSubmit={manejarEnvio}
-          noValidate
-        >
-          <CamposNoticia
-            valores={formulario.valores}
-            errores={formulario.errores}
-            categorias={categorias}
-            cargandoCategorias={cargandoCategorias}
-            errorCategorias={errorCategorias}
-            onChange={formulario.manejarCambio}
-            imagenes={formulario.imagenes}
-            errorImagenes={formulario.errorImagenes}
-            onSeleccionarImagen={formulario.manejarSeleccionImagen}
-            onCambiarEpigrafe={formulario.manejarCambioEpigrafe}
-            onQuitarImagen={formulario.manejarQuitarImagen}
-          />
+        </header>
 
-          <AccionesFormulario
-            guardando={creacion.guardando}
-            error={creacion.error}
-            onLimpiar={solicitarLimpieza}
-            onVerPreview={() => setPestanaActiva("preview")}
-          />
-        </form>
-      )}
+        {/* Banner de éxito */}
+        {mensajeExito && (
+          <section className="crear-noticia__exito-banner" role="status">
+            <div className="crear-noticia__exito-icono">
+              <IconoCheck />
+            </div>
+            <div className="crear-noticia__exito-texto">
+              <h3>{mensajeExito}</h3>
+              <p>La noticia ya se encuentra registrada en el sistema.</p>
+            </div>
+            <div className="crear-noticia__exito-botones">
+              <button
+                type="button"
+                className="crear-noticia__boton-exito-principal"
+                onClick={() => {
+                  setMensajeExito("");
+                  setPestanaActiva("editor");
+                }}
+              >
+                Crear otra noticia
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* Contenido según pestaña */}
+        {pestanaActiva === "preview" ? (
+          <div className="crear-noticia__preview-seccion">
+            <VistaPreviaNoticia
+              valores={formulario.valores}
+              categorias={categorias}
+              imagenes={formulario.imagenes}
+              usuario={user}
+            />
+            <div className="crear-noticia__preview-acciones-pie">
+              <button
+                type="button"
+                className="crear-noticia__boton-secundario"
+                onClick={() => setPestanaActiva("editor")}
+              >
+                <IconoEditar />
+                <span>Volver a redactar</span>
+              </button>
+              <button
+                type="button"
+                className="crear-noticia__boton-principal"
+                onClick={manejarEnvio}
+                disabled={creacion.guardando}
+              >
+                <span>Publicar noticia</span>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <form
+            className="crear-noticia__form"
+            onSubmit={manejarEnvio}
+            noValidate
+          >
+            <CamposNoticia
+              valores={formulario.valores}
+              errores={formulario.errores}
+              categorias={categorias}
+              cargandoCategorias={cargandoCategorias}
+              errorCategorias={errorCategorias}
+              onChange={formulario.manejarCambio}
+              imagenes={formulario.imagenes}
+              errorImagenes={formulario.errorImagenes}
+              onSeleccionarImagen={formulario.manejarSeleccionImagen}
+              onCambiarEpigrafe={formulario.manejarCambioEpigrafe}
+              onQuitarImagen={formulario.manejarQuitarImagen}
+              accionesSlot={(
+                <AccionesFormulario
+                  guardando={creacion.guardando}
+                  error={creacion.error}
+                  onLimpiar={solicitarLimpieza}
+                  onVerPreview={() => setPestanaActiva("preview")}
+                />
+              )}
+            />
+          </form>
+        )}
+      </div>
 
       {/* Modal de confirmación para publicar */}
       {confirmacionAbierta && (

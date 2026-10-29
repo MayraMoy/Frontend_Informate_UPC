@@ -36,7 +36,6 @@ export const BuscadorNoticias = ({
                 width="16"
                 height="16"
                 fill="currentColor"
-                className="text-secondary"
                 viewBox="0 0 16 16"
                 aria-hidden="true"
               >

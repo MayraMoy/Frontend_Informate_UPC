@@ -1,5 +1,5 @@
 import React from "react";
-import { IconoEnviar, IconoLimpiar, IconoAlerta } from "./IconosNoticia";
+import { IconoEnviar, IconoLimpiar, IconoAlerta, IconoOjo } from "./IconosNoticia";
 
 const AccionesFormulario = ({
   guardando = false,
@@ -8,7 +8,7 @@ const AccionesFormulario = ({
   onVerPreview,
 }) => {
   return (
-    <footer className="crear-noticia__acciones-contenedor">
+    <div className="crear-noticia__acciones-contenedor">
       {error && (
         <div className="crear-noticia__alerta-error-envio" role="alert">
           <IconoAlerta />
@@ -16,19 +16,26 @@ const AccionesFormulario = ({
         </div>
       )}
 
-      <div className="crear-noticia__acciones-fila">
+      <div className="crear-noticia__acciones-panel">
         <button
-          type="button"
-          className="crear-noticia__boton-secundario"
-          onClick={onLimpiar}
+          type="submit"
+          className="crear-noticia__boton-principal crear-noticia__boton-publicar"
           disabled={guardando}
-          title="Borrar todos los campos ingresados"
         >
-          <IconoLimpiar />
-          <span>Limpiar formulario</span>
+          {guardando ? (
+            <>
+              <span className="crear-noticia__mini-spinner" aria-hidden="true" />
+              <span>Publicando...</span>
+            </>
+          ) : (
+            <>
+              <IconoEnviar />
+              <span>Publicar noticia</span>
+            </>
+          )}
         </button>
 
-        <div className="crear-noticia__acciones-derecha">
+        <div className="crear-noticia__acciones-secundarias">
           {onVerPreview && (
             <button
               type="button"
@@ -36,30 +43,24 @@ const AccionesFormulario = ({
               onClick={onVerPreview}
               disabled={guardando}
             >
-              Vista previa
+              <IconoOjo />
+              <span>Vista previa</span>
             </button>
           )}
 
           <button
-            type="submit"
-            className="crear-noticia__boton-principal"
+            type="button"
+            className="crear-noticia__boton-secundario"
+            onClick={onLimpiar}
             disabled={guardando}
+            title="Borrar todos los campos ingresados"
           >
-            {guardando ? (
-              <>
-                <span className="crear-noticia__mini-spinner" aria-hidden="true" />
-                <span>Publicando...</span>
-              </>
-            ) : (
-              <>
-                <IconoEnviar />
-                <span>Publicar noticia</span>
-              </>
-            )}
+            <IconoLimpiar />
+            <span>Limpiar</span>
           </button>
         </div>
       </div>
-    </footer>
+    </div>
   );
 };
 

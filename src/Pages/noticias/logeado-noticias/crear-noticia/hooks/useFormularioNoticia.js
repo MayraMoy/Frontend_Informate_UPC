@@ -90,13 +90,40 @@ const useFormularioNoticia = () => {
   };
 
   const manejarCambioEpigrafe = (id, epigrafe) => {
-    setImagenes((actuales) =>
-      actuales.map((imagen) =>
+    setImagenes((actuales) => {
+      const actualizadas = actuales.map((imagen) =>
         imagen.id === id
           ? { ...imagen, epigrafe }
           : imagen
-      )
-    );
+      );
+
+      const todasConEpigrafe = actualizadas.every(
+        (img) => (img.epigrafe || "").trim().length > 0
+      );
+
+      if (todasConEpigrafe) {
+        setErrorImagenes((errActual) => {
+          if (
+            errActual &&
+            (errActual.toLowerCase().includes("epígrafe") ||
+              errActual.toLowerCase().includes("epigrafe"))
+          ) {
+            return "";
+          }
+          return errActual;
+        });
+
+        setErrores((erroresActuales) => {
+          if (erroresActuales.imagenes) {
+            const { imagenes: _, ...resto } = erroresActuales;
+            return resto;
+          }
+          return erroresActuales;
+        });
+      }
+
+      return actualizadas;
+    });
   };
 
   const manejarQuitarImagen = (id) => {
@@ -109,20 +136,58 @@ const useFormularioNoticia = () => {
       urlsPreview.current.delete(imagenAEliminar.preview);
     }
 
-    setImagenes((actuales) =>
-      actuales.filter((imagen) => imagen.id !== id)
-    );
+    setImagenes((actuales) => {
+      const restantes = actuales.filter((imagen) => imagen.id !== id);
+      const todasConEpigrafe = restantes.every(
+        (img) => (img.epigrafe || "").trim().length > 0
+      );
 
-    setErrorImagenes("");
+      if (restantes.length === 0 || todasConEpigrafe) {
+        setErrorImagenes((errActual) => {
+          if (
+            errActual &&
+            (errActual.toLowerCase().includes("epígrafe") ||
+              errActual.toLowerCase().includes("epigrafe"))
+          ) {
+            return "";
+          }
+          return errActual;
+        });
+
+        setErrores((erroresActuales) => {
+          if (erroresActuales.imagenes) {
+            const { imagenes: _, ...resto } = erroresActuales;
+            return resto;
+          }
+          return erroresActuales;
+        });
+      }
+
+      return restantes;
+    });
   };
 
   const validar = () => {
-    const nuevosErrores = validarNoticia(valores);
+    const nuevosErrores = validarNoticia(valores, imagenes);
+
+    let errorImg = errorImagenes;
+    if (nuevosErrores.imagenes) {
+      errorImg = nuevosErrores.imagenes;
+      setErrorImagenes(nuevosErrores.imagenes);
+    } else if (
+      errorImagenes &&
+      (errorImagenes.toLowerCase().includes("epígrafe") ||
+        errorImagenes.toLowerCase().includes("epigrafe"))
+    ) {
+      errorImg = "";
+      setErrorImagenes("");
+    }
+
     setErrores(nuevosErrores);
 
     return (
       Object.keys(nuevosErrores).length === 0 &&
-      !errorImagenes
+      !errorImg
     );
   };
 
