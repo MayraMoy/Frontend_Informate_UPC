@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { FiltrosResoluciones } from '../../Components/resoluciones/FiltrosResoluciones';
 import { TablaResoluciones } from '../../Components/resoluciones/TablaResoluciones';
+import { DocumentosResoluciones } from '../../Components/resoluciones/DocumentosResoluciones';
 import { ResolucionCardDestacada } from '../../Components/resoluciones/ResolucionCardDestacada';
 import { ModalDetalleResolucion } from '../../Components/resoluciones/ModalDetalleResolucion';
 import { ModalEditarResolucion } from '../../Components/resoluciones/ModalEditarResolucion';
@@ -16,7 +17,12 @@ import './ResolucionesPage.css';
  * Página principal del módulo de Resoluciones Académicas (Foro UPC).
  * Conecta con el Backend y cuenta con datos de respaldo que reflejan fielmente el diseño de referencia.
  */
-export const ResolucionesPage = ({ headingLevel = 1 }) => {
+export const ResolucionesPage = ({
+  headingLevel = 1,
+  mostrarBuscador = true,
+  mostrarFiltros = true,
+  variante = 'tabla',
+}) => {
   const SectionHeading = headingLevel === 2 ? 'h2' : 'h1';
   const { user } = useContext(AppContext);
   const esAdmin = puedeAccederGestion(user);
@@ -29,10 +35,19 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
   const [intentoCarga, setIntentoCarga] = useState(0);
 
   // Estados de filtros
-  const [busqueda, setBusqueda] = useState('');
+  const [searchParams] = useSearchParams();
+  const queryParam = searchParams.get('q');
+  const [busqueda, setBusqueda] = useState(queryParam || '');
   const [anio, setAnio] = useState('');
   const [categoria, setCategoria] = useState('');
   const [estado, setEstado] = useState('');
+
+  useEffect(() => {
+    if (typeof queryParam === 'string') {
+      setBusqueda(queryParam);
+      setPaginaActual(1);
+    }
+  }, [queryParam]);
 
   // Estado de paginación
   const [paginaActual, setPaginaActual] = useState(1);
@@ -195,7 +210,11 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
             {user ? 'Resoluciones Académicas' : 'Ver Últimas Resoluciones'}
           </SectionHeading>
         </div>
-        {!user && (
+        {user ? (
+          <Link className="resoluciones-more-link" to="/resoluciones">
+            Ver todas las resoluciones <span aria-hidden="true">→</span>
+          </Link>
+        ) : (
           <Link className="resoluciones-more-link" to="/login">
             Saber más <span aria-hidden="true">→</span>
           </Link>
@@ -203,20 +222,23 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
       </header>
 
       {/* 2. Barra de Búsqueda y Filtros Avanzados */}
-      <FiltrosResoluciones
-        busqueda={busqueda}
-        setBusqueda={(val) => { setBusqueda(val); setPaginaActual(1); }}
-        anio={anio}
-        setAnio={(val) => { setAnio(val); setPaginaActual(1); }}
-        aniosDisponibles={aniosDisponibles}
-        categoria={categoria}
-        setCategoria={(val) => { setCategoria(val); setPaginaActual(1); }}
-        categorias={categorias}
-        estado={estado}
-        setEstado={(val) => { setEstado(val); setPaginaActual(1); }}
-        onLimpiarFiltros={handleLimpiarFiltros}
-        esPublico={!user}
-      />
+      {mostrarFiltros && (
+        <FiltrosResoluciones
+          busqueda={busqueda}
+          setBusqueda={(val) => { setBusqueda(val); setPaginaActual(1); }}
+          anio={anio}
+          setAnio={(val) => { setAnio(val); setPaginaActual(1); }}
+          aniosDisponibles={aniosDisponibles}
+          categoria={categoria}
+          setCategoria={(val) => { setCategoria(val); setPaginaActual(1); }}
+          categorias={categorias}
+          estado={estado}
+          setEstado={(val) => { setEstado(val); setPaginaActual(1); }}
+          onLimpiarFiltros={handleLimpiarFiltros}
+          esPublico={!user}
+          mostrarBuscador={mostrarBuscador}
+        />
+      )}
 
       {/* 3. Indicador de carga o Tabla Principal */}
       {cargando ? (
@@ -238,15 +260,24 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
         </div>
       ) : (
         <>
-          <TablaResoluciones
-            resoluciones={resolucionesPaginadas}
-            onVerDetalle={handleVerDetalle}
-            onEditar={handleEditarResolucion}
-            esAdmin={esAdmin}
-          />
+          {variante === 'documentos' ? (
+            <DocumentosResoluciones
+              resoluciones={resolucionesPaginadas}
+              onVerDetalle={handleVerDetalle}
+              onEditar={handleEditarResolucion}
+              esAdmin={esAdmin}
+            />
+          ) : (
+            <TablaResoluciones
+              resoluciones={resolucionesPaginadas}
+              onVerDetalle={handleVerDetalle}
+              onEditar={handleEditarResolucion}
+              esAdmin={esAdmin}
+            />
+          )}
 
-          {/* Sección de Resoluciones Destacadas o Recientes */}
-          {resolucionesDestacadas.length > 0 && !busqueda && !anio && !categoria && !estado && (
+          {/* Sección de Resoluciones Destacadas o Recientes (solo en vista tabla completa) */}
+          {variante !== 'documentos' && resolucionesDestacadas.length > 0 && !busqueda && !anio && !categoria && !estado && (
             <section className="seccion-destacadas mb-4">
               <div className="row g-3">
                 {resolucionesDestacadas.map((item) => (

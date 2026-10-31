@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useNovedadesCarousel } from '../hooks/useNovedadesCarousel.js';
 import NovedadCard from './NovedadCard.jsx';
+import { NovedadCardSkeleton } from './novedad-card/NovedadCardSkeleton.jsx';
 import NovedadesCarouselControls from './NovedadesCarouselControls.jsx';
 import '../styles/NovedadesCarousel.css';
 
@@ -20,7 +21,11 @@ const NovedadesCarousel = ({ noticias, loading, headingLevel = 2 }) => {
 
       <div className="novedades-carousel">
         {loading ? (
-          <div className="novedades-status" role="status" aria-live="polite">Cargando noticias...</div>
+          <div className="novedades-cards" role="status" aria-label="Cargando novedades...">
+            <NovedadCardSkeleton />
+            <NovedadCardSkeleton />
+            <NovedadCardSkeleton />
+          </div>
         ) : carousel.noticiasRecientes.length === 0 ? (
           <div className="novedades-status" role="status">No hay noticias para mostrar.</div>
         ) : (

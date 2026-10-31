@@ -1,0 +1,342 @@
+/* ==========================================================================
+   Novedades - Formato Editorial (1 Noticia Principal + 2 Secundarias)
+   ========================================================================== */
+
+.novedades-editorial-section.container {
+  width: calc(100% - clamp(2rem, 4.5vw, 4rem));
+  max-width: 1600px;
+  margin-inline: auto !important;
+  margin-top: 0 !important;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem) !important;
+  scroll-margin-top: 96px;
+}
+
+.novedades-editorial-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0 0 0.65rem;
+  border-bottom: 3px solid #F39C12;
+  margin-bottom: 1.75rem;
+}
+
+.novedades-editorial-header h1,
+.novedades-editorial-header h2 {
+  margin: 0;
+  color: #172033;
+  font-size: clamp(1.65rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.novedades-editorial-all-link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.45rem;
+  color: #8a4b00;
+  font-size: 0.96rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+.novedades-editorial-all-link:hover {
+  color: #633600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.novedades-editorial-all-link span {
+  font-size: 1.3em;
+  line-height: 1;
+  transition: transform 160ms ease;
+}
+
+.novedades-editorial-all-link:hover span {
+  transform: translateX(3px);
+}
+
+/* Grid Editorial: Izquierda grande, Derecha 2 secundarias equilibradas */
+.novedades-editorial-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+/* 1. Noticia Principal Destacada (Hero) */
+.novedad-hero-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.04);
+  text-decoration: none;
+  height: 100%;
+  cursor: pointer;
+}
+
+.novedad-hero-card:hover {
+  border-color: #e2e8f0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transform: translateY(-3px);
+}
+
+.novedad-hero-media {
+  height: clamp(230px, 24vw, 290px);
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  background: #f1f5f9;
+  display: block;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.novedad-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.novedad-hero-card:hover .novedad-hero-img {
+  transform: scale(1.03);
+}
+
+.novedad-hero-body {
+  padding: clamp(1.35rem, 2vw, 1.65rem);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.novedad-meta-fecha {
+  display: inline-block;
+  color: #64748b;
+  font-size: 0.84rem;
+  font-weight: 500;
+  margin-bottom: 0.45rem;
+}
+
+.novedad-hero-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.35rem, 1.8vw, 1.65rem);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.novedad-titulo-link {
+  color: #1e293b;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.18s ease;
+  display: inline;
+}
+
+.novedad-titulo-link:hover,
+.novedad-titulo-link:focus-visible {
+  color: #D98200;
+  text-decoration: none;
+}
+
+.novedad-hero-excerpt {
+  margin: 0 0 1.25rem;
+  color: #64748b;
+  font-size: 0.94rem;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.novedad-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #8a4b00;
+  font-size: 0.92rem;
+  font-weight: 700;
+  transition: color 0.18s ease;
+  margin-top: auto;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.novedad-hero-card:hover .novedad-hero-cta {
+  color: #d98200;
+}
+
+.novedad-hero-cta span {
+  transition: transform 160ms ease;
+}
+
+.novedad-hero-card:hover .novedad-hero-cta span {
+  transform: translateX(4px);
+}
+
+/* 2. Columna Derecha: Stack de 2 Noticias Secundarias */
+.novedades-secundarias-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  height: 100%;
+}
+
+/* Proporción editorial: Foto a sangre (edge-to-edge) a la izquierda, texto a la derecha */
+.novedad-secundaria-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.04);
+  cursor: pointer;
+}
+
+.novedad-secundaria-card:hover {
+  border-color: #e2e8f0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transform: translateY(-3px);
+}
+
+.novedad-secundaria-media {
+  width: clamp(160px, 18vw, 210px);
+  min-height: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+  background: #f1f5f9;
+  display: block;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.novedad-secundaria-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.novedad-secundaria-card:hover .novedad-secundaria-img {
+  transform: scale(1.04);
+}
+
+.novedad-secundaria-body {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  min-width: 0;
+}
+
+.novedad-secundaria-title {
+  margin: 0 0 0.45rem;
+  font-size: clamp(1.02rem, 1.2vw, 1.15rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.novedad-secundaria-excerpt {
+  margin: 0 0 0.85rem;
+  color: #64748b;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.novedad-secundaria-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #8a4b00;
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-top: auto;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.novedad-secundaria-card:hover .novedad-secundaria-cta {
+  color: #d98200;
+}
+
+.novedad-secundaria-cta span {
+  transition: transform 160ms ease;
+}
+
+.novedad-secundaria-card:hover .novedad-secundaria-cta span {
+  transform: translateX(3px);
+}
+
+/* Fallback y Placeholder */
+.novedad-placeholder-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  color: #94a3b8;
+}
+
+/* Skeleton box */
+.skeleton-box {
+  background: #e2e8f0;
+  animation: skeleton-pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.3; }
+}
+
+/* Responsividad */
+@media (max-width: 991.98px) {
+  .novedades-editorial-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .novedad-secundaria-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .novedad-secundaria-media {
+    width: 100%;
+    height: 160px;
+  }
+
+  .novedad-secundaria-body {
+    padding: 1rem 1.15rem;
+  }
+}

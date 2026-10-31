@@ -35,7 +35,8 @@
 
 .user-menu-identity {
   min-width: 0;
-  display: grid;
+  display: flex;
+  align-items: center;
   line-height: 1.2;
 }
 

@@ -1,0 +1,35 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import ForoLogo from '../../../../shared/ForoLogo.jsx';
+
+export const DrawerHeader = ({ onClose }) => {
+  return (
+    <div className="navbar-drawer-header">
+      <Link to="/" onClick={onClose} aria-label="Foro UPC, inicio">
+        <ForoLogo width={74} />
+      </Link>
+      <button
+        type="button"
+        className="navbar-drawer-close-btn"
+        onClick={onClose}
+        aria-label="Cerrar menú"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+  );
+};
+

@@ -17,28 +17,31 @@ export const FiltrosResoluciones = ({
   setEstado,
   onLimpiarFiltros,
   esPublico = false,
+  mostrarBuscador = true,
 }) => {
   return (
     <div className="filtros-resoluciones-container mb-4">
       {/* 1. Barra de Búsqueda principal */}
-      <div className="mb-3">
-        <div className="buscador-input-group">
-          <span className="buscador-icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </span>
-          <input
-            type="text"
-            className="buscador-input"
-            aria-label="Buscar resoluciones por número, título o descripción"
-            placeholder="Buscar resolución Ej: 045/2026"
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-          />
+      {mostrarBuscador && (
+        <div className="mb-3">
+          <div className="buscador-input-group">
+            <span className="buscador-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <input
+              type="text"
+              className="buscador-input"
+              aria-label="Buscar resoluciones por número, título o descripción"
+              placeholder="Buscar resolución Ej: 045/2026"
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 2. Filtros desplegables y botón limpiar */}
       <div className="filtros-grid">

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useContext } from 'react';
+import { lazy, Suspense, useContext, useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Navbar } from './Components/navegacion/Navbar/Navbar.jsx';
 import AppContext from './Context/AppContext.js';
@@ -72,9 +72,16 @@ const RutaAdministrador = ({ children }) => {
 
 const AppLayout = () => {
   const { user } = useContext(AppContext);
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   const ocultarNavbar = ['/login', '/registro', '/register'].includes(pathname);
   const tieneSidebar = !ocultarNavbar && puedeAccederGestion(user);
+
+  // Asegurar que al navegar a cualquier página nueva sin ancla se inicie desde la parte superior
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
 
   return (
     <div className={`d-flex min-vh-100 flex-column${tieneSidebar ? ' app-layout-with-sidebar' : ''}`}>
@@ -99,7 +106,7 @@ const AppLayout = () => {
               path="/noticias"
               element={(
                 <RutaProtegida>
-                  <NoticiasHome />
+                  <VerNoticias />
                 </RutaProtegida>
               )}
             />

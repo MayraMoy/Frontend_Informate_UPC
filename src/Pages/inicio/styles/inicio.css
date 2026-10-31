@@ -7,6 +7,13 @@
   --landing-control-focus-ring: rgba(243, 156, 18, 0.25);
 }
 
+.inicio-landing-autenticado {
+  background-color: #f6f7f9;
+  min-height: calc(100vh - 68px);
+  padding-top: clamp(1.75rem, 3.5vw, 2.75rem);
+  padding-bottom: 3.5rem;
+}
+
 .inicio-landing [id] {
   scroll-margin-top: 96px;
 }
@@ -393,4 +400,11 @@
   .inicio-hero-action {
     transition: none;
   }
+}
+
+/* Espaciado del inicio editorial sin hero para usuario autenticado */
+.inicio-landing-autenticado > .novedades-editorial-section.container:first-child,
+.inicio-landing-autenticado > .novedades-editorial-section.container,
+.inicio-landing-autenticado > :first-child {
+  margin-top: 0 !important;
 }

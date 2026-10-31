@@ -1,12 +1,11 @@
 import { NavbarIcon } from '../../../Components/navegacion/Navbar/icons/NavbarIcon.jsx';
-import { obtenerNombreUsuario, obtenerRolesUsuario } from '../utils/perfilUsuario.js';
+import { obtenerNombreUsuario } from '../utils/perfilUsuario.js';
 import useUserMenu from '../hooks/useUserMenu.js';
 import '../styles/UserMenu.css';
 
 export const UserMenu = ({ user, onNavigate }) => {
   const { abierto, setAbierto, menuRef, irAlPerfil, cerrarSesion } = useUserMenu(onNavigate);
   const nombre = obtenerNombreUsuario(user);
-  const rol = obtenerRolesUsuario(user);
 
   return (
     <div className="user-menu" ref={menuRef}>
@@ -20,7 +19,6 @@ export const UserMenu = ({ user, onNavigate }) => {
         <span className="user-menu-avatar" aria-hidden="true">{nombre.charAt(0).toUpperCase()}</span>
         <span className="user-menu-identity">
           <span className="user-menu-name">{nombre}</span>
-          <span className="user-menu-role">{rol}</span>
         </span>
         <svg
           className={`user-menu-chevron${abierto ? ' is-open' : ''}`}

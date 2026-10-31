@@ -1,7 +1,11 @@
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AppContext from '../../../../Context/AppContext.js';
+import { puedeAccederGestion } from '../../../../hooks/useRoles.js';
 import { useNoticiasHome } from '../../home-noticias/hooks/useNoticiasHome.js';
 import { usePaginacionNoticias } from '../../home-noticias/hooks/usePaginacionNoticias.js';
 import NovedadCard from '../../home-noticias/components/NovedadCard.jsx';
+import { NovedadCardSkeleton } from '../../home-noticias/components/novedad-card/NovedadCardSkeleton.jsx';
 import { BuscadorNoticias } from './components/BuscadorNoticias.jsx';
 import { Paginacion } from './components/Paginacion.jsx';
 import '../../home-noticias/styles/NoticiasHome.css';
@@ -10,6 +14,8 @@ import './styles/VerNoticias.css';
 
 const VerNoticias = () => {
   const navigate = useNavigate();
+  const { user } = useContext(AppContext);
+  const esAdmin = puedeAccederGestion(user);
   const {
     noticias,
     categorias,
@@ -66,9 +72,10 @@ const VerNoticias = () => {
         </div>
 
         {loading ? (
-          <div className="ver-noticias-estado-vacio" role="status" aria-live="polite">
-            <div className="spinner-border text-warning" aria-hidden="true" />
-            <p>Cargando noticias...</p>
+          <div className="ver-noticias-grid" role="status" aria-label="Cargando noticias...">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <NovedadCardSkeleton key={`skeleton-${index}`} />
+            ))}
           </div>
         ) : noticiasPaginadas.length > 0 ? (
           <div className="ver-noticias-grid" aria-live="polite" aria-atomic="true">
@@ -77,7 +84,8 @@ const VerNoticias = () => {
                 key={noticia.id}
                 noticia={noticia}
                 headingLevel="h2"
-                onEditar={handleEditarNoticia}
+                onEditar={esAdmin ? handleEditarNoticia : undefined}
+                categorias={categorias}
               />
             ))}
           </div>

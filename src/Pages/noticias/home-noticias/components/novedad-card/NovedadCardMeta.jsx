@@ -7,7 +7,7 @@ export const NovedadCardMeta = ({
   fechaFormateada,
 }) => {
   return (
-    <div className="d-flex justify-content-between align-items-center mb-1">
+    <div className="novedad-card-meta d-flex align-items-center gap-2 mb-2">
       {nombreCategoria && (
         <span
           className={`badge rounded-pill px-2.5 py-1 ${badgeClass}`}
@@ -16,7 +16,7 @@ export const NovedadCardMeta = ({
           {nombreCategoria.toUpperCase()}
         </span>
       )}
-      <time className="novedad-card-date mb-0 ms-auto" dateTime={fechaPublicacion || undefined}>
+      <time className="novedad-card-date mb-0" dateTime={fechaPublicacion || undefined}>
         {fechaFormateada}
       </time>
     </div>

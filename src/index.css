@@ -67,6 +67,36 @@ body,
   font-family: var(--font-primary);
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+@media (max-width: 1023.98px) {
+  html {
+    scroll-padding-top: 88px;
+  }
+}
+
+/* Compensación de anclaje para evitar solapamientos con el Navbar sticky */
+#noticias,
+#resoluciones,
+#inicio,
+.novedades-home,
+.resoluciones-page-container {
+  scroll-margin-top: 96px;
+}
+
+@media (max-width: 1023.98px) {
+  #noticias,
+  #resoluciones,
+  #inicio,
+  .novedades-home,
+  .resoluciones-page-container {
+    scroll-margin-top: 88px;
+  }
+}
+
 body {
   margin: 0;
   background-color: var(--bg-primary);
