@@ -2,9 +2,9 @@ import React from 'react';
 import { NoticiasListadoHeader } from './noticias-listado/NoticiasListadoHeader.jsx';
 import { NoticiasListadoFiltros } from './noticias-listado/NoticiasListadoFiltros.jsx';
 import { NoticiasListadoGrid } from './noticias-listado/NoticiasListadoGrid.jsx';
-import { Paginacion } from '../../logeado-noticias/ver-noticias/components/Paginacion.jsx';
+import { Paginacion } from '../../admi-noticias/ver-noticias/components/Paginacion.jsx';
 import { usePaginacionNoticias } from '../hooks/usePaginacionNoticias.js';
-import '../../logeado-noticias/ver-noticias/styles/VerNoticias.css';
+import '../../admi-noticias/ver-noticias/styles/VerNoticias.css';
 import '../styles/NovedadesCarousel.css';
 
 export const NoticiasListado = ({

@@ -10,7 +10,7 @@ import {
 } from '../../../../Services/noticias/categoriasServices';
 import { usuarioService } from '../../../../Services/usuarios/usuarioService';
 import { tieneRolAdministrador } from '../../../../hooks/useRoles';
-import { resolverCategoriaId } from '../../logeado-noticias/editar-noticia/utils/categoriaHelpers';
+import { resolverCategoriaId } from '../../admi-noticias/editar-noticia/utils/categoriaHelpers';
 
 const contarPalabras = (html = '') => {
   if (!html) return 0;

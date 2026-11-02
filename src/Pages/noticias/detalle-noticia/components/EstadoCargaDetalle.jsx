@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IconoAlerta, IconoVolver } from '../../logeado-noticias/crear-noticia/components/IconosNoticia';
+import { IconoAlerta, IconoVolver } from '../../admi-noticias/crear-noticia/components/IconosNoticia';
 
 export const EstadoCargaDetalle = ({ cargando = false, error = '' }) => {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconoReloj, IconoTexto } from '../../logeado-noticias/crear-noticia/components/IconosNoticia';
+import { IconoReloj, IconoTexto } from '../../admi-noticias/crear-noticia/components/IconosNoticia';
 
 export const SidebarDetalleNoticia = ({
   noticia,

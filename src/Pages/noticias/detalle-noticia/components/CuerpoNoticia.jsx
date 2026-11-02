@@ -1,5 +1,5 @@
 import React from 'react';
-import ContenidoNoticia from '../../logeado-noticias/crear-noticia/components/ContenidoNoticia';
+import ContenidoNoticia from '../../admi-noticias/crear-noticia/components/ContenidoNoticia';
 
 export const CuerpoNoticia = ({ cuerpo = '' }) => {
   if (!cuerpo) {

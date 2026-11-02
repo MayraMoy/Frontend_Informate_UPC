@@ -1,5 +1,5 @@
 import React from 'react';
-import { BuscadorNoticias } from '../../../logeado-noticias/ver-noticias/components/BuscadorNoticias.jsx';
+import { BuscadorNoticias } from '../../../admi-noticias/ver-noticias/components/BuscadorNoticias.jsx';
 
 export const NoticiasListadoFiltros = ({
   busqueda,

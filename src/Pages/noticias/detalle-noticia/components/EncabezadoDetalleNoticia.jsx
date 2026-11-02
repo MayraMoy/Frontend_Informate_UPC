@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IconoEditar } from '../../logeado-noticias/crear-noticia/components/IconosNoticia';
+import { IconoEditar } from '../../admi-noticias/crear-noticia/components/IconosNoticia';
 
 export const EncabezadoDetalleNoticia = ({ noticia, imagenes = [], esAdmin }) => {
   const navigate = useNavigate();

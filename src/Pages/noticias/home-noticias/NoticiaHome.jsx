@@ -1,7 +1,7 @@
 import { useNoticiasHome } from './hooks/useNoticiasHome.js';
-import NovedadesCarousel from './components/NovedadesCarousel.jsx';
+import NovedadesCarousel from './noticias-sinlogear/NovedadesCarousel.jsx';
 import NoticiasListado from './components/NoticiasListado.jsx';
-import NoticiasEditorial from './components/NoticiasEditorial.jsx';
+import NoticiasEditorial from './noticias-logeado/NoticiasEditorial.jsx';
 import './styles/NoticiasHome.css';
 
 export const NoticiasHome = ({ headingLevel = 1, variant = 'list' }) => {

@@ -28,19 +28,19 @@ const RegisterPage = lazy(() =>
 import DashboardUsuario from './Pages/inicio/DashboardUsuario.jsx';
 const Perfil = lazy(() => import('./Pages/perfil/Perfil.jsx'));
 const CrearNoticia = lazy(() =>
-  import('./Pages/noticias/logeado-noticias/crear-noticia/CrearNoticia.jsx'),
+  import('./Pages/noticias/admi-noticias/crear-noticia/CrearNoticia.jsx'),
 );
 const VerNoticias = lazy(() =>
-  import('./Pages/noticias/logeado-noticias/ver-noticias/VerNoticias.jsx'),
+  import('./Pages/noticias/admi-noticias/ver-noticias/VerNoticias.jsx'),
 );
 const EditarNoticia = lazy(() =>
-  import('./Pages/noticias/logeado-noticias/editar-noticia/EditarNoticia.jsx'),
+  import('./Pages/noticias/admi-noticias/editar-noticia/EditarNoticia.jsx'),
 );
 const DetalleNoticia = lazy(() =>
   import('./Pages/noticias/detalle-noticia/DetalleNoticia.jsx'),
 );
 const PendientesNoticias = lazy(() =>
-  import('./Pages/noticias/logeado-noticias/pendientes/PendientesNoticias.jsx'),
+  import('./Pages/noticias/admi-noticias/pendientes/PendientesNoticias.jsx'),
 );
 
 // Páginas del módulo de Resoluciones

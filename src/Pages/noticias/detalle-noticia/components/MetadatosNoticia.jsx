@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconoReloj } from '../../logeado-noticias/crear-noticia/components/IconosNoticia';
+import { IconoReloj } from '../../admi-noticias/crear-noticia/components/IconosNoticia';
 
 export const MetadatosNoticia = ({
   categoriaNombre,

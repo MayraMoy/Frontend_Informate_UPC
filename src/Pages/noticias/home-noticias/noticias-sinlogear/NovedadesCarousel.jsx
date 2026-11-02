@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNovedadesCarousel } from '../hooks/useNovedadesCarousel.js';
-import NovedadCard from './NovedadCard.jsx';
-import { NovedadCardSkeleton } from './novedad-card/NovedadCardSkeleton.jsx';
+import NovedadCard from '../components/NovedadCard.jsx';
+import { NovedadCardSkeleton } from '../components/novedad-card/NovedadCardSkeleton.jsx';
 import NovedadesCarouselControls from './NovedadesCarouselControls.jsx';
 import '../styles/NovedadesCarousel.css';
 

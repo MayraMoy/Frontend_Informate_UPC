@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EditorialSkeleton } from './noticias-editorial/EditorialSkeleton.jsx';
-import { EditorialHeader } from './noticias-editorial/EditorialHeader.jsx';
-import { NovedadHeroCard } from './noticias-editorial/NovedadHeroCard.jsx';
-import { NovedadSecundariaCard } from './noticias-editorial/NovedadSecundariaCard.jsx';
+import { EditorialSkeleton } from './components/EditorialSkeleton.jsx';
+import { EditorialHeader } from './components/EditorialHeader.jsx';
+import { NovedadHeroCard } from './components/NovedadHeroCard.jsx';
+import { NovedadSecundariaCard } from './components/NovedadSecundariaCard.jsx';
 import '../styles/NoticiasEditorial.css';
 
 export const NoticiasEditorial = ({
