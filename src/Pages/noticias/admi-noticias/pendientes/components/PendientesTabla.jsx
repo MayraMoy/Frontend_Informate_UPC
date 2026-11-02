@@ -3,16 +3,12 @@ import PendientesFila from './PendientesFila';
 
 export const PendientesTabla = ({
   noticias,
-  categorias,
   cargando,
   accionEnProgreso,
   paginaActual,
   totalPaginas,
   onCambiarPagina,
-  onPrevisualizar,
   onPublicar,
-  onCambiarEstado,
-  onEliminar,
 }) => {
   if (cargando) {
     return (
@@ -20,6 +16,8 @@ export const PendientesTabla = ({
         <svg
           className="pendientes-loading-spinner"
           viewBox="0 0 24 24"
+          width="32"
+          height="32"
           fill="none"
           stroke="currentColor"
           strokeWidth="2.5"
@@ -34,7 +32,7 @@ export const PendientesTabla = ({
 
   if (!noticias || noticias.length === 0) {
     return (
-      <div className="pendientes-empty-state">
+      <div className="pendientes-empty-state" role="status">
         <p className="empty-state-mensaje">
           No se encontraron noticias con los filtros seleccionados.
         </p>
@@ -44,17 +42,14 @@ export const PendientesTabla = ({
 
   return (
     <div className="pendientes-listado-seccion">
-      <div className="pendientes-cards-container">
+      {/* Grilla idéntica a Ver Noticias */}
+      <div className="ver-noticias-grid" aria-live="polite">
         {noticias.map((noticia) => (
           <PendientesFila
             key={noticia.id}
             noticia={noticia}
-            categorias={categorias}
             accionEnProgreso={accionEnProgreso}
-            onPrevisualizar={onPrevisualizar}
             onPublicar={onPublicar}
-            onCambiarEstado={onCambiarEstado}
-            onEliminar={onEliminar}
           />
         ))}
       </div>
@@ -71,6 +66,8 @@ export const PendientesTabla = ({
           >
             <svg
               viewBox="0 0 24 24"
+              width="15"
+              height="15"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
@@ -107,6 +104,8 @@ export const PendientesTabla = ({
             <span className="paginacion-btn-texto">Siguiente</span>
             <svg
               viewBox="0 0 24 24"
+              width="15"
+              height="15"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
@@ -124,4 +123,3 @@ export const PendientesTabla = ({
 };
 
 export default PendientesTabla;
-

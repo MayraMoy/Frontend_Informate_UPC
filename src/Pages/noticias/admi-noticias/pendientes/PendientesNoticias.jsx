@@ -6,6 +6,8 @@ import {
   PendientesTabla,
   ModalPreviewNoticia,
 } from './components';
+import '../../home-noticias/styles/NoticiasHome.css';
+import '../ver-noticias/styles/VerNoticias.css';
 import './styles/PendientesNoticias.css';
 
 export const PendientesNoticias = () => {
@@ -95,19 +97,15 @@ export const PendientesNoticias = () => {
           categorias={categorias}
         />
 
-        {/* Listado y Paginación */}
+        {/* Listado en Cuadrícula idéntica a Ver Noticias */}
         <PendientesTabla
           noticias={noticiasPaginadas}
-          categorias={categorias}
           cargando={cargando}
           accionEnProgreso={accionEnProgreso}
           paginaActual={paginaActual}
           totalPaginas={totalPaginas}
           onCambiarPagina={cambiarPagina}
-          onPrevisualizar={setNoticiaPrevia}
           onPublicar={handlePublicar}
-          onCambiarEstado={handleCambiarEstado}
-          onEliminar={handleEliminar}
         />
       </div>
 

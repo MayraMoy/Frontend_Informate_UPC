@@ -767,6 +767,32 @@
   line-height: 1.5;
 }
 
+.btn-card-publicar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #10b981;
+  background-color: #ecfdf5;
+  color: #065f46;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-card-publicar:hover:not(:disabled) {
+  background-color: #10b981;
+  color: #ffffff;
+  border-color: #059669;
+}
+
+.btn-card-publicar:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

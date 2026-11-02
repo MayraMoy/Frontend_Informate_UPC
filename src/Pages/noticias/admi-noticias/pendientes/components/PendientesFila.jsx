@@ -1,128 +1,150 @@
-import React from 'react';
-import {
-  formatearFecha,
-  obtenerAutor,
-  obtenerThumbnail,
-  obtenerExtracto,
-  obtenerNombreCategoria,
-} from '../utils/pendientesHelpers';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { formatearFecha, obtenerThumbnail } from '../utils/pendientesHelpers';
 import PendientesEstadoBadge from './PendientesEstadoBadge';
-import PendientesAcciones from './PendientesAcciones';
+
+const IconoImagenPlaceholder = () => (
+  <svg viewBox="0 0 48 48" fill="none" aria-hidden="true" width="36" height="36">
+    <rect x="7" y="9" width="34" height="30" rx="4" stroke="currentColor" strokeWidth="2.5" />
+    <circle cx="18" cy="19" r="3" fill="currentColor" />
+    <path d="m9 34 10-10 7 7 5-5 8 8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+  </svg>
+);
 
 export const PendientesFila = ({
   noticia,
-  categorias,
   accionEnProgreso,
-  onPrevisualizar,
   onPublicar,
-  onCambiarEstado,
-  onEliminar,
 }) => {
+  const navigate = useNavigate();
+  const [imagenFallida, setImagenFallida] = useState(false);
+
   const thumbnail = obtenerThumbnail(noticia);
-  const autor = obtenerAutor(noticia);
-  const fecha = formatearFecha(noticia.fechaPublicacion || noticia.fecha || noticia.createdAt);
-  const categoria = obtenerNombreCategoria(noticia, categorias);
-  const extracto = obtenerExtracto(noticia, 90);
+  const fecha = formatearFecha(noticia.fechaPublicacion || noticia.fecha || noticia.fechaCreacion || noticia.createdAt);
+  const estado = noticia.estado || noticia.estadoNoticia;
+  const estaProcesando = accionEnProgreso === noticia.id;
+
+  const handleEditar = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/noticias/editar/${noticia.id}`, { state: { noticia } });
+  };
+
+  const handlePublicarClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onPublicar) {
+      onPublicar(noticia);
+    }
+  };
 
   return (
-    <article className="pendientes-card-item">
-      {/* Miniatura */}
-      <div className="pendientes-card-thumb">
-        {thumbnail ? (
-          <img
-            src={thumbnail}
-            alt={noticia.titulo || 'Noticia UPC'}
-            className="pendientes-thumb-img"
-            loading="lazy"
-          />
-        ) : (
-          <div className="pendientes-thumb-placeholder">
-            <svg
-              className="placeholder-icon"
-              viewBox="0 0 24 24"
-              width="30"
-              height="30"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <polyline points="21 15 16 10 5 21" />
-            </svg>
-          </div>
-        )}
+    <article className="novedad-card">
+      {/* Imagen / Media idéntica a Ver Noticias */}
+      <div className="novedad-card-media">
+        <Link
+          to={`/noticias/${noticia.id}`}
+          state={{ noticia }}
+          tabIndex={-1}
+          aria-hidden="true"
+          className="d-block w-100 h-100"
+        >
+          {thumbnail && !imagenFallida ? (
+            <img
+              src={thumbnail}
+              alt={noticia.titulo || 'Noticia UPC'}
+              loading="lazy"
+              onError={() => setImagenFallida(true)}
+            />
+          ) : (
+            <div className="novedad-card-image-placeholder">
+              <IconoImagenPlaceholder />
+            </div>
+          )}
+        </Link>
       </div>
 
-      {/* Contenido Central */}
-      <div className="pendientes-card-body">
-        <div className="pendientes-card-topbar">
-          <span className="pendientes-categoria-pill">{categoria}</span>
-          <PendientesEstadoBadge estado={noticia.estado || noticia.estadoNoticia} />
+      {/* Contenido idéntico a Ver Noticias con el badge de estado */}
+      <div className="novedad-card-content">
+        <div className="novedad-card-meta d-flex align-items-center justify-content-between gap-2 mb-2">
+          <time className="novedad-card-date mb-0">
+            {fecha}
+          </time>
+          <PendientesEstadoBadge estado={estado} />
         </div>
 
-        <h3 className="pendientes-card-titulo" title={noticia.titulo}>
-          {noticia.titulo || 'Sin título'}
-        </h3>
+        <h2 className="novedad-card-title">
+          <Link to={`/noticias/${noticia.id}`} state={{ noticia }}>
+            {noticia.titulo || 'Sin título'}
+          </Link>
+        </h2>
 
-        <p className="pendientes-card-extracto">{extracto}</p>
-
-        <div className="pendientes-card-meta">
-          <div className="meta-item">
+        {/* Acciones al pie: Editar y Publicar */}
+        <div className="novedad-card-acciones mt-auto pt-2 d-flex align-items-center justify-content-between gap-2">
+          <button
+            type="button"
+            className="novedad-card-btn-editar"
+            onClick={handleEditar}
+            title="Editar noticia"
+            aria-label={`Editar noticia: ${noticia.titulo}`}
+          >
             <svg
-              className="meta-icon"
-              viewBox="0 0 24 24"
               width="14"
               height="14"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.2"
               strokeLinecap="round"
               strokeLinejoin="round"
               aria-hidden="true"
             >
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
             </svg>
-            <span>{autor}</span>
-          </div>
+            <span>Editar</span>
+          </button>
 
-          <div className="meta-item">
-            <svg
-              className="meta-icon"
-              viewBox="0 0 24 24"
-              width="14"
-              height="14"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
+          {onPublicar && (
+            <button
+              type="button"
+              className="btn-card-publicar"
+              onClick={handlePublicarClick}
+              disabled={estaProcesando}
+              title="Publicar noticia en el portal oficial"
             >
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-              <line x1="16" y1="2" x2="16" y2="6" />
-              <line x1="8" y1="2" x2="8" y2="6" />
-              <line x1="3" y1="10" x2="21" y2="10" />
-            </svg>
-            <time>{fecha}</time>
-          </div>
+              {estaProcesando ? (
+                <svg
+                  className="spinner-icono"
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="10" strokeDasharray="32" strokeDashoffset="10" />
+                </svg>
+              ) : (
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              )}
+              <span>{estaProcesando ? 'Publicando...' : 'Publicar'}</span>
+            </button>
+          )}
         </div>
-      </div>
-
-      {/* Acciones */}
-      <div className="pendientes-card-actions-wrapper">
-        <PendientesAcciones
-          noticia={noticia}
-          accionEnProgreso={accionEnProgreso}
-          onPrevisualizar={onPrevisualizar}
-          onPublicar={onPublicar}
-          onCambiarEstado={onCambiarEstado}
-          onEliminar={onEliminar}
-        />
       </div>
     </article>
   );
