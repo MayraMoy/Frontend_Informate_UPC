@@ -25,6 +25,7 @@ const RegisterPage = lazy(() =>
     default: module.RegisterPage,
   })),
 );
+import DashboardUsuario from './Pages/inicio/DashboardUsuario.jsx';
 const Perfil = lazy(() => import('./Pages/perfil/Perfil.jsx'));
 const CrearNoticia = lazy(() =>
   import('./Pages/noticias/logeado-noticias/crear-noticia/CrearNoticia.jsx'),
@@ -205,6 +206,22 @@ const AppLayout = () => {
                   <RutaAdministrador>
                     <DashboardAdmin />
                   </RutaAdministrador>
+                </RutaProtegida>
+              )}
+            />
+            <Route
+              path="/dashboard-usuario"
+              element={(
+                <RutaProtegida>
+                  <DashboardUsuario />
+                </RutaProtegida>
+              )}
+            />
+            <Route
+              path="/dashboard"
+              element={(
+                <RutaProtegida>
+                  <DashboardUsuario />
                 </RutaProtegida>
               )}
             />

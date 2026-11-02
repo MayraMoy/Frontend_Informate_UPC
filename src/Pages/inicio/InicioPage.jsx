@@ -4,6 +4,7 @@ import AppContext from '../../Context/AppContext.js';
 import { NoticiasHome } from '../noticias/home-noticias/NoticiaHome.jsx';
 import { ResolucionesPage } from '../resoluciones/ResolucionesPage.jsx';
 import InicioHero from './components/InicioHero.jsx';
+import DashboardUsuario from './DashboardUsuario.jsx';
 import { scrollToSection } from '../../utils/scrollHelpers.js';
 import './styles/inicio.css';
 
@@ -34,10 +35,7 @@ const InicioPage = () => {
   return (
     <div className={`inicio-landing${user ? ' inicio-landing-autenticado' : ''}`}>
       {user ? (
-        <>
-          <NoticiasHome headingLevel={2} variant="editorial" />
-          <ResolucionesPage headingLevel={2} mostrarFiltros={false} variante="documentos" />
-        </>
+        <DashboardUsuario />
       ) : (
         <>
           <InicioHero />

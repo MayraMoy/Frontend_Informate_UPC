@@ -13,7 +13,7 @@ const LoginEmailField = ({ value, onChange, disabled, hasError }) => (
         name="email"
         type="email"
         className="input-field-custom"
-        placeholder="tu@correo.com"
+        placeholder="usuario@upc.edu.ar"
         value={value}
         onChange={onChange}
         autoComplete="email"

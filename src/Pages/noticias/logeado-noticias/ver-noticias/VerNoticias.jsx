@@ -86,6 +86,7 @@ const VerNoticias = () => {
                 headingLevel="h2"
                 onEditar={esAdmin ? handleEditarNoticia : undefined}
                 categorias={categorias}
+                mostrarCategoria={false}
               />
             ))}
           </div>

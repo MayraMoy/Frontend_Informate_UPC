@@ -80,6 +80,8 @@ export const useNoticiasHome = ({ soloUltimasSeis = false, cargarCategorias = tr
 
       const coincideCategoria =
         categoria === 'Todas' ||
+        categoria === 'Categorías' ||
+        categoria === 'Categorias' ||
         normalizarTexto(item.categoriaNoticia?.nombre) === normalizarTexto(categoria);
 
       return coincideBusqueda && coincideCategoria;

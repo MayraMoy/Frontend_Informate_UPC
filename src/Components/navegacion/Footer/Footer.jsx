@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import ForoLogo from '../../shared/ForoLogo';
+import AppContext from '../../../Context/AppContext.js';
+import { puedeAccederGestion } from '../../../hooks/useRoles.js';
+import { scrollToSection } from '../../../utils/scrollHelpers.js';
 import './styles/Footer.css';
 
 /**
  * Componente Footer institucional para Foro UPC.
  * Incluye cuadrícula en 4 columnas equilibradas: marca, accesos rápidos, institucional y contacto,
- * con enlaces institucionales, dominio oficial @upc.edu.ar y barra de copyright accesible.
+ * con soporte dinámico de enlaces según el estado de autenticación del usuario.
  */
 export const Footer = () => {
+  const { user } = useContext(AppContext);
+  const estaLogueado = Boolean(user);
+  const esGestion = puedeAccederGestion(user);
+
+  const handleInicioClick = () => {
+    if (window.location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <footer className="app-footer" role="contentinfo">
       <div className="footer-container">
@@ -16,7 +29,12 @@ export const Footer = () => {
         <div className="footer-grid">
           {/* Columna 1: Marca & Propósito */}
           <div className="footer-col footer-col-brand">
-            <Link to="/" className="footer-brand" aria-label="Foro UPC, ir al inicio">
+            <Link
+              to="/"
+              className="footer-brand"
+              aria-label="Foro UPC, ir al inicio"
+              onClick={handleInicioClick}
+            >
               <ForoLogo width={140} />
             </Link>
             <p className="footer-brand-desc">
@@ -97,22 +115,61 @@ export const Footer = () => {
             </div>
           </div>
 
-          {/* Columna 2: Accesos rápidos / Sitemap */}
+          {/* Columna 2: Accesos rápidos dinámicos según estado de autenticación */}
           <div className="footer-col">
             <h3 className="footer-col-title">Accesos Rápidos</h3>
             <ul className="footer-nav-list">
               <li>
-                <Link to="/#inicio" className="footer-nav-link">Inicio</Link>
+                <Link to="/" className="footer-nav-link" onClick={handleInicioClick}>
+                  Inicio
+                </Link>
               </li>
               <li>
-                <Link to="/#noticias" className="footer-nav-link">Noticias institucionales</Link>
+                <Link
+                  to={estaLogueado ? '/noticias' : '/#noticias'}
+                  className="footer-nav-link"
+                  onClick={(e) => {
+                    if (!estaLogueado && window.location.pathname === '/') {
+                      e.preventDefault();
+                      scrollToSection('noticias');
+                    }
+                  }}
+                >
+                  {estaLogueado ? 'Novedades' : 'Noticias institucionales'}
+                </Link>
               </li>
               <li>
-                <Link to="/#resoluciones" className="footer-nav-link">Resoluciones oficiales</Link>
+                <Link
+                  to={estaLogueado ? '/resoluciones' : '/#resoluciones'}
+                  className="footer-nav-link"
+                  onClick={(e) => {
+                    if (!estaLogueado && window.location.pathname === '/') {
+                      e.preventDefault();
+                      scrollToSection('resoluciones');
+                    }
+                  }}
+                >
+                  {estaLogueado ? 'Resoluciones' : 'Resoluciones oficiales'}
+                </Link>
               </li>
               <li>
-                <Link to="/registro" className="footer-nav-link">Participar del Foro</Link>
+                {estaLogueado ? (
+                  <Link to="/perfil" className="footer-nav-link">
+                    Mi Perfil
+                  </Link>
+                ) : (
+                  <Link to="/registro" className="footer-nav-link">
+                    Participar del Foro
+                  </Link>
+                )}
               </li>
+              {estaLogueado && esGestion && (
+                <li>
+                  <Link to="/dashboard-admin" className="footer-nav-link">
+                    Panel de Administración
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
 

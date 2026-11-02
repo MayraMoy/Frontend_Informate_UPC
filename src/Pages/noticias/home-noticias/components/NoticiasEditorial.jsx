@@ -10,6 +10,7 @@ export const NoticiasEditorial = ({
   noticias = [],
   loading = false,
   headingLevel = 2,
+  categorias = [],
 }) => {
   const navigate = useNavigate();
   const SectionHeading = headingLevel === 2 ? 'h2' : 'h1';

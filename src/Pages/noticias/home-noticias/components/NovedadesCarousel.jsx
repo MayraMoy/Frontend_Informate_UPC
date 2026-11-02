@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNovedadesCarousel } from '../hooks/useNovedadesCarousel.js';
 import NovedadCard from './NovedadCard.jsx';
@@ -9,6 +10,32 @@ const NovedadesCarousel = ({ noticias, loading, headingLevel = 2 }) => {
   const carousel = useNovedadesCarousel(noticias);
   const SectionHeading = headingLevel === 2 ? 'h2' : 'h1';
   const CardHeading = headingLevel === 2 ? 'h3' : 'h2';
+
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [touchEndX, setTouchEndX] = useState(null);
+
+  const handleTouchStart = (e) => {
+    setTouchEndX(null);
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX || !touchEndX) return;
+    const distance = touchStartX - touchEndX;
+    const minSwipe = 45;
+
+    if (distance > minSwipe && carousel.paginaActual < carousel.totalPaginas - 1) {
+      // Swipe hacia la izquierda: avanza a la siguiente noticia
+      carousel.cambiarPagina(carousel.paginaActual + 1);
+    } else if (distance < -minSwipe && carousel.paginaActual > 0) {
+      // Swipe hacia la derecha: vuelve a la anterior
+      carousel.cambiarPagina(carousel.paginaActual - 1);
+    }
+  };
 
   return (
     <section id="noticias" className="novedades-home container my-5" aria-labelledby="noticias-titulo">
@@ -30,7 +57,14 @@ const NovedadesCarousel = ({ noticias, loading, headingLevel = 2 }) => {
           <div className="novedades-status" role="status">No hay noticias para mostrar.</div>
         ) : (
           <>
-            <div className="novedades-cards" aria-live="polite" aria-atomic="true">
+            <div
+              className="novedades-cards"
+              aria-live="polite"
+              aria-atomic="true"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               {carousel.noticiasVisibles.map((noticia) => (
                 <NovedadCard key={noticia.id} noticia={noticia} headingLevel={CardHeading} />
               ))}

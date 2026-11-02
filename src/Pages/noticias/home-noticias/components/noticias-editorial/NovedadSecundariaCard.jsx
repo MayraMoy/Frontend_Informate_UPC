@@ -1,18 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { IconoPlaceholder } from './IconoPlaceholder.jsx';
+import { useNoticiaCard } from '../../hooks/useNoticiaCard.js';
 
 export const NovedadSecundariaCard = ({ noticia, onClick }) => {
   if (!noticia) return null;
 
+  const { formatearFecha } = useNoticiaCard(noticia);
   const imgSecundaria = noticia?.imagenes?.find((img) => img?.url)?.url;
-  const fechaSecundaria = noticia?.fechaPublicacion
-    ? new Date(noticia.fechaPublicacion).toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
-      })
-    : '';
+  const fechaSecundaria = formatearFecha(noticia?.fechaPublicacion);
+
+  const extracto =
+    noticia?.resumen ||
+    noticia?.descripcion ||
+    (typeof noticia?.cuerpo === 'string' && noticia.cuerpo.trim()
+      ? noticia.cuerpo.replace(/<[^>]+>/g, '').slice(0, 90).trim() + '...'
+      : '');
 
   return (
     <article
@@ -43,12 +46,14 @@ export const NovedadSecundariaCard = ({ noticia, onClick }) => {
       </Link>
 
       <div className="novedad-secundaria-body">
-        <div>
-          {fechaSecundaria && (
-            <time className="novedad-meta-fecha">
-              {fechaSecundaria}
-            </time>
-          )}
+        <div className="novedad-secundaria-top">
+          <div className="novedad-meta-bar">
+            {fechaSecundaria && (
+              <time className="novedad-meta-fecha">
+                {fechaSecundaria}
+              </time>
+            )}
+          </div>
 
           <h4 className="novedad-secundaria-title">
             <Link
@@ -60,23 +65,26 @@ export const NovedadSecundariaCard = ({ noticia, onClick }) => {
             </Link>
           </h4>
 
-          {(noticia.descripcion || noticia.resumen) && (
+          {extracto && (
             <p className="novedad-secundaria-excerpt">
-              {noticia.descripcion || noticia.resumen}
+              {extracto}
             </p>
           )}
         </div>
 
-        <Link
-          to={`/noticias/${noticia.id}`}
-          state={{ noticia }}
-          className="novedad-secundaria-cta"
-        >
-          <span>Leer más</span>
-          <span aria-hidden="true">→</span>
-        </Link>
+        <div className="novedad-secundaria-footer">
+          <Link
+            to={`/noticias/${noticia.id}`}
+            state={{ noticia }}
+            className="novedad-secundaria-cta"
+          >
+            <span>Leer más</span>
+            <span aria-hidden="true" className="novedad-cta-arrow">→</span>
+          </Link>
+        </div>
       </div>
     </article>
   );
 };
+
 

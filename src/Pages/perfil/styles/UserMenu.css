@@ -1,29 +1,39 @@
+/* ==========================================================================
+   UserMenu - Menú de Usuario desplegable (Popover Flotante)
+   ========================================================================== */
+
 .user-menu {
   position: relative;
+  display: inline-flex;
 }
 
 .user-menu-trigger {
-  min-height: 48px;
+  min-height: 40px;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.35rem 0.7rem;
-  border: 1px solid #e8edf2;
+  gap: 0.55rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid #e2e8f0;
   border-radius: 999px;
-  background: #fff;
+  background: #ffffff;
   color: #1f2937;
   text-align: left;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 180ms ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .user-menu-trigger:hover,
 .user-menu-trigger:focus-visible {
-  border-color: #f0b44f;
-  background: #fffaf2;
+  border-color: #E89D00;
+  background: #fffdfa;
 }
 
 .user-menu-avatar {
-  width: 34px;
-  height: 34px;
+  width: 28px;
+  height: 28px;
   display: grid;
   flex: 0 0 auto;
   place-items: center;
@@ -31,6 +41,7 @@
   background: #fff0d6;
   color: #8a4b00;
   font-weight: 700;
+  font-size: 0.82rem;
 }
 
 .user-menu-identity {
@@ -41,31 +52,27 @@
 }
 
 .user-menu-name {
-  max-width: 170px;
+  max-width: 140px;
   overflow: hidden;
-  font-size: 0.82rem;
-  font-weight: 650;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #1f2937;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .user-menu-role {
-  max-width: 170px;
-  overflow: hidden;
-  color: #64748b;
-  font-size: 0.7rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: none;
 }
 
 .user-menu-chevron {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
   flex: 0 0 auto;
   margin-left: 0.1rem;
   color: #64748b;
   stroke: currentColor;
-  stroke-width: 1.7;
+  stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
   transition: transform 180ms ease, color 180ms ease;
@@ -86,41 +93,61 @@
   }
 }
 
+/* Menú flotante flotando siempre con posición absoluta: NUNCA agranda el Navbar */
 .user-menu-dropdown {
-  position: absolute;
-  z-index: 1030;
-  top: calc(100% + 0.55rem);
+  position: absolute !important;
+  z-index: 1050;
+  top: calc(100% + 0.5rem);
   right: 0;
-  width: 220px;
-  padding: 0.35rem;
-  border: 1px solid #e8edf2;
+  width: 210px;
+  padding: 0.4rem;
+  border: 1px solid #e2e8f0;
   border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 12px 32px rgb(15 23 42 / 14%);
+  background: #ffffff;
+  box-shadow: 0 10px 28px -4px rgba(15, 23, 42, 0.14), 0 4px 10px -2px rgba(15, 23, 42, 0.06);
+  animation: userMenuPop 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: top right;
+}
+
+@keyframes userMenuPop {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .user-menu-dropdown button {
   width: 100%;
-  min-height: 44px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  padding: 0.55rem 0.7rem;
+  padding: 0.5rem 0.75rem;
   border: 0;
   border-radius: 9px;
   background: transparent;
-  color: #263244;
+  color: #1f2937;
   text-align: left;
   font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
 }
 
 .user-menu-dropdown button:hover,
 .user-menu-dropdown button:focus-visible {
-  background: #fff6e8;
+  background: #fff8eb;
+  color: #8a4b00;
 }
 
 .user-menu-item-icon {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: #8a4b00;
 }
 
@@ -129,20 +156,28 @@
   height: 17px;
 }
 
+/* En dispositivos móviles y tablets: NUNCA debe ser position: static */
 @media (max-width: 991.98px) {
   .user-menu {
-    width: 100%;
+    width: auto;
+    position: relative;
   }
 
   .user-menu-trigger {
-    width: 100%;
-    border-radius: 12px;
+    width: auto;
+    border-radius: 999px;
+    padding: 0.35rem 0.65rem;
+  }
+
+  .user-menu-name {
+    max-width: 105px;
   }
 
   .user-menu-dropdown {
-    position: static;
-    width: 100%;
-    margin-top: 0.45rem;
-    box-shadow: none;
+    position: absolute !important;
+    top: calc(100% + 0.45rem);
+    right: 0;
+    width: 200px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.16), 0 4px 12px rgba(15, 23, 42, 0.08);
   }
 }

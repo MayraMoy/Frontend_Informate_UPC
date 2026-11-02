@@ -27,8 +27,8 @@ export const BuscadorNoticias = ({
   });
 
   return (
-    <div className="buscador-noticias-container mb-4">
-      <div className="row g-3">
+    <div className="buscador-noticias-container">
+      <div className="row g-2 g-md-3">
         <div className="col-12 col-md-6 col-lg-7">
           <div className="input-group input-group-custom">
             <span className="input-group-text">
@@ -54,7 +54,7 @@ export const BuscadorNoticias = ({
           </div>
         </div>
 
-        <div className="col-12 col-sm-6 col-md-3 col-lg-2">
+        <div className="col-6 col-md-3 col-lg-2">
           <select
             className="form-select py-2 custom-select shadow-none"
             aria-label="Filtrar noticias por categoría"
@@ -63,13 +63,13 @@ export const BuscadorNoticias = ({
           >
             {categoriaOptions.map((option) => (
               <option key={option} value={option}>
-                {option === 'Todas' ? 'Todas' : option}
+                {option === 'Todas' ? 'Categorías' : option}
               </option>
             ))}
           </select>
         </div>
 
-        <div className="col-12 col-sm-6 col-md-3 col-lg-3">
+        <div className="col-6 col-md-3 col-lg-3">
           <select
             className="form-select py-2 custom-select shadow-none"
             aria-label="Ordenar noticias por fecha"

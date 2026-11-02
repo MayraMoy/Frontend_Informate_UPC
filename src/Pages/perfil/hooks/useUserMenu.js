@@ -18,9 +18,11 @@ const useUserMenu = (onNavigate) => {
     };
 
     document.addEventListener('mousedown', cerrarAlHacerClickAfuera);
+    document.addEventListener('touchstart', cerrarAlHacerClickAfuera);
     document.addEventListener('keydown', cerrarConEscape);
     return () => {
       document.removeEventListener('mousedown', cerrarAlHacerClickAfuera);
+      document.removeEventListener('touchstart', cerrarAlHacerClickAfuera);
       document.removeEventListener('keydown', cerrarConEscape);
     };
   }, []);

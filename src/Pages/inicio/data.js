@@ -1,18 +1,22 @@
 export const inicioContenido = {
-  titulo: 'Conectando el conocimiento',
-  tituloDestacado: 'Foro UPC',
+  titulo: 'Mantente al día con las noticias y resoluciones',
+  tituloDestacado: 'de la UPC',
   descripcion:
-    'Un espacio para compartir ideas y mantenerse al día con las novedades y resoluciones oficiales de la UPC.',
+    'Explora las noticias compartidas por la comunidad educativa, accede a las resoluciones vigentes y debate o consulta tus inquietudes de forma directa.',
+  badgeComunidad: {
+    numero: '+500',
+    etiqueta: 'Miembros Activos',
+  },
   acciones: [
     {
-      texto: 'Participar del Foro',
-      destino: '/registro',
+      texto: 'Explorar Novedades',
+      destino: '/#noticias',
       estilo: 'primary',
     },
     {
       texto: 'Ver Resoluciones',
-      destino: '/resoluciones',
-      estilo: 'outline',
+      destino: '/login',
+      estilo: 'secondary',
     },
   ],
 };

@@ -11,8 +11,8 @@ import './styles/Navbar.css';
 /**
  * Navbar institucional para Foro UPC.
  * Menú principal limpio y despejado, sin iconos decorativos, con estado activo
- * en línea inferior dorada (#E89D00), botón CTA cápsula siempre visible
- * y Drawer lateral responsivo en pantallas pequeñas (< 1024px).
+ * en línea inferior dorada (#E89D00), botón CTA cápsula siempre visible con micro-animación
+ * táctil de entrada y salida, y Drawer lateral responsivo en pantallas pequeñas (< 1024px).
  */
 export const Navbar = () => {
   const [menuAbierto, setMenuAbierto] = useState(false);

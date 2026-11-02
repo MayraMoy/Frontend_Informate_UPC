@@ -76,13 +76,16 @@
 
 /* Selectores Desplegables */
 .custom-select {
-  height: 50px;
+  height: 48px;
   border: 1px solid var(--border-color-input);
   border-radius: var(--border-radius-pill);
   color: #334155;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   background-color: #ffffff;
   cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -94,4 +97,39 @@
   border-color: #F39C12;
   box-shadow: 0 0 0 0.2rem var(--focus-ring-color);
   outline: none;
+}
+
+/* ==========================================================================
+   Adaptación Móvil y Tablets (< 768px y < 576px)
+   ========================================================================== */
+@media (max-width: 640px) {
+  .input-group-custom {
+    height: 44px;
+    border-radius: 9px;
+  }
+
+  .input-group-custom .input-group-text {
+    padding: 0 0.35rem 0 0.85rem !important;
+  }
+
+  .input-group-custom .input-group-text svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .input-group-custom .form-control {
+    font-size: 0.88rem;
+    padding: 0 0.75rem 0 0.25rem !important;
+  }
+
+  .custom-select {
+    height: 44px;
+    border-radius: 9px;
+    font-size: 0.82rem;
+    padding-left: 0.6rem;
+    padding-right: 1.6rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }

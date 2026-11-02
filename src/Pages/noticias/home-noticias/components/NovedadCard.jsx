@@ -19,7 +19,7 @@ const NovedadCard = ({
   const mostrarCategoria =
     typeof mostrarCategoriaProp === 'boolean'
       ? mostrarCategoriaProp
-      : Boolean(user);
+      : false;
 
   const { formatearFecha, getBadgeClass, resolverCategoria } = useNoticiaCard(noticia);
   const imagen = noticia.imagenes?.find((item) => item?.url);
