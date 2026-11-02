@@ -213,12 +213,20 @@
 .pendientes-tab-btn:hover {
   background-color: #f8fafc;
   color: var(--upc-texto-oscuro);
+  border-color: #cbd5e1;
 }
 
 .pendientes-tab-btn.activo {
   background-color: var(--upc-dorado-light);
-  border-color: var(--upc-dorado-border);
+  border-color: var(--upc-dorado);
+  box-shadow: 0 0 0 3px rgba(232, 157, 0, 0.15);
   color: #92400e;
+}
+
+.pendientes-tab-btn:focus-visible {
+  outline: none;
+  border-color: var(--upc-dorado);
+  box-shadow: 0 0 0 3px rgba(232, 157, 0, 0.15);
 }
 
 .tab-contador {
@@ -739,49 +747,22 @@
 
 .pendientes-empty-state {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 3.5rem 1.5rem;
+  padding: clamp(2.5rem, 5vw, 4rem) 1.5rem;
   background: var(--upc-card-bg);
   border: 1px solid var(--upc-border);
   border-radius: var(--upc-radius);
   box-shadow: var(--upc-shadow-sm);
 }
 
-.empty-state-icon-circle {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background-color: var(--upc-dorado-light);
-  border: 1px solid var(--upc-dorado-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.15rem;
-}
-
-.empty-state-icon {
-  width: 30px;
-  height: 30px;
-  color: #b45309;
-  flex-shrink: 0;
-}
-
-.empty-state-titulo {
-  font-size: 1.15rem;
-  font-weight: 700;
+.empty-state-mensaje {
+  font-size: 0.95rem;
+  font-weight: 500;
   color: var(--upc-texto-oscuro);
-  margin: 0 0 0.45rem;
-}
-
-.empty-state-desc {
-  font-size: 0.9rem;
-  color: var(--upc-texto-suave);
-  max-width: 440px;
-  line-height: 1.5;
   margin: 0;
+  line-height: 1.5;
 }
 
 /* --------------------------------------------------------------------------
