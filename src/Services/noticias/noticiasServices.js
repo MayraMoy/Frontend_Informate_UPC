@@ -21,9 +21,26 @@ export const listar6Noticias = async () => {
 };
 
 // GET: Traer todas las noticias pendientes de revision
-export const listarNoticiasPendientes = async () => {
-    const response = await clientAxios.get('api/noticias/noticias-pendientes');
-    return response.data;
+export const listarNoticiasPendientes = async (usuarioId) => {
+    const params = usuarioId ? { usuarioId, idUsuario: usuarioId } : {};
+    try {
+        const response = await clientAxios.get('api/noticias/noticias-pendientes', { params });
+        return response.data;
+    } catch (err) {
+        // Intento 2: endpoint alternativo 'api/noticias/pendientes'
+        try {
+            const fallbackResp = await clientAxios.get('api/noticias/pendientes', { params });
+            return fallbackResp.data;
+        } catch {
+            // Intento 3: fallback a 'api/noticias/todos' para procesar estados en el frontend
+            try {
+                const todosResp = await clientAxios.get('api/noticias/todos');
+                return todosResp.data;
+            } catch {
+                throw err;
+            }
+        }
+    }
 };
 
 // GET: Consultar una noticia

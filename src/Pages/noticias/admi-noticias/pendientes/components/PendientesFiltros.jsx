@@ -84,14 +84,12 @@ export const PendientesFiltros = ({
         </div>
 
         <div className="pendientes-select-wrapper">
-          <label htmlFor="select-categoria-pendientes" className="sr-only">
-            Filtrar por categoría
-          </label>
           <select
             id="select-categoria-pendientes"
             className="pendientes-select-categoria"
             value={categoriaSeleccionada}
             onChange={(e) => onCategoriaChange(e.target.value)}
+            aria-label="Categorías"
           >
             <option value="Todas">Categorías</option>
             {categorias.map((cat) => {
