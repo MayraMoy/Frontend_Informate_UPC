@@ -15,7 +15,7 @@ export const usePendientesData = () => {
     try {
       const [resNoticias, resCategorias] = await Promise.all([
         listarNoticiasPendientes().catch((err) => {
-          console.warn('Error al llamar listarNoticiasPendientes:', err);
+          console.error('Detalle del error 400 en listarNoticiasPendientes:', err?.response?.data || err?.message || err);
           return [];
         }),
         listarCategoria().catch(() => []),
