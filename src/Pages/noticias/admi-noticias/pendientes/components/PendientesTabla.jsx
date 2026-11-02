@@ -4,11 +4,9 @@ import PendientesFila from './PendientesFila';
 export const PendientesTabla = ({
   noticias,
   cargando,
-  accionEnProgreso,
   paginaActual,
   totalPaginas,
   onCambiarPagina,
-  onPublicar,
 }) => {
   if (cargando) {
     return (
@@ -45,12 +43,7 @@ export const PendientesTabla = ({
       {/* Grilla idéntica a Ver Noticias */}
       <div className="ver-noticias-grid" aria-live="polite">
         {noticias.map((noticia) => (
-          <PendientesFila
-            key={noticia.id}
-            noticia={noticia}
-            accionEnProgreso={accionEnProgreso}
-            onPublicar={onPublicar}
-          />
+          <PendientesFila key={noticia.id} noticia={noticia} />
         ))}
       </div>
 

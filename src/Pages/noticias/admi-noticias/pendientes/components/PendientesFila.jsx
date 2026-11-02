@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { formatearFecha, obtenerThumbnail } from '../utils/pendientesHelpers';
-import PendientesEstadoBadge from './PendientesEstadoBadge';
 
 const IconoImagenPlaceholder = () => (
   <svg viewBox="0 0 48 48" fill="none" aria-hidden="true" width="36" height="36">
@@ -11,31 +10,19 @@ const IconoImagenPlaceholder = () => (
   </svg>
 );
 
-export const PendientesFila = ({
-  noticia,
-  accionEnProgreso,
-  onPublicar,
-}) => {
+export const PendientesFila = ({ noticia }) => {
   const navigate = useNavigate();
   const [imagenFallida, setImagenFallida] = useState(false);
 
   const thumbnail = obtenerThumbnail(noticia);
-  const fecha = formatearFecha(noticia.fechaPublicacion || noticia.fecha || noticia.fechaCreacion || noticia.createdAt);
-  const estado = noticia.estado || noticia.estadoNoticia;
-  const estaProcesando = accionEnProgreso === noticia.id;
+  const fecha = formatearFecha(
+    noticia.fechaPublicacion || noticia.fecha || noticia.fechaCreacion || noticia.createdAt
+  );
 
   const handleEditar = (e) => {
     e.preventDefault();
     e.stopPropagation();
     navigate(`/noticias/editar/${noticia.id}`, { state: { noticia } });
-  };
-
-  const handlePublicarClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (onPublicar) {
-      onPublicar(noticia);
-    }
   };
 
   return (
@@ -64,13 +51,12 @@ export const PendientesFila = ({
         </Link>
       </div>
 
-      {/* Contenido idéntico a Ver Noticias con el badge de estado */}
+      {/* Contenido idéntico a Ver Noticias */}
       <div className="novedad-card-content">
-        <div className="novedad-card-meta d-flex align-items-center justify-content-between gap-2 mb-2">
+        <div className="novedad-card-meta d-flex align-items-center mb-2">
           <time className="novedad-card-date mb-0">
             {fecha}
           </time>
-          <PendientesEstadoBadge estado={estado} />
         </div>
 
         <h2 className="novedad-card-title">
@@ -79,8 +65,8 @@ export const PendientesFila = ({
           </Link>
         </h2>
 
-        {/* Acciones al pie: Editar y Publicar */}
-        <div className="novedad-card-acciones mt-auto pt-2 d-flex align-items-center justify-content-between gap-2">
+        {/* Acciones al pie: Únicamente Editar idéntico a Ver Noticias */}
+        <div className="novedad-card-acciones mt-auto pt-2">
           <button
             type="button"
             className="novedad-card-btn-editar"
@@ -104,46 +90,6 @@ export const PendientesFila = ({
             </svg>
             <span>Editar</span>
           </button>
-
-          {onPublicar && (
-            <button
-              type="button"
-              className="btn-card-publicar"
-              onClick={handlePublicarClick}
-              disabled={estaProcesando}
-              title="Publicar noticia en el portal oficial"
-            >
-              {estaProcesando ? (
-                <svg
-                  className="spinner-icono"
-                  width="13"
-                  height="13"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  aria-hidden="true"
-                >
-                  <circle cx="12" cy="12" r="10" strokeDasharray="32" strokeDashoffset="10" />
-                </svg>
-              ) : (
-                <svg
-                  width="13"
-                  height="13"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              )}
-              <span>{estaProcesando ? 'Publicando...' : 'Publicar'}</span>
-            </button>
-          )}
         </div>
       </div>
     </article>

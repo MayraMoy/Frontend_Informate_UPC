@@ -101,11 +101,9 @@ export const PendientesNoticias = () => {
         <PendientesTabla
           noticias={noticiasPaginadas}
           cargando={cargando}
-          accionEnProgreso={accionEnProgreso}
           paginaActual={paginaActual}
           totalPaginas={totalPaginas}
           onCambiarPagina={cambiarPagina}
-          onPublicar={handlePublicar}
         />
       </div>
 
