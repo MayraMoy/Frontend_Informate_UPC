@@ -25,6 +25,13 @@ const NovedadCard = ({
   const imagen = noticia.imagenes?.find((item) => item?.url);
   const nombreCategoria = mostrarCategoria ? resolverCategoria(categorias) : '';
 
+  const fechaValor =
+    noticia.fechaPublicacion ||
+    noticia.fechaCreacion ||
+    noticia.fechaActualizacion ||
+    noticia.fecha ||
+    noticia.createdAt;
+
   return (
     <article className="novedad-card">
       <NovedadCardMedia noticia={noticia} imagen={imagen} />
@@ -33,8 +40,8 @@ const NovedadCard = ({
         <NovedadCardMeta
           nombreCategoria={nombreCategoria}
           badgeClass={getBadgeClass(nombreCategoria)}
-          fechaPublicacion={noticia.fechaPublicacion}
-          fechaFormateada={formatearFecha(noticia.fechaPublicacion)}
+          fechaPublicacion={fechaValor}
+          fechaFormateada={formatearFecha(fechaValor)}
         />
 
         <NovedadCardTitulo headingLevel={headingLevel} noticia={noticia} />

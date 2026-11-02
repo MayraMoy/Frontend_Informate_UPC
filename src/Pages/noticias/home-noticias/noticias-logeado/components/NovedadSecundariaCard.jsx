@@ -8,7 +8,13 @@ export const NovedadSecundariaCard = ({ noticia, onClick }) => {
 
   const { formatearFecha } = useNoticiaCard(noticia);
   const imgSecundaria = noticia?.imagenes?.find((img) => img?.url)?.url;
-  const fechaSecundaria = formatearFecha(noticia?.fechaPublicacion);
+  const fechaValor =
+    noticia?.fechaPublicacion ||
+    noticia?.fechaCreacion ||
+    noticia?.fechaActualizacion ||
+    noticia?.fecha ||
+    noticia?.createdAt;
+  const fechaSecundaria = formatearFecha(fechaValor);
 
   const extracto =
     noticia?.resumen ||

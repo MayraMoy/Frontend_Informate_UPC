@@ -25,6 +25,12 @@ export const NoticiaCard = ({ noticia, headingLevel = 'h2' }) => {
     (typeof categoriaNoticia === 'string' && isNaN(categoriaNoticia) ? categoriaNoticia : '') ||
     (typeof categoria === 'string' && isNaN(categoria) ? categoria : '');
   const CardHeading = headingLevel;
+  const fechaValor =
+    fechaPublicacion ||
+    noticia.fechaCreacion ||
+    noticia.fechaActualizacion ||
+    noticia.fecha ||
+    noticia.createdAt;
 
   return (
     <div className="card h-100 custom-noticia-card p-3">
@@ -36,8 +42,8 @@ export const NoticiaCard = ({ noticia, headingLevel = 'h2' }) => {
             </span>
           )}
           <small className="text-secondary fw-normal">
-            <time dateTime={fechaPublicacion || undefined}>
-              {formatearFecha(fechaPublicacion)}
+            <time dateTime={fechaValor || undefined}>
+              {formatearFecha(fechaValor)}
             </time>
           </small>
         </div>

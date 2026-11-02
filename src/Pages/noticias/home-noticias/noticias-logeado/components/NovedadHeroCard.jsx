@@ -8,7 +8,13 @@ export const NovedadHeroCard = ({ noticia, onClick }) => {
 
   const { formatearFecha } = useNoticiaCard(noticia);
   const imgPrincipal = noticia?.imagenes?.find((img) => img?.url)?.url;
-  const fechaPrincipal = formatearFecha(noticia?.fechaPublicacion);
+  const fechaValor =
+    noticia?.fechaPublicacion ||
+    noticia?.fechaCreacion ||
+    noticia?.fechaActualizacion ||
+    noticia?.fecha ||
+    noticia?.createdAt;
+  const fechaPrincipal = formatearFecha(fechaValor);
 
   // Extracto para equilibrar el espacio negativo y jerarquía visual
   const extracto =

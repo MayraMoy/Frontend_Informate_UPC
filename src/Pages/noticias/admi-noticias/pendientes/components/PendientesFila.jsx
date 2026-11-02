@@ -16,7 +16,7 @@ export const PendientesFila = ({ noticia }) => {
 
   const thumbnail = obtenerThumbnail(noticia);
   const fecha = formatearFecha(
-    noticia.fechaPublicacion || noticia.fecha || noticia.fechaCreacion || noticia.createdAt
+    noticia.fechaPublicacion || noticia.fechaCreacion || noticia.fechaActualizacion || noticia.fecha || noticia.createdAt
   );
 
   const handleEditar = (e) => {

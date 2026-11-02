@@ -33,7 +33,22 @@ export const useNoticiaCard = (noticia) => {
   const formatearFecha = (fechaStr) => {
     if (!fechaStr) return '';
 
+    // Manejo de arrays serializados por Jackson en Spring Boot [año, mes, día, ...]
+    if (Array.isArray(fechaStr)) {
+      const [anio, mes, dia] = fechaStr;
+      const fecha = new Date(anio, (mes || 1) - 1, dia || 1);
+      return isNaN(fecha.getTime())
+        ? ''
+        : fecha.toLocaleDateString('es-ES', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+          });
+    }
+
     const fecha = new Date(fechaStr);
+    if (isNaN(fecha.getTime())) return '';
+
     return fecha.toLocaleDateString('es-ES', {
       day: '2-digit',
       month: 'short',

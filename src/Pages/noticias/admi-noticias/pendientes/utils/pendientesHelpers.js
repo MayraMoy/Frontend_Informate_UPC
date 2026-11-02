@@ -12,6 +12,18 @@ export const normalizar = (txt) =>
 export const formatearFecha = (fechaStr) => {
   if (!fechaStr) return 'Sin fecha';
   try {
+    if (Array.isArray(fechaStr)) {
+      const [anio, mes, dia] = fechaStr;
+      const fecha = new Date(anio, (mes || 1) - 1, dia || 1);
+      return isNaN(fecha.getTime())
+        ? 'Sin fecha'
+        : fecha.toLocaleDateString('es-AR', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+          });
+    }
+
     const fecha = new Date(fechaStr);
     if (isNaN(fecha.getTime())) return String(fechaStr);
     return fecha.toLocaleDateString('es-AR', {
