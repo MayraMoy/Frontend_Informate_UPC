@@ -15,7 +15,7 @@ export const usePendientesNoticias = () => {
     cargando,
     error: errorData,
     cargarNoticias,
-  } = usePendientesData(user);
+  } = usePendientesData();
 
   // 2. Módulo de Filtros (Pestañas, Buscador, Categorías)
   const {

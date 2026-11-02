@@ -3,7 +3,7 @@ import { listarNoticiasPendientes } from '../../../../../Services/noticias/notic
 import { listarCategoria } from '../../../../../Services/noticias/categoriasServices';
 import { ESTADOS_PERMITIDOS } from '../data/pendientesData';
 
-export const usePendientesData = (user) => {
+export const usePendientesData = () => {
   const [noticias, setNoticias] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -12,10 +12,9 @@ export const usePendientesData = (user) => {
   const cargarNoticias = useCallback(async () => {
     setCargando(true);
     setError('');
-    const idUsuario = user?.idUsuario ?? user?.id;
     try {
       const [resNoticias, resCategorias] = await Promise.all([
-        listarNoticiasPendientes(idUsuario).catch((err) => {
+        listarNoticiasPendientes().catch((err) => {
           console.warn('Error al llamar listarNoticiasPendientes:', err);
           return [];
         }),
@@ -42,7 +41,7 @@ export const usePendientesData = (user) => {
     } finally {
       setCargando(false);
     }
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     cargarNoticias();
