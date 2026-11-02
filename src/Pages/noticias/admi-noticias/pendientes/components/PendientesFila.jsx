@@ -40,6 +40,8 @@ export const PendientesFila = ({
             <svg
               className="placeholder-icon"
               viewBox="0 0 24 24"
+              width="30"
+              height="30"
               fill="none"
               stroke="currentColor"
               strokeWidth="1.6"
@@ -73,6 +75,8 @@ export const PendientesFila = ({
             <svg
               className="meta-icon"
               viewBox="0 0 24 24"
+              width="14"
+              height="14"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
@@ -90,6 +94,8 @@ export const PendientesFila = ({
             <svg
               className="meta-icon"
               viewBox="0 0 24 24"
+              width="14"
+              height="14"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"

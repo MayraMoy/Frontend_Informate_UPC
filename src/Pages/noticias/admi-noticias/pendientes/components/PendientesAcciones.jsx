@@ -43,6 +43,8 @@ export const PendientesAcciones = ({
       >
         <svg
           viewBox="0 0 24 24"
+          width="17"
+          height="17"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -66,6 +68,8 @@ export const PendientesAcciones = ({
       >
         <svg
           viewBox="0 0 24 24"
+          width="17"
+          height="17"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -91,6 +95,8 @@ export const PendientesAcciones = ({
           <svg
             className="spinner-icono"
             viewBox="0 0 24 24"
+            width="16"
+            height="16"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
@@ -101,6 +107,8 @@ export const PendientesAcciones = ({
         ) : (
           <svg
             viewBox="0 0 24 24"
+            width="16"
+            height="16"
             fill="none"
             stroke="currentColor"
             strokeWidth="2.2"
@@ -127,6 +135,8 @@ export const PendientesAcciones = ({
         >
           <svg
             viewBox="0 0 24 24"
+            width="16"
+            height="16"
             fill="currentColor"
             aria-hidden="true"
           >
@@ -152,6 +162,8 @@ export const PendientesAcciones = ({
                 <svg
                   className="dropdown-item-icon"
                   viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
@@ -181,6 +193,8 @@ export const PendientesAcciones = ({
                 <svg
                   className="dropdown-item-icon"
                   viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
@@ -209,6 +223,8 @@ export const PendientesAcciones = ({
                 <svg
                   className="dropdown-item-icon"
                   viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
@@ -238,6 +254,8 @@ export const PendientesAcciones = ({
               <svg
                 className="dropdown-item-icon"
                 viewBox="0 0 24 24"
+                width="16"
+                height="16"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"

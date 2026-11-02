@@ -39,6 +39,8 @@ export const PendientesTabla = ({
           <svg
             className="empty-state-icon"
             viewBox="0 0 24 24"
+            width="32"
+            height="32"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.8"
