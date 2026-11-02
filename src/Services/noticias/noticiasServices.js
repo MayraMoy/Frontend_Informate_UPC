@@ -28,8 +28,22 @@ export const listarNoticiasPendientes = async () => {
 
 // GET: Consultar una noticia
 export const consultarNoticia = async (id) => {
-    const response = await clientAxios.get(`api/noticias/${id}`);
-    return response.data;
+    try {
+        const response = await clientAxios.get(`api/noticias/${id}`);
+        return response.data;
+    } catch (err) {
+        // Fallback: si el endpoint puntual falla con 400 (por LazyInitializationException en el backend),
+        // buscamos la noticia por id en el listado general
+        try {
+            const todas = await clientAxios.get('api/noticias/todos');
+            const lista = Array.isArray(todas.data) ? todas.data : todas.data?.content || todas.data?.data || [];
+            const encontrada = lista.find((n) => String(n.id) === String(id));
+            if (encontrada) return encontrada;
+        } catch {
+            // Si el fallback falla, propagar el error original
+        }
+        throw err;
+    }
 };
 
 // PUT: Editar una Noticia
