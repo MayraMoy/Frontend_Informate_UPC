@@ -22,7 +22,7 @@ export const listar6Noticias = async () => {
 
 // GET: Traer todas las noticias pendientes de revision
 export const listarNoticiasPendientes = async () => {
-    const response = await clientAxios.get('api/noticias/todos');
+    const response = await clientAxios.get('api/noticias/noticias-pendientes');
     return response.data;
 };
 
