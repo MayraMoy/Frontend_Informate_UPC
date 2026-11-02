@@ -20,8 +20,13 @@
 
 .inicio-landing .inicio-hero-title,
 .inicio-landing .noticia-title,
+.inicio-landing .novedades-header h1,
+.inicio-landing .novedades-header h2,
+.inicio-landing .novedades-editorial-header h1,
+.inicio-landing .novedades-editorial-header h2,
 .inicio-landing .resoluciones-main-title {
   color: var(--landing-title-color);
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: clamp(1.65rem, 2.5vw, 2rem);
   font-weight: 700;
   letter-spacing: -0.02em;

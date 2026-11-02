@@ -40,7 +40,7 @@ const NovedadesCarousel = ({ noticias, loading, headingLevel = 2 }) => {
   return (
     <section id="noticias" className="novedades-home container my-5" aria-labelledby="noticias-titulo">
       <header className="novedades-header">
-        <SectionHeading id="noticias-titulo">Novedades</SectionHeading>
+        <SectionHeading id="noticias-titulo" className="noticia-title">Novedades</SectionHeading>
         <Link className="novedades-all-link" to="/noticias">
           Ver todas las noticias <span aria-hidden="true">→</span>
         </Link>
