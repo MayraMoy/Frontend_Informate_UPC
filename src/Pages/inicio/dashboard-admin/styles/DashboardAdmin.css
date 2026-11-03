@@ -3,6 +3,12 @@
    Panel de supervisión, moderación y control operativo
    ========================================================================== */
 
+.dashboard-admin-page {
+  width: 100%;
+  min-height: calc(100vh - 72px);
+  background-color: #f6f7f9;
+}
+
 .dashboard-admin {
   padding: 2rem 2.25rem 3.5rem;
   max-width: 1400px;
@@ -32,18 +38,6 @@
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 0.65rem;
-}
-
-.dashboard-admin__rol-badge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  background-color: #fef3c7;
-  color: #92400e;
-  padding: 0.25rem 0.65rem;
-  border-radius: 6px;
-  border: 1px solid #fde68a;
 }
 
 .dashboard-admin__fecha-texto {
@@ -248,10 +242,11 @@
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  background-color: #f8fafc;
+  background-color: #ffffff;
   padding: 0.9rem 1.35rem;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
   flex-wrap: wrap;
 }
 
@@ -298,9 +293,9 @@
 }
 
 .dashboard-admin__btn-accion--secundario {
-  background-color: #ffffff;
+  background-color: #f8fafc;
   color: #334155;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #e2e8f0;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
@@ -340,7 +335,7 @@
   justify-content: space-between;
   padding: 1.15rem 1.5rem;
   border-bottom: 1px solid #f1f5f9;
-  background-color: #fafbfc;
+  background-color: #ffffff;
 }
 
 .dashboard-admin__bloque-titulo-wrap {
@@ -417,7 +412,7 @@
 .dashboard-admin__item-info {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
   flex: 1;
   min-width: 0;
 }
@@ -426,32 +421,32 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   color: #64748b;
   flex-wrap: wrap;
 }
 
-.dashboard-admin__tag-categoria {
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
-  color: #1e293b;
-  font-weight: 600;
-  padding: 0.15rem 0.55rem;
-  border-radius: 6px;
+.dashboard-admin__item-fecha {
+  color: #475569;
+  font-weight: 500;
+}
+
+.dashboard-admin__item-autor {
+  color: #475569;
+  font-weight: 500;
 }
 
 .dashboard-admin__item-separador {
-  color: #cbd5e1;
+  color: #94a3b8;
+  font-size: 0.75rem;
 }
 
 .dashboard-admin__item-titulo {
-  font-size: 0.95rem;
+  font-size: 0.96rem;
   font-weight: 650;
   color: #0f172a;
   text-decoration: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.4;
   display: block;
   transition: color 0.15s ease;
 }
@@ -515,57 +510,26 @@
 .dashboard-admin__resolucion-info {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
   flex: 1;
   min-width: 0;
+}
+
+.dashboard-admin__resolucion-titulo {
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: #0f172a;
+  line-height: 1.4;
+  margin: 0;
 }
 
 .dashboard-admin__resolucion-meta {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   color: #64748b;
   flex-wrap: wrap;
-}
-
-.dashboard-admin__codigo-resolucion {
-  font-family: monospace;
-  font-weight: 700;
-  color: #0f172a;
-  background-color: #f1f5f9;
-  padding: 0.15rem 0.5rem;
-  border-radius: 5px;
-}
-
-.dashboard-admin__badge-estado-res {
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 0.1rem 0.45rem;
-  border-radius: 4px;
-}
-
-.dashboard-admin__badge-estado-res--publicada {
-  background-color: #ecfdf5;
-  color: #065f46;
-  border: 1px solid #a7f3d0;
-}
-
-.dashboard-admin__badge-estado-res--pendiente {
-  background-color: #fff7ed;
-  color: #c2410c;
-  border: 1px solid #fed7aa;
-}
-
-.dashboard-admin__resolucion-titulo {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #1e293b;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .dashboard-admin__btn-ver-res {
@@ -664,8 +628,9 @@
 }
 
 .dashboard-admin__bloque-card--estado {
-  background-color: #f8fafc;
-  padding: 0.85rem 1.15rem;
+  background-color: #ffffff;
+  padding: 0.95rem 1.25rem;
+  border: 1px solid #e2e8f0;
 }
 
 .dashboard-admin__estado-cabecera {

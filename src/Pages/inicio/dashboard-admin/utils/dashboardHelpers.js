@@ -17,24 +17,21 @@ export const formatearFechaActual = () => {
 export const formatearFechaCorta = (fechaStr) => {
   if (!fechaStr) return 'Reciente';
   try {
+    let f;
     if (Array.isArray(fechaStr)) {
       const [anio, mes, dia] = fechaStr;
-      const f = new Date(anio, (mes || 1) - 1, dia || 1);
-      if (isNaN(f.getTime())) return 'Reciente';
-      return f.toLocaleDateString('es-AR', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
-      });
+      f = new Date(anio, (mes || 1) - 1, dia || 1);
+    } else {
+      f = new Date(fechaStr);
     }
-
-    const f = new Date(fechaStr);
     if (isNaN(f.getTime())) return String(fechaStr);
-    return f.toLocaleDateString('es-AR', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
+
+    const dia = String(f.getDate()).padStart(2, '0');
+    const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+    const mes = meses[f.getMonth()] || 'nov';
+    const anio = f.getFullYear();
+
+    return `${dia} de ${mes} de ${anio}`;
   } catch {
     return 'Reciente';
   }

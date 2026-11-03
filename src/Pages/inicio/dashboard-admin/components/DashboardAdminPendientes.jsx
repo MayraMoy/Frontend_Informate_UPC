@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import {
   formatearFechaCorta,
   extraerNombreAutor,
-  extraerNombreCategoria,
 } from '../utils/dashboardHelpers';
 
 export const DashboardAdminPendientes = ({ noticias = [], cargando }) => {
@@ -50,7 +49,6 @@ export const DashboardAdminPendientes = ({ noticias = [], cargando }) => {
           <ul className="dashboard-admin__lista-pendientes" role="list">
             {noticias.map((item) => {
               const autor = extraerNombreAutor(item);
-              const categoria = extraerNombreCategoria(item);
               const fecha = formatearFechaCorta(
                 item.fechaPublicacion || item.fechaCreacion || item.fechaActualizacion || item.fecha
               );
@@ -58,14 +56,6 @@ export const DashboardAdminPendientes = ({ noticias = [], cargando }) => {
               return (
                 <li key={item.id} className="dashboard-admin__item-pendiente">
                   <div className="dashboard-admin__item-info">
-                    <div className="dashboard-admin__item-meta">
-                      <span className="dashboard-admin__tag-categoria">{categoria}</span>
-                      <span className="dashboard-admin__item-separador">•</span>
-                      <span className="dashboard-admin__item-fecha">{fecha}</span>
-                      <span className="dashboard-admin__item-separador">•</span>
-                      <span className="dashboard-admin__item-autor">{autor}</span>
-                    </div>
-
                     <Link
                       to={`/noticias/editar/${item.id}`}
                       state={{ noticia: item }}
@@ -74,6 +64,12 @@ export const DashboardAdminPendientes = ({ noticias = [], cargando }) => {
                     >
                       {item.titulo || 'Sin título especificado'}
                     </Link>
+
+                    <div className="dashboard-admin__item-meta">
+                      <span className="dashboard-admin__item-fecha">{fecha}</span>
+                      <span className="dashboard-admin__item-separador">•</span>
+                      <span className="dashboard-admin__item-autor">{autor}</span>
+                    </div>
                   </div>
 
                   <div className="dashboard-admin__item-acciones">

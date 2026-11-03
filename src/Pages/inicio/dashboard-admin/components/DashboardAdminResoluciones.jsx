@@ -39,23 +39,19 @@ export const DashboardAdminResoluciones = ({ resoluciones = [], cargando }) => {
               const id = res.idResolucion || res.id;
               const numero = res.numeroResolucion || `RES-${id}`;
               const fecha = formatearFechaCorta(res.fechaEmision || res.fechaCreacion || res.fecha);
-              const estado = String(res.estado || 'PUBLICADA').toUpperCase();
 
               return (
                 <li key={id} className="dashboard-admin__item-resolucion">
                   <div className="dashboard-admin__resolucion-info">
-                    <div className="dashboard-admin__resolucion-meta">
-                      <span className="dashboard-admin__codigo-resolucion">{numero}</span>
-                      <span className="dashboard-admin__item-separador">•</span>
-                      <span className="dashboard-admin__item-fecha">{fecha}</span>
-                      <span className={`dashboard-admin__badge-estado-res dashboard-admin__badge-estado-res--${estado.toLowerCase()}`}>
-                        {estado}
-                      </span>
-                    </div>
-
                     <h3 className="dashboard-admin__resolucion-titulo">
                       {res.titulo || 'Resolución sin título'}
                     </h3>
+
+                    <div className="dashboard-admin__resolucion-meta">
+                      <span className="dashboard-admin__item-fecha">{fecha}</span>
+                      <span className="dashboard-admin__item-separador">•</span>
+                      <span className="dashboard-admin__item-autor">{numero}</span>
+                    </div>
                   </div>
 
                   <Link
