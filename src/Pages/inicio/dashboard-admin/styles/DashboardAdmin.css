@@ -141,7 +141,8 @@
 }
 
 .dashboard-admin__kpi-card--alerta {
-  border-left: 4px solid #ea8207;
+  /* Mantiene simetría con las demás tarjetas; la alerta se expresa en el ícono y badge */
+  border-color: #e2e8f0;
 }
 
 .dashboard-admin__kpi-top {
@@ -213,10 +214,11 @@
 }
 
 .dashboard-admin__kpi-estado {
-  font-size: 0.76rem;
+  font-size: 0.80rem;
   font-weight: 600;
-  padding: 0.2rem 0.55rem;
+  padding: 0.25rem 0.65rem;
   border-radius: 6px;
+  line-height: 1.25;
 }
 
 .dashboard-admin__kpi-estado--aviso {
@@ -430,11 +432,12 @@
 }
 
 .dashboard-admin__tag-categoria {
-  background-color: #f1f5f9;
-  color: #334155;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
   font-weight: 600;
-  padding: 0.15rem 0.5rem;
-  border-radius: 5px;
+  padding: 0.15rem 0.55rem;
+  border-radius: 6px;
 }
 
 .dashboard-admin__item-separador {
@@ -588,21 +591,21 @@
 .dashboard-admin__lateral {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.15rem;
 }
 
 .dashboard-admin__bloque-card--lateral .dashboard-admin__bloque-cabecera {
-  padding: 1rem 1.25rem;
+  padding: 0.85rem 1.25rem;
 }
 
 .dashboard-admin__bloque-card--lateral .dashboard-admin__bloque-cuerpo {
-  padding: 1.15rem 1.25rem;
+  padding: 1rem 1.25rem;
 }
 
 .dashboard-admin__lateral-descripcion {
   font-size: 0.84rem;
   color: #64748b;
-  margin: 0 0 1rem;
+  margin: 0 0 0.85rem;
   line-height: 1.45;
 }
 
@@ -610,7 +613,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .dashboard-admin__chip-tag {
@@ -662,7 +665,7 @@
 
 .dashboard-admin__bloque-card--estado {
   background-color: #f8fafc;
-  padding: 1rem 1.25rem;
+  padding: 0.85rem 1.15rem;
 }
 
 .dashboard-admin__estado-cabecera {

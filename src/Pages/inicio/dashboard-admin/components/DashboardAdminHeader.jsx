@@ -14,7 +14,6 @@ export const DashboardAdminHeader = ({ user, cargando, onRecargar }) => {
     <header className="dashboard-admin__header">
       <div className="dashboard-admin__header-info">
         <div className="dashboard-admin__header-badges">
-          <span className="dashboard-admin__rol-badge">Panel Administrativo</span>
           <span className="dashboard-admin__fecha-texto">{fechaHoy}</span>
         </div>
         <h1 className="dashboard-admin__saludo">
