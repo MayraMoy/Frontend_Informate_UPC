@@ -74,7 +74,7 @@ export const PendientesFila = ({ noticia, onEliminar }) => {
         </h2>
 
         {/* Acciones al pie: Editar y Eliminar */}
-        <div className="novedad-card-acciones mt-auto pt-2">
+        <div className="novedad-card-acciones mt-auto">
           <button
             type="button"
             className="novedad-card-btn-editar"

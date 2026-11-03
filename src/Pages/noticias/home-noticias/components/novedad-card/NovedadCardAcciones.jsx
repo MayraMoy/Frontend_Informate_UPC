@@ -4,7 +4,7 @@ export const NovedadCardAcciones = ({ noticia, onEditar, onEliminar }) => {
   if (!onEditar && !onEliminar) return null;
 
   return (
-    <div className="novedad-card-acciones mt-auto pt-2">
+    <div className="novedad-card-acciones mt-auto">
       {onEditar && (
         <button
           type="button"
