@@ -204,6 +204,32 @@
   color: #d97706;
 }
 
+.novedad-card-btn-eliminar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #64748b;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.novedad-card-btn-eliminar:hover {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.15);
+}
+
+.novedad-card-btn-eliminar svg {
+  color: #ef4444;
+}
+
 /* Estado vacío y carga */
 .ver-noticias-estado-vacio {
   display: flex;

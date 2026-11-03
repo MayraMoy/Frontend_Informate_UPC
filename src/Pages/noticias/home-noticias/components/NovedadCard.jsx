@@ -12,6 +12,7 @@ const NovedadCard = ({
   noticia,
   headingLevel = 'h2',
   onEditar,
+  onEliminar,
   categorias = [],
   mostrarCategoria: mostrarCategoriaProp,
 }) => {
@@ -46,7 +47,11 @@ const NovedadCard = ({
 
         <NovedadCardTitulo headingLevel={headingLevel} noticia={noticia} />
 
-        <NovedadCardAcciones noticia={noticia} onEditar={onEditar} />
+        <NovedadCardAcciones
+          noticia={noticia}
+          onEditar={onEditar}
+          onEliminar={onEliminar}
+        />
       </div>
     </article>
   );

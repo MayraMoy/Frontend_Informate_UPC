@@ -24,6 +24,7 @@ export const PendientesNoticias = () => {
     setErrorAccion,
     accionEnProgreso,
     noticiaAEliminar,
+    solicitarEliminar,
     confirmarEliminar,
     cancelarEliminar,
     tabEstado,
@@ -86,6 +87,7 @@ export const PendientesNoticias = () => {
           paginaActual={paginaActual}
           totalPaginas={totalPaginas}
           onCambiarPagina={cambiarPagina}
+          onEliminar={solicitarEliminar}
         />
       </div>
 

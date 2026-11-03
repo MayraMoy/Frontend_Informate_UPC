@@ -7,6 +7,7 @@ export const PendientesTabla = ({
   paginaActual,
   totalPaginas,
   onCambiarPagina,
+  onEliminar,
 }) => {
   if (cargando) {
     return (
@@ -43,7 +44,11 @@ export const PendientesTabla = ({
       {/* Grilla idéntica a Ver Noticias */}
       <div className="ver-noticias-grid" aria-live="polite">
         {noticias.map((noticia) => (
-          <PendientesFila key={noticia.id} noticia={noticia} />
+          <PendientesFila
+            key={noticia.id}
+            noticia={noticia}
+            onEliminar={onEliminar}
+          />
         ))}
       </div>
 

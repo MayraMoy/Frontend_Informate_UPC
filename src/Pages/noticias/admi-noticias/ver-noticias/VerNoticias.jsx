@@ -1,9 +1,14 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../../../../Context/AppContext.js';
 import { puedeAccederGestion } from '../../../../hooks/useRoles.js';
 import { useNoticiasHome } from '../../home-noticias/hooks/useNoticiasHome.js';
 import { usePaginacionNoticias } from '../../home-noticias/hooks/usePaginacionNoticias.js';
+import { eliminarNoticia } from '../../../../Services/noticias/noticiasServices.js';
+import {
+  ToastNotificacion,
+  ModalConfirmacionEliminar,
+} from '../../../../Components/shared';
 import NovedadCard from '../../home-noticias/components/NovedadCard.jsx';
 import { NovedadCardSkeleton } from '../../home-noticias/components/novedad-card/NovedadCardSkeleton.jsx';
 import { BuscadorNoticias } from './components/BuscadorNoticias.jsx';
@@ -16,6 +21,15 @@ const VerNoticias = () => {
   const navigate = useNavigate();
   const { user } = useContext(AppContext);
   const esAdmin = puedeAccederGestion(user);
+
+  const [noticiaAEliminar, setNoticiaAEliminar] = useState(null);
+  const [eliminando, setEliminando] = useState(false);
+  const [toast, setToast] = useState({
+    visible: false,
+    mensaje: '',
+    tipo: 'success',
+  });
+
   const {
     noticias,
     categorias,
@@ -26,6 +40,7 @@ const VerNoticias = () => {
     setCategoria,
     fecha,
     setFecha,
+    recargar,
   } = useNoticiasHome();
 
   const {
@@ -40,6 +55,37 @@ const VerNoticias = () => {
     navigate(`/noticias/editar/${noticia.id}`, { state: { noticia } });
   };
 
+  const handleEliminarNoticia = (noticia) => {
+    setNoticiaAEliminar(noticia);
+  };
+
+  const confirmarEliminarNoticia = async () => {
+    if (!noticiaAEliminar) return;
+    setEliminando(true);
+
+    try {
+      await eliminarNoticia(noticiaAEliminar.id);
+      setToast({
+        visible: true,
+        mensaje: `Noticia "${noticiaAEliminar.titulo}" eliminada correctamente.`,
+        tipo: 'success',
+      });
+      setNoticiaAEliminar(null);
+      recargar();
+    } catch (err) {
+      setToast({
+        visible: true,
+        mensaje:
+          err?.response?.data?.message ||
+          err?.message ||
+          'Error al eliminar noticia.',
+        tipo: 'error',
+      });
+    } finally {
+      setEliminando(false);
+    }
+  };
+
   const actualizarFiltro = (setter) => (valor) => {
     setter(valor);
     reiniciarPagina();
@@ -47,6 +93,14 @@ const VerNoticias = () => {
 
   return (
     <div className="ver-noticias-pagina">
+      {/* Toast flotante */}
+      <ToastNotificacion
+        visible={toast.visible}
+        tipo={toast.tipo}
+        mensaje={toast.mensaje}
+        onCerrar={() => setToast((prev) => ({ ...prev, visible: false }))}
+      />
+
       <div className="ver-noticias-contenedor">
         <header className="ver-noticias-header">
           <div className="ver-noticias-header-texto">
@@ -85,6 +139,7 @@ const VerNoticias = () => {
                 noticia={noticia}
                 headingLevel="h2"
                 onEditar={esAdmin ? handleEditarNoticia : undefined}
+                onEliminar={esAdmin ? handleEliminarNoticia : undefined}
                 categorias={categorias}
                 mostrarCategoria={false}
               />
@@ -106,6 +161,18 @@ const VerNoticias = () => {
           </div>
         )}
       </div>
+
+      {/* Modal de confirmación destructiva */}
+      <ModalConfirmacionEliminar
+        isOpen={Boolean(noticiaAEliminar)}
+        titulo="¿Eliminar noticia definitivamente?"
+        itemNombre={noticiaAEliminar?.titulo}
+        mensaje="Esta acción es permanente y no se podrá deshacer. La noticia será retirada del portal."
+        textoBotonConfirmar="Eliminar noticia"
+        enProgreso={eliminando}
+        onConfirmar={confirmarEliminarNoticia}
+        onCancelar={() => setNoticiaAEliminar(null)}
+      />
     </div>
   );
 };
