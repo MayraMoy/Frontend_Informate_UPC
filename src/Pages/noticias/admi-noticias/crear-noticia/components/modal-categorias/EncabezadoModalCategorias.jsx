@@ -5,10 +5,10 @@ export const EncabezadoModalCategorias = ({ onClose }) => {
     <div className="modal-categorias__encabezado">
       <div className="modal-categorias__encabezado-texto">
         <h2 id="modal-categorias-titulo" className="modal-categorias__titulo">
-          Gestión de categorías y etiquetas
+          Categorías de Noticias
         </h2>
         <p className="modal-categorias__subtitulo">
-          Creá nuevas etiquetas, editá sus nombres directamente en la tabla o eliminalas.
+          Administrá las categorías temáticas utilizadas para clasificar las novedades institucionales.
         </p>
       </div>
 

@@ -19,10 +19,6 @@ export const FilaCategoria = ({
 }) => {
   return (
     <tr className={estaEnEdicion ? 'modal-categorias__fila--editando' : ''}>
-      <td className="modal-categorias__celda-id">
-        <span className="modal-categorias__id-badge">#{idCat}</span>
-      </td>
-
       <td className="modal-categorias__celda-nombre">
         {estaEnEdicion ? (
           <div className="modal-categorias__edicion-wrap">

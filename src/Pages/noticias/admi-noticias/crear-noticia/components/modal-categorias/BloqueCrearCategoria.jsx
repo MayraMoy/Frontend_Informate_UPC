@@ -10,7 +10,7 @@ export const BloqueCrearCategoria = ({
   return (
     <div className="modal-categorias__creacion-bloque">
       <h3 className="modal-categorias__seccion-titulo">
-        Crear nueva etiqueta
+        Nueva categoría
       </h3>
       <div className="modal-categorias__crear-formulario">
         <div className="modal-categorias__crear-input-wrap">
@@ -19,7 +19,7 @@ export const BloqueCrearCategoria = ({
             ref={inputNuevoRef}
             type="text"
             className="modal-categorias__input-texto"
-            placeholder="Escribí el nombre de la nueva categoría (ej. Ciencia, Deportes, Cultura...)"
+            placeholder="Nombre de la categoría (ej. Becas, Académica, Convocatorias...)"
             value={nuevoNombre}
             onChange={(e) => setNuevoNombre(e.target.value)}
             onKeyDown={(e) => {
@@ -41,12 +41,12 @@ export const BloqueCrearCategoria = ({
           {creando ? (
             <>
               <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-              <span>Creando...</span>
+              <span>Guardando...</span>
             </>
           ) : (
             <>
               <span className="modal-categorias__btn-plus" aria-hidden="true">+</span>
-              <span>Crear categoría</span>
+              <span>Agregar categoría</span>
             </>
           )}
         </button>

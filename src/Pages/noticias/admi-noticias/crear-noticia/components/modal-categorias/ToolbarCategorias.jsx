@@ -35,10 +35,10 @@ export const ToolbarCategorias = ({
         <input
           type="text"
           className="modal-categorias__filtro-input"
-          placeholder="Buscar categoría específica..."
+          placeholder="Buscar categoría..."
           value={filtro}
           onChange={(e) => setFiltro(e.target.value)}
-          aria-label="Buscar categoría específica"
+          aria-label="Buscar categoría"
         />
         {filtro && (
           <button

@@ -42,9 +42,8 @@ export const TablaCategorias = ({
         <table className="modal-categorias__tabla">
           <thead>
             <tr>
-              <th style={{ width: '80px' }}>ID</th>
-              <th>Nombre de la etiqueta</th>
-              <th style={{ width: '130px', textAlign: 'right' }}>Acciones</th>
+              <th>Nombre de la categoría</th>
+              <th style={{ width: '110px', textAlign: 'right' }}>Acciones</th>
             </tr>
           </thead>
           <tbody>
