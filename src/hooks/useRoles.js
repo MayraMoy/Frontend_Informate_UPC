@@ -37,7 +37,7 @@ const obtenerRolesUsuario = (usuario) => {
 
 export const tieneRolAdministrador = (usuario) =>
   obtenerRolesUsuario(usuario).some(
-    (rol) => normalizarRol(rol) === 'ADMINISTRADOR'
+    (rol) => normalizarRol(rol) === 'ADMINISTRADOR' || normalizarRol(rol) === 'ADMIN'
   );
 
 export const tieneRolPersonalEscuela = (usuario) =>

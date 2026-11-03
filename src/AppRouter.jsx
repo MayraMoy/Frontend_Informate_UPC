@@ -39,6 +39,11 @@ const PendientesNoticias = lazy(() =>
   import('./Pages/noticias/admi-noticias/pendientes/PendientesNoticias.jsx'),
 );
 
+// Páginas del módulo de Usuarios
+const UsuariosPage = lazy(() =>
+  import('./Pages/usuarios/UsuariosPage.jsx'),
+);
+
 // Páginas del módulo de Resoluciones
 const CrearResolucionPage = lazy(() =>
   import('./Pages/resoluciones/CrearResolucionPage.jsx'),
@@ -182,6 +187,16 @@ const AppLayout = () => {
                 <RutaProtegida>
                   <RutaAdministrador>
                     <ComentariosPendientesPage />
+                  </RutaAdministrador>
+                </RutaProtegida>
+              )}
+            />
+            <Route
+              path="/usuarios"
+              element={(
+                <RutaProtegida>
+                  <RutaAdministrador>
+                    <UsuariosPage />
                   </RutaAdministrador>
                 </RutaProtegida>
               )}

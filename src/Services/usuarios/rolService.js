@@ -11,7 +11,7 @@ export const rolService = {
    */
   obtenerTodos: async () => {
     try {
-      const response = await api.get('/roles/obtener/todos');
+      const response = await api.get('/api/roles/obtener/todos');
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
@@ -27,7 +27,7 @@ export const rolService = {
    */
   obtenerPorId: async (id) => {
     try {
-      const response = await api.get(`/roles/obtener/${id}`);
+      const response = await api.get(`/api/roles/obtener/${id}`);
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
@@ -43,7 +43,7 @@ export const rolService = {
    */
   obtenerPorNombre: async (nombre) => {
     try {
-      const response = await api.get(`/roles/obtener/nombre/${encodeURIComponent(nombre)}`);
+      const response = await api.get(`/api/roles/obtener/nombre/${encodeURIComponent(nombre)}`);
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
@@ -59,7 +59,7 @@ export const rolService = {
    */
   crear: async (rolData) => {
     try {
-      const response = await api.post('/roles/crear', rolData);
+      const response = await api.post('/api/roles/crear', rolData);
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
@@ -76,7 +76,7 @@ export const rolService = {
    */
   actualizar: async (id, rolData) => {
     try {
-      const response = await api.put(`/roles/actualizar/${id}`, rolData);
+      const response = await api.put(`/api/roles/actualizar/${id}`, rolData);
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
@@ -92,7 +92,7 @@ export const rolService = {
    */
   eliminar: async (id) => {
     try {
-      const response = await api.delete(`/roles/eliminar/${id}`);
+      const response = await api.delete(`/api/roles/eliminar/${id}`);
       return response.data;
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
