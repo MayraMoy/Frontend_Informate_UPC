@@ -14,14 +14,6 @@ export const PerfilVista = ({ user, onEditar }) => {
         </div>
         <div className="perfil-identidad">
           <h2>{nombre}</h2>
-          <div className="perfil-badges">
-            <span className="perfil-rol-badge">{rol}</span>
-            {user?.estado && (
-              <span className={`perfil-estado-badge perfil-estado-badge--${user.estado.toLowerCase()}`}>
-                ● {user.estado}
-              </span>
-            )}
-          </div>
         </div>
         <button
           type="button"
