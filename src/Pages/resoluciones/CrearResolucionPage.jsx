@@ -23,7 +23,6 @@ export const CrearResolucionPage = () => {
   const [categorias, setCategorias] = useState([]);
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState('');
-  const [exito, setExito] = useState('');
 
   // Load categories on mount
   useEffect(() => {
@@ -56,7 +55,6 @@ export const CrearResolucionPage = () => {
 
   const handleSubmit = async (estadoDeseado) => {
     setError('');
-    setExito('');
 
     if (!numeroResolucion.trim()) {
       setError('El número de resolución es obligatorio (ej: Res. Rectoral 0542/2026).');
@@ -89,15 +87,17 @@ export const CrearResolucionPage = () => {
       // según requerimiento del proyecto. Se registra el payload formal de la resolución.
       await resolucionesService.crear(payload);
 
-      setExito(
-        estadoDeseado === 'VIGENTE'
-          ? 'Resolución publicada exitosamente.'
-          : 'Resolución guardada en estado Pendiente para revisión.',
-      );
+      const notificacion = {
+        tipo: 'success',
+        mensaje: estadoDeseado === 'VIGENTE'
+          ? 'La resolución se publicó exitosamente.'
+          : 'La resolución quedó pendiente de revisión.',
+      };
+      const destino = estadoDeseado === 'VIGENTE'
+        ? '/resoluciones'
+        : '/resoluciones/pendientes';
 
-      setTimeout(() => {
-        navigate(estadoDeseado === 'VIGENTE' ? '/resoluciones' : '/resoluciones/pendientes');
-      }, 1200);
+      navigate(destino, { state: { notificacion } });
     } catch (err) {
       setError(err.message || 'Error al guardar la resolución.');
     } finally {
@@ -118,7 +118,6 @@ export const CrearResolucionPage = () => {
       </div>
 
       {error && <div className="alert alert-danger" role="alert">{error}</div>}
-      {exito && <div className="alert alert-success" role="alert">{exito}</div>}
 
       <div className="crear-resolucion-card">
         <form onSubmit={(e) => e.preventDefault()}>

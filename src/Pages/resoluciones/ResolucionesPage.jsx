@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useMemo, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FiltrosResoluciones } from '../../Components/resoluciones/FiltrosResoluciones';
 import { TablaResoluciones } from '../../Components/resoluciones/TablaResoluciones';
 import { ResolucionCardDestacada } from '../../Components/resoluciones/ResolucionCardDestacada';
 import { ModalDetalleResolucion } from '../../Components/resoluciones/ModalDetalleResolucion';
 import { ModalEditarResolucion } from '../../Components/resoluciones/ModalEditarResolucion';
 import { PaginacionResoluciones } from '../../Components/resoluciones/PaginacionResoluciones';
+import { ToastNotificacion } from '../../Components/shared/ToastNotificacion';
 import { resolucionesService } from '../../Services/resoluciones/resolucionesService';
 import { categoriasResolucionService } from '../../Services/resoluciones/categoriasResolucionService';
 import AppContext from '../../Context/AppContext';
@@ -20,6 +21,8 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
   const SectionHeading = headingLevel === 2 ? 'h2' : 'h1';
   const { user } = useContext(AppContext);
   const esAdmin = puedeAccederGestion(user);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // Estados de datos
   const [resoluciones, setResoluciones] = useState([]);
@@ -27,6 +30,17 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
   const [cargando, setCargando] = useState(true);
   const [errorCarga, setErrorCarga] = useState('');
   const [intentoCarga, setIntentoCarga] = useState(0);
+  const [notificacion, setNotificacion] = useState(() => location.state?.notificacion || null);
+
+  useEffect(() => {
+    const notificacionNavegacion = location.state?.notificacion;
+    if (!notificacionNavegacion) return;
+
+    navigate(`${location.pathname}${location.search}${location.hash}`, {
+      replace: true,
+      state: null,
+    });
+  }, [location.hash, location.pathname, location.search, location.state, navigate]);
 
   // Estados de filtros
   const [busqueda, setBusqueda] = useState('');
@@ -182,12 +196,20 @@ export const ResolucionesPage = ({ headingLevel = 1 }) => {
   };
 
   // Callback cuando se guarda la edición exitosamente
-  const handleGuardadoExitoso = () => {
+  const handleGuardadoExitoso = (mensaje) => {
     setIntentoCarga((prev) => prev + 1);
+    setNotificacion({ tipo: 'success', mensaje });
   };
 
   return (
     <section id="resoluciones" className="resoluciones-page-container" aria-labelledby="resoluciones-titulo">
+      <ToastNotificacion
+        visible={Boolean(notificacion?.mensaje)}
+        tipo={notificacion?.tipo || 'success'}
+        mensaje={notificacion?.mensaje || ''}
+        onCerrar={() => setNotificacion(null)}
+      />
+
       {/* 1. Encabezado Institucional */}
       <header className="resoluciones-header">
         <div className="resoluciones-header-content">
