@@ -9,12 +9,8 @@ import DashboardAdmin from './Pages/inicio/DashboardAdmin.jsx';
 import { puedeAccederGestion } from './hooks/useRoles.js';
 import { Sidebar } from './Components/navegacion/sidebar/Sidebar.jsx';
 import { Footer } from './Components/navegacion/Footer/Footer.jsx';
+import { ConfirmacionRegistroPage } from './Pages/usuarios/ConfirmacionRegistroPage.jsx';
 
-const ConfirmacionRegistroPage = lazy(() =>
-  import('./Pages/usuarios/ConfirmacionRegistroPage.jsx').then((module) => ({
-    default: module.ConfirmacionRegistroPage,
-  })),
-);
 const LoginPage = lazy(() =>
   import('./Components/usuarios/login/LoginPage.jsx').then((module) => ({
     default: module.LoginPage,

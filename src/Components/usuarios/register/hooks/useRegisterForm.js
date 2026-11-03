@@ -1,6 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import usuarioService from '../../../../Services/usuarios/usuarioService';
+import { resolverRolUsuario } from '../../../../hooks/useRoles';
+import AppContext from '../../../../Context/AppContext';
 import {
   INITIAL_REGISTER_DATA,
   REGISTER_EMAIL_REGEX,
@@ -9,6 +11,7 @@ import { evaluatePasswordStrength } from '../utils/passwordStrength';
 
 const useRegisterForm = () => {
   const navigate = useNavigate();
+  const { setUser } = useContext(AppContext);
   const [formData, setFormData] = useState(INITIAL_REGISTER_DATA);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -62,10 +65,34 @@ const useRegisterForm = () => {
       };
 
       await usuarioService.registrar(nuevoUsuarioPayload);
-      setSuccessMsg('¡Cuenta creada con éxito! Redirigiendo a la confirmación...');
-      window.setTimeout(() => {
-        navigate('/registro-completado', { state: { email } });
-      }, 1000);
+      setSuccessMsg('¡Cuenta creada con éxito! Ingresando al portal...');
+
+      // Auto-login para acceder directamente al inicio de estudiante
+      try {
+        const respuestaLogin = await usuarioService.iniciarSesion(
+          email,
+          formData.password,
+        );
+        const usuarioRespuesta = respuestaLogin.usuario ?? respuestaLogin;
+        const usuarioLogueado = await resolverRolUsuario(usuarioRespuesta);
+
+        if (respuestaLogin.token) {
+          localStorage.setItem('token', respuestaLogin.token);
+        }
+        setUser?.(usuarioLogueado);
+        localStorage.setItem(
+          'usuarioSesion',
+          JSON.stringify(usuarioLogueado),
+        );
+
+        window.setTimeout(() => {
+          navigate('/', { replace: true });
+        }, 700);
+      } catch {
+        window.setTimeout(() => {
+          navigate('/login', { state: { email, registrado: true } });
+        }, 900);
+      }
     } catch (error) {
       setErrorMsg(error.message || 'Error al crear la cuenta. Inténtalo nuevamente.');
     } finally {
