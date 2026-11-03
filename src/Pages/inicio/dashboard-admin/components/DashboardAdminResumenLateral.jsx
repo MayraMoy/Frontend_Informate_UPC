@@ -85,17 +85,6 @@ export const DashboardAdminResumenLateral = ({
           </Link>
         </div>
       </div>
-
-      {/* 3. Estado de la Plataforma */}
-      <div className="dashboard-admin__bloque-card dashboard-admin__bloque-card--lateral dashboard-admin__bloque-card--estado">
-        <div className="dashboard-admin__estado-cabecera">
-          <span className="dashboard-admin__indicador-punto" aria-hidden="true" />
-          <span className="dashboard-admin__estado-titulo">Servicios operativos</span>
-        </div>
-        <p className="dashboard-admin__estado-subtexto">
-          APIs de Noticias y Resoluciones conectadas correctamente al servidor UPC.
-        </p>
-      </div>
     </aside>
   );
 };

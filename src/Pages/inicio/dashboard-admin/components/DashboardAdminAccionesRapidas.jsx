@@ -9,8 +9,8 @@ export const DashboardAdminAccionesRapidas = ({ onAbrirCategorias }) => {
 
         <div className="dashboard-admin__acciones-lista">
           {/* 1. Redactar noticia */}
-          <Link to="/noticias/crear" className="dashboard-admin__btn-accion dashboard-admin__btn-accion--primario">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <Link to="/noticias/crear" className="dashboard-admin__btn-accion">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <line x1="12" y1="5" x2="12" y2="19" />
               <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
@@ -18,7 +18,7 @@ export const DashboardAdminAccionesRapidas = ({ onAbrirCategorias }) => {
           </Link>
 
           {/* 2. Cargar resolución */}
-          <Link to="/resoluciones/crear" className="dashboard-admin__btn-accion dashboard-admin__btn-accion--secundario">
+          <Link to="/resoluciones/crear" className="dashboard-admin__btn-accion">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <line x1="12" y1="5" x2="12" y2="19" />
               <line x1="5" y1="12" x2="19" y2="12" />
@@ -29,7 +29,7 @@ export const DashboardAdminAccionesRapidas = ({ onAbrirCategorias }) => {
           {/* 3. Gestionar categorías */}
           <button
             type="button"
-            className="dashboard-admin__btn-accion dashboard-admin__btn-accion--secundario"
+            className="dashboard-admin__btn-accion"
             onClick={onAbrirCategorias}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -40,7 +40,7 @@ export const DashboardAdminAccionesRapidas = ({ onAbrirCategorias }) => {
           </button>
 
           {/* 4. Ver pendientes */}
-          <Link to="/noticias/pendientes" className="dashboard-admin__btn-accion dashboard-admin__btn-accion--secundario">
+          <Link to="/noticias/pendientes" className="dashboard-admin__btn-accion">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <circle cx="12" cy="12" r="10" />
               <polyline points="12 6 12 12 16 14" />
