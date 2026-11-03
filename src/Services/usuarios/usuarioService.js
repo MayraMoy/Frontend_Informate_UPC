@@ -13,8 +13,9 @@ export const usuarioService = {
       return response.data;
     } catch (error) {
       const mensaje =
+        (typeof error.response?.data === 'string' ? error.response.data : null) ||
         error.response?.data?.message ||
-        error.response?.data ||
+        error.response?.data?.error ||
         error.message;
 
       if (
@@ -43,8 +44,9 @@ export const usuarioService = {
       return response.data;
     } catch (error) {
       const mensaje =
+        (typeof error.response?.data === 'string' ? error.response.data : null) ||
         error.response?.data?.message ||
-        error.response?.data ||
+        error.response?.data?.error ||
         error.message;
 
       throw new Error(
@@ -69,8 +71,9 @@ export const usuarioService = {
       return response.data;
     } catch (error) {
       const mensaje =
+        (typeof error.response?.data === 'string' ? error.response.data : null) ||
         error.response?.data?.message ||
-        error.response?.data ||
+        error.response?.data?.error ||
         error.message;
 
       throw new Error(
@@ -95,8 +98,9 @@ export const usuarioService = {
       return response.data;
     } catch (error) {
       const mensaje =
+        (typeof error.response?.data === 'string' ? error.response.data : null) ||
         error.response?.data?.message ||
-        error.response?.data ||
+        error.response?.data?.error ||
         error.message;
 
       throw new Error(
@@ -120,8 +124,9 @@ export const usuarioService = {
       return response.data;
     } catch (error) {
       const mensaje =
+        (typeof error.response?.data === 'string' ? error.response.data : null) ||
         error.response?.data?.message ||
-        error.response?.data ||
+        error.response?.data?.error ||
         error.message;
 
       throw new Error(
@@ -144,8 +149,9 @@ export const usuarioService = {
       return response.data;
     } catch (error) {
       const mensaje =
+        (typeof error.response?.data === 'string' ? error.response.data : null) ||
         error.response?.data?.message ||
-        error.response?.data ||
+        error.response?.data?.error ||
         error.message;
 
       throw new Error(
@@ -170,8 +176,9 @@ export const usuarioService = {
       return response.data;
     } catch (error) {
       const mensaje =
+        (typeof error.response?.data === 'string' ? error.response.data : null) ||
         error.response?.data?.message ||
-        error.response?.data ||
+        error.response?.data?.error ||
         error.message;
 
       throw new Error(
@@ -199,8 +206,9 @@ export const usuarioService = {
       return response.data;
     } catch (error) {
       const mensaje =
+        (typeof error.response?.data === 'string' ? error.response.data : null) ||
         error.response?.data?.message ||
-        error.response?.data ||
+        error.response?.data?.error ||
         error.message;
 
       throw new Error(

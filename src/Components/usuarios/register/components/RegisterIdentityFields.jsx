@@ -42,7 +42,7 @@ const RegisterIdentityFields = ({ formData, onChange, disabled }) => (
         </div>
       </div>
       <div className="col-12 col-md-6 text-start">
-        <label htmlFor="email" className="form-label-custom mb-1">Email institucional <span className="text-warning">*</span></label>
+        <label htmlFor="email" className="form-label-custom mb-1">Correo electrónico <span className="text-warning">*</span></label>
         <div className="input-group-custom">
           <span className="input-icon" aria-hidden="true">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -50,7 +50,7 @@ const RegisterIdentityFields = ({ formData, onChange, disabled }) => (
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
             </svg>
           </span>
-          <input id="email" name="email" type="email" className="input-field-custom" placeholder="usuario@upc.edu.ar" value={formData.email} onChange={onChange} autoComplete="email" disabled={disabled} />
+          <input id="email" name="email" type="email" className="input-field-custom" placeholder="ejemplo@correo.com" value={formData.email} onChange={onChange} autoComplete="email" disabled={disabled} />
         </div>
       </div>
     </div>
