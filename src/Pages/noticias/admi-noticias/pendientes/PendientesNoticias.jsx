@@ -6,6 +6,10 @@ import {
   PendientesTabla,
   ModalPreviewNoticia,
 } from './components';
+import {
+  ToastNotificacion,
+  ModalConfirmacionEliminar,
+} from '../../../../Components/shared';
 import '../../home-noticias/styles/NoticiasHome.css';
 import '../ver-noticias/styles/VerNoticias.css';
 import './styles/PendientesNoticias.css';
@@ -16,7 +20,12 @@ export const PendientesNoticias = () => {
     cargando,
     error,
     mensajeExito,
+    setMensajeExito,
+    setErrorAccion,
     accionEnProgreso,
+    noticiaAEliminar,
+    confirmarEliminar,
+    cancelarEliminar,
     tabEstado,
     busqueda,
     setBusqueda,
@@ -38,52 +47,25 @@ export const PendientesNoticias = () => {
   return (
     <div className="pendientes-page-container">
       <div className="pendientes-content-wrapper">
-        {/* Encabezado */}
-        <PendientesHeader />
-
-        {/* Mensajes de retroalimentación accesibles (Sin emojis) */}
-        {mensajeExito && (
-          <div className="pendientes-banner-alerta banner-exito" role="status">
-            <svg
-              className="alerta-icono"
-              viewBox="0 0 24 24"
-              width="20"
-              height="20"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-              <polyline points="22 4 12 14.01 9 11.01" />
-            </svg>
-            <span>{mensajeExito}</span>
-          </div>
-        )}
+        {/* Notificación Toast flotante sin layout shift */}
+        <ToastNotificacion
+          visible={Boolean(mensajeExito)}
+          tipo="success"
+          mensaje={mensajeExito}
+          onCerrar={() => setMensajeExito('')}
+        />
 
         {error && (
-          <div className="pendientes-banner-alerta banner-error" role="alert">
-            <svg
-              className="alerta-icono"
-              viewBox="0 0 24 24"
-              width="20"
-              height="20"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="12" />
-              <line x1="12" y1="16" x2="12.01" y2="16" />
-            </svg>
-            <span>{error}</span>
-          </div>
+          <ToastNotificacion
+            visible={Boolean(error)}
+            tipo="error"
+            mensaje={error}
+            onCerrar={() => setErrorAccion && setErrorAccion('')}
+          />
         )}
+
+        {/* Encabezado */}
+        <PendientesHeader />
 
         {/* Filtros de Pestañas, Búsqueda y Categorías */}
         <PendientesFiltros
@@ -117,6 +99,18 @@ export const PendientesNoticias = () => {
           accionEnProgreso={accionEnProgreso}
         />
       )}
+
+      {/* Modal de Confirmación Destructiva para Eliminar */}
+      <ModalConfirmacionEliminar
+        isOpen={Boolean(noticiaAEliminar)}
+        titulo="¿Eliminar noticia definitivamente?"
+        itemNombre={noticiaAEliminar?.titulo}
+        mensaje="Esta acción es permanente y no se podrá deshacer. La noticia será retirada del portal."
+        textoBotonConfirmar="Eliminar noticia"
+        enProgreso={Boolean(accionEnProgreso)}
+        onConfirmar={confirmarEliminar}
+        onCancelar={cancelarEliminar}
+      />
     </div>
   );
 };

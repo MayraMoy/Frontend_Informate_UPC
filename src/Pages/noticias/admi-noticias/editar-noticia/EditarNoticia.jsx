@@ -5,7 +5,7 @@ import useCategorias from '../../../../hooks/useCategorias';
 import { useEditarNoticia } from './hooks/useEditarNoticia';
 import { EncabezadoEditarNoticia } from './components/EncabezadoEditarNoticia';
 import { FormularioEditarNoticia } from './components/FormularioEditarNoticia';
-import { ModalConfirmacionEdicion } from './components/ModalConfirmacionEdicion';
+import { ToastNotificacion } from '../../../../Components/shared/ToastNotificacion';
 import VistaPreviaNoticia from '../crear-noticia/components/VistaPreviaNoticia';
 import { IconoEditar, IconoAlerta } from '../crear-noticia/components/IconosNoticia';
 import { PESTANAS_EDICION } from './data/editarNoticiaData';
@@ -107,10 +107,15 @@ const EditarNoticia = () => {
           onCambiarPestana={setPestanaActiva}
         />
 
-        {/* Modal emergente de confirmación tras registrar cambios */}
-        <ModalConfirmacionEdicion
-          isOpen={Boolean(mensajeExito)}
-          onVolverListado={() => navigate('/noticias/ver')}
+        {/* Notificación flotante de confirmación tras registrar cambios */}
+        <ToastNotificacion
+          visible={Boolean(mensajeExito)}
+          tipo="success"
+          mensaje={mensajeExito}
+          accion={{
+            texto: 'Ver listado',
+            onClick: () => navigate('/noticias/ver'),
+          }}
           onCerrar={limpiarMensajeExito}
         />
 

@@ -105,23 +105,31 @@ export const usePendientesAcciones = (user, cargarNoticias) => {
     }
   };
 
-  // Acción: Eliminar Noticia definitivamente
-  const handleEliminar = async (noticia) => {
-    if (
-      !window.confirm(
-        `¿Eliminar definitivamente la noticia "${noticia.titulo}"? Esta acción no se puede deshacer.`,
-      )
-    ) {
-      return;
-    }
+  const [noticiaAEliminar, setNoticiaAEliminar] = useState(null);
+
+  // Solicitar eliminación (abre modal de confirmación destructiva)
+  const solicitarEliminar = (noticia) => {
+    setNoticiaAEliminar(noticia);
+  };
+
+  const cancelarEliminar = () => {
+    setNoticiaAEliminar(null);
+  };
+
+  // Confirmar y procesar eliminación en el backend
+  const confirmarEliminar = async () => {
+    if (!noticiaAEliminar) return;
+    const noticia = noticiaAEliminar;
+
     setAccionEnProgreso(noticia.id);
     setErrorAccion('');
     setMensajeExito('');
+
     try {
       await eliminarNoticia(noticia.id);
       setMensajeExito(`Noticia "${noticia.titulo}" eliminada correctamente.`);
+      setNoticiaAEliminar(null);
       await cargarNoticias();
-      setTimeout(() => setMensajeExito(''), 4500);
     } catch (err) {
       setErrorAccion(
         `Error al eliminar noticia: ${
@@ -133,12 +141,21 @@ export const usePendientesAcciones = (user, cargarNoticias) => {
     }
   };
 
+  // Compatibilidad: handleEliminar ahora abre el modal destructivo
+  const handleEliminar = (noticia) => {
+    solicitarEliminar(noticia);
+  };
+
   return {
     accionEnProgreso,
     mensajeExito,
     setMensajeExito,
     errorAccion,
     setErrorAccion,
+    noticiaAEliminar,
+    solicitarEliminar,
+    cancelarEliminar,
+    confirmarEliminar,
     handlePublicar,
     handleCambiarEstado,
     handleEliminar,

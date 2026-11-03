@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppContext from '../../../../../Context/AppContext';
 import CamposNoticia from './CamposNoticia';
 import AccionesFormulario from './AccionesFormulario';
 import useFormularioNoticia from '../hooks/useFormularioNoticia';
 import useCrearNoticia from '../../../../../hooks/useCrearNoticia';
+import { ToastNotificacion } from '../../../../../Components/shared/ToastNotificacion';
 import {
   EncabezadoFormularioNoticia,
-  BannerExitoCrearNoticia,
   VistaPreviaSeccion,
   ModalConfirmarPublicacion,
   ModalConfirmarLimpiar,
@@ -20,6 +21,7 @@ const FormularioNoticia = ({
   errorCategorias = '',
   onRecargarCategorias,
 }) => {
+  const navigate = useNavigate();
   const { user } = useContext(AppContext);
   const formulario = useFormularioNoticia();
   const creacion = useCrearNoticia();
@@ -27,7 +29,12 @@ const FormularioNoticia = ({
   const [pestanaActiva, setPestanaActiva] = useState('editor'); // 'editor' | 'preview'
   const [confirmacionAbierta, setConfirmacionAbierta] = useState(false);
   const [confirmacionLimpiarAbierta, setConfirmacionLimpiarAbierta] = useState(false);
-  const [mensajeExito, setMensajeExito] = useState('');
+  const [toast, setToast] = useState({
+    visible: false,
+    mensaje: '',
+    tipo: 'success',
+    accion: null,
+  });
 
   // Primer paso: validar y pedir confirmación.
   const manejarEnvio = (event) => {
@@ -47,7 +54,6 @@ const FormularioNoticia = ({
     if (creacion.guardando) return;
 
     setConfirmacionAbierta(false);
-    setMensajeExito('');
 
     const resultado = await creacion.crearNoticia(
       formulario.obtenerDatos(),
@@ -58,7 +64,24 @@ const FormularioNoticia = ({
     if (!resultado?.exito) return;
 
     formulario.limpiar();
-    setMensajeExito('¡La noticia se publicó exitosamente!');
+    setPestanaActiva('editor');
+    setToast({
+      visible: true,
+      tipo: 'success',
+      mensaje: 'Noticia publicada exitosamente.',
+      accion: resultado?.noticia?.id
+        ? {
+            texto: 'Ver publicación',
+            onClick: () =>
+              navigate(`/noticias/${resultado.noticia.id}`, {
+                state: { noticia: resultado.noticia },
+              }),
+          }
+        : {
+            texto: 'Ver listado',
+            onClick: () => navigate('/noticias/ver'),
+          },
+    });
   };
 
   const cancelarCreacion = () => {
@@ -81,7 +104,6 @@ const FormularioNoticia = ({
   const confirmarLimpieza = () => {
     formulario.limpiar();
     setConfirmacionLimpiarAbierta(false);
-    setMensajeExito('');
   };
 
   const categoriaSeleccionada = categorias.find(
@@ -91,20 +113,20 @@ const FormularioNoticia = ({
   return (
     <div className="crear-noticia-pagina">
       <div className="crear-noticia__contenedor-ancho">
+        {/* Notificación Toast flotante */}
+        <ToastNotificacion
+          visible={toast.visible}
+          tipo={toast.tipo}
+          mensaje={toast.mensaje}
+          accion={toast.accion}
+          onCerrar={() => setToast((prev) => ({ ...prev, visible: false }))}
+        />
+
         {/* Encabezado con pestañas integradas */}
         <EncabezadoFormularioNoticia
           pestanaActiva={pestanaActiva}
           setPestanaActiva={setPestanaActiva}
           tieneContenido={Boolean(formulario.valores.titulo || formulario.imagenes.length > 0)}
-        />
-
-        {/* Banner de éxito */}
-        <BannerExitoCrearNoticia
-          mensajeExito={mensajeExito}
-          onCrearOtra={() => {
-            setMensajeExito('');
-            setPestanaActiva('editor');
-          }}
         />
 
         {/* Contenido según pestaña */}
