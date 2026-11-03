@@ -1,31 +1,88 @@
-import { useContext } from 'react';
-import AppContext from '../../Context/AppContext.js';
-import { obtenerNombreUsuario, obtenerRolesUsuario } from './utils/perfilUsuario.js';
+import React from 'react';
+import usePerfil from './hooks/usePerfil.js';
+import PerfilVista from './components/PerfilVista.jsx';
+import PerfilFormulario from './components/PerfilFormulario.jsx';
+import { ToastNotificacion } from '../../Components/shared/ToastNotificacion.jsx';
 import './styles/Perfil.css';
 
 const Perfil = () => {
-  const { user } = useContext(AppContext);
-  const nombre = obtenerNombreUsuario(user);
-  const rol = obtenerRolesUsuario(user);
+  const {
+    user,
+    editando,
+    guardando,
+    formData,
+    errores,
+    mostrarPassword,
+    mostrarConfirmPassword,
+    mensajeExito,
+    mensajeError,
+    setMostrarPassword,
+    setMostrarConfirmPassword,
+    limpiarMensajeExito,
+    limpiarMensajeError,
+    iniciarEdicion,
+    cancelarEdicion,
+    manejarCambio,
+    guardarPerfil,
+  } = usePerfil();
 
   return (
-    <section className="perfil-page container py-5" aria-labelledby="perfil-title">
+    <section className="perfil-page container py-4 py-md-5" aria-labelledby="perfil-title">
       <div className="perfil-heading">
+        <span className="perfil-eyebrow">Mi Cuenta</span>
         <h1 id="perfil-title">Mi perfil</h1>
-        <p>Consultá la información de tu cuenta.</p>
+        <p>Consultá y gestioná tus datos personales e información institucional.</p>
       </div>
 
-      <article className="perfil-card">
-        <div className="perfil-avatar" aria-hidden="true">{nombre.charAt(0).toUpperCase()}</div>
-        <div className="perfil-details">
-          <h2>{nombre}</h2>
-          <dl>
-            <div><dt>Nombre</dt><dd>{nombre}</dd></div>
-            {user?.email && <div><dt>Correo electrónico</dt><dd>{user.email}</dd></div>}
-            <div><dt>Rol</dt><dd>{rol}</dd></div>
-          </dl>
+      {/* Alerta flotante de éxito */}
+      <ToastNotificacion
+        visible={Boolean(mensajeExito)}
+        tipo="success"
+        mensaje={mensajeExito}
+        onCerrar={limpiarMensajeExito}
+      />
+
+      {/* Alerta de error en formulario */}
+      {mensajeError && (
+        <div className="alert alert-danger d-flex align-items-center justify-content-between mb-4" role="alert">
+          <div className="d-flex align-items-center gap-2">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <span>{mensajeError}</span>
+          </div>
+          <button
+            type="button"
+            className="btn-close"
+            aria-label="Cerrar error"
+            onClick={limpiarMensajeError}
+          />
         </div>
-      </article>
+      )}
+
+      {/* Modo Edición o Modo Visualización */}
+      {editando ? (
+        <PerfilFormulario
+          user={user}
+          formData={formData}
+          errores={errores}
+          guardando={guardando}
+          mostrarPassword={mostrarPassword}
+          mostrarConfirmPassword={mostrarConfirmPassword}
+          onCambio={manejarCambio}
+          onToggleMostrarPassword={() => setMostrarPassword((prev) => !prev)}
+          onToggleMostrarConfirmPassword={() => setMostrarConfirmPassword((prev) => !prev)}
+          onSubmit={guardarPerfil}
+          onCancelar={cancelarEdicion}
+        />
+      ) : (
+        <PerfilVista
+          user={user}
+          onEditar={iniciarEdicion}
+        />
+      )}
     </section>
   );
 };

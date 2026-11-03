@@ -4,9 +4,10 @@ import { defineConfig, loadEnv } from 'vite';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_');
 
-  const apiTarget = (env.VITE_API_URL || 'http://localhost:8080')
-    .replace(/\/+$/, '')
-    .replace(/\/api$/i, '');
+  const rawUrl = (env.VITE_API_URL || '').trim();
+  const apiTarget = (!rawUrl || rawUrl === '/api')
+    ? 'http://localhost:8080'
+    : rawUrl.replace(/\/+$/, '').replace(/\/api$/i, '');
 
   return {
     plugins: [react()],
@@ -20,4 +21,3 @@ export default defineConfig(({ mode }) => {
     },
   };
 });
-

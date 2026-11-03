@@ -4,9 +4,9 @@ import { IconoPlaceholder } from './IconoPlaceholder.jsx';
 import { useNoticiaCard } from '../../hooks/useNoticiaCard.js';
 
 export const NovedadSecundariaCard = ({ noticia, onClick }) => {
-  if (!noticia) return null;
-
   const { formatearFecha } = useNoticiaCard(noticia);
+
+  if (!noticia) return null;
   const imgSecundaria = noticia?.imagenes?.find((img) => img?.url)?.url;
   const fechaValor =
     noticia?.fechaPublicacion ||

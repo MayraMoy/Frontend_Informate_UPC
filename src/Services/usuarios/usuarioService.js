@@ -114,6 +114,27 @@ export const usuarioService = {
   /**
    * Actualiza los datos de un usuario.
    */
+  actualizarPerfil: async (id, usuarioData) => {
+    try {
+      const response = await api.put(
+        'api/usuarios/actualizar-perfil/' + id,
+        usuarioData
+      );
+      return response.data;
+    } catch (error) {
+      const mensaje =
+        (typeof error.response?.data === 'string' ? error.response.data : null) ||
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        error.message;
+      throw new Error(
+        typeof mensaje === 'string'
+          ? mensaje
+          : 'Error al actualizar el perfil'
+      );
+    }
+  },
+
   actualizar: async (id, usuarioData) => {
     try {
       const response = await api.put(
