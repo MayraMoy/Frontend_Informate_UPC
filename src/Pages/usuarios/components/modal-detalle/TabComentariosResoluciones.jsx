@@ -1,5 +1,19 @@
 import React from 'react';
 
+const obtenerClaseEstado = (estado) => {
+  const est = String(estado || '').toLowerCase().trim();
+  if (['publicada', 'publicado', 'aprobada', 'aprobado', 'vigente', 'activo', 'respondido'].includes(est)) {
+    return 'usuarios-estado-badge--aprobado';
+  }
+  if (['borrador', 'pendiente', 'en_revision', 'en revision'].includes(est)) {
+    return 'usuarios-estado-badge--pendiente';
+  }
+  if (['rechazada', 'rechazado', 'archivada', 'archivado', 'suspendido'].includes(est)) {
+    return 'usuarios-estado-badge--rechazado';
+  }
+  return 'usuarios-estado-badge--neutral';
+};
+
 export const TabComentariosResoluciones = ({
   comentarios,
   cargando,
@@ -35,12 +49,9 @@ export const TabComentariosResoluciones = ({
 
   return (
     <div className="usuarios-tab-pane">
-      <div className="d-flex align-items-center justify-content-between mb-3">
-        <h4 className="usuarios-modal-seccion-titulo mb-0">
-          Consultas y comentarios sobre Resoluciones
-        </h4>
+      <div className="usuarios-tab-context-bar d-flex align-items-center justify-content-between mb-3">
         <span className="text-muted small">
-          {comentarios.length} {comentarios.length === 1 ? 'comentario' : 'comentarios'} registrado{comentarios.length === 1 ? '' : 's'}
+          Consultas y opiniones emitidas en resoluciones oficiales ({comentarios.length})
         </span>
       </div>
 
@@ -58,25 +69,31 @@ export const TabComentariosResoluciones = ({
               <div className="usuarios-comentario-head">
                 <div className="d-flex align-items-center gap-2 flex-wrap">
                   <span className="usuarios-resolucion-ref-pill">
-                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                       <polyline points="14 2 14 8 20 8" />
                     </svg>
                     Resolución #{numResolucion}
                   </span>
                   {c.estado && (
-                    <span className={`usuarios-estado-badge usuarios-estado-badge--${String(c.estado).toLowerCase()}`}>
-                      ● {c.estado}
+                    <span className={`usuarios-estado-badge ${obtenerClaseEstado(c.estado)}`}>
+                      {c.estado}
                     </span>
                   )}
                   {c.nombreCarrera && (
-                    <span className="text-muted small">
-                      • Carrera: {c.nombreCarrera} {c.anioCarrera ? `(${c.anioCarrera}° año)` : ''}
+                    <span className="usuarios-tag-categoria">
+                      {c.nombreCarrera} {c.anioCarrera ? `(${c.anioCarrera}° año)` : ''}
                     </span>
                   )}
                 </div>
-                <time className="text-muted small">
-                  {formatearFecha(c.fechaCreacion)}
+                <time className="usuarios-pub-fecha" dateTime={c.fechaCreacion}>
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                  <span>{formatearFecha(c.fechaCreacion)}</span>
                 </time>
               </div>
 
@@ -92,7 +109,7 @@ export const TabComentariosResoluciones = ({
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <polyline points="9 17 4 12 9 7" />
                       <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
                     </svg>

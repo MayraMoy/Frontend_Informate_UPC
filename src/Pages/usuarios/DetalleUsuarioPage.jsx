@@ -3,7 +3,6 @@ import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import usuarioService from '../../Services/usuarios/usuarioService.js';
 import useDetalleUsuarioActividad from './hooks/useDetalleUsuarioActividad.js';
 import {
-  ModalDetalleKpis,
   ModalDetalleTabs,
   TabComentariosResoluciones,
   TabInfoCuenta,
@@ -107,8 +106,8 @@ export const DetalleUsuarioPage = () => {
         onCerrar={cerrarToast}
       />
 
-      {/* Barra superior: Gestión de Usuarios / Nombre del usuario + Botón volver */}
-      <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+      {/* Barra superior: Navegación limpia de migas de pan */}
+      <div className="mb-4">
         <nav aria-label="Ruta de navegación">
           <ol className="breadcrumb mb-0">
             <li className="breadcrumb-item">
@@ -121,17 +120,6 @@ export const DetalleUsuarioPage = () => {
             </li>
           </ol>
         </nav>
-
-        <button
-          type="button"
-          className="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2"
-          onClick={() => navigate('/usuarios')}
-        >
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-          <span>Volver a la nómina</span>
-        </button>
       </div>
 
       {/* Contenedor Principal de la Ficha del Usuario */}
@@ -205,17 +193,7 @@ export const DetalleUsuarioPage = () => {
           </div>
         </div>
 
-        {/* KPIs de Actividad Institucional */}
-        <ModalDetalleKpis
-          comentariosCount={comentarios.length}
-          noticiasCount={noticias.length}
-          resolucionesCount={resoluciones.length}
-          cargando={cargandoActividad}
-          pestanaActiva={pestanaActiva}
-          onSelectPestana={setPestanaActiva}
-        />
-
-        {/* Pestañas de Navegación */}
+        {/* Pestañas de Navegación con métricas integradas y jerarquía clara */}
         <ModalDetalleTabs
           pestanaActiva={pestanaActiva}
           onSelectPestana={setPestanaActiva}
