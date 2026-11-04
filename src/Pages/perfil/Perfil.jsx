@@ -30,7 +30,6 @@ const Perfil = () => {
     <div className="perfil-page-bg">
       <section className="perfil-page" aria-labelledby="perfil-title">
       <div className="perfil-heading">
-        <span className="perfil-eyebrow">Mi Cuenta</span>
         <h1 id="perfil-title">Mi perfil</h1>
         <p>Consultá y gestioná tus datos personales e información institucional.</p>
       </div>

@@ -48,11 +48,11 @@
 }
 
 .dashboard-admin__saludo {
-  font-size: 1.85rem;
+  font-size: clamp(1.75rem, 2.5vw, 2.1rem);
   font-weight: 700;
   color: #0f172a;
-  letter-spacing: -0.02em;
-  margin: 0;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.45rem;
   line-height: 1.25;
 }
 
@@ -61,11 +61,11 @@
 }
 
 .dashboard-admin__subtitulo {
-  font-size: 0.94rem;
-  color: #475569;
-  margin: 0.4rem 0 0;
+  font-size: 0.95rem;
+  color: #64748b;
+  margin: 0;
   max-width: 680px;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .dashboard-admin__btn-actualizar {

@@ -110,7 +110,6 @@ export const CrearResolucionPage = () => {
       <div className="crear-resolucion-container">
       <div className="crear-resolucion-header">
         <div>
-          <span className="crear-badge-modulo">MÓDULO DE GESTIÓN</span>
           <h1 className="crear-resolucion-title">Crear Resolución Académica</h1>
           <p className="crear-resolucion-subtitle">
             Redacta y registra una nueva disposición oficial institucional según la normativa vigente.

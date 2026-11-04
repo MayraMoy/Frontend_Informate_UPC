@@ -31,16 +31,19 @@
 }
 
 .usuarios-header h1 {
-  margin: 0 0 0.5rem;
-  color: #172033;
-  font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+  margin: 0 0 0.45rem;
+  color: #0f172a;
+  font-size: clamp(1.75rem, 2.5vw, 2.1rem);
   font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
 }
 
 .usuarios-header p {
   margin: 0;
   color: #64748b;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 /* Métricas / Estadísticas */

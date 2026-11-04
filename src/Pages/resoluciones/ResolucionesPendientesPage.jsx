@@ -110,7 +110,6 @@ export const ResolucionesPendientesPage = () => {
       <div className="pendientes-container">
       <div className="pendientes-header">
         <div>
-          <span className="pendientes-badge">BANDEJA DE APROBACIÓN</span>
           <h1 className="pendientes-title">Resoluciones Pendientes de Revisión</h1>
           <p className="pendientes-subtitle">
             Evalúa, aprueba o archiva las disposiciones presentadas por secretaría y autoridades.

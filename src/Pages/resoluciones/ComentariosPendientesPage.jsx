@@ -68,7 +68,6 @@ export const ComentariosPendientesPage = () => {
       <div className="comentarios-container">
       <div className="comentarios-header">
         <div>
-          <span className="comentarios-badge">MODERACIÓN ESTUDIANTIL</span>
           <h1 className="comentarios-title">Comentarios de Estudiantes Pendientes</h1>
           <p className="comentarios-subtitle">
             Revisa y modera las consultas y opiniones que los alumnos realizan en las resoluciones publicadas.

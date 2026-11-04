@@ -79,18 +79,18 @@
 }
 
 .pendientes-titulo {
-  font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+  font-size: clamp(1.75rem, 2.5vw, 2.1rem);
   font-weight: 700;
-  color: var(--upc-texto-oscuro);
+  color: #0f172a;
   line-height: 1.25;
-  margin: 0 0 0.5rem;
-  letter-spacing: -0.02em;
+  margin: 0 0 0.45rem;
+  letter-spacing: -0.025em;
 }
 
 .pendientes-descripcion {
   font-size: 0.95rem;
-  color: var(--upc-texto-suave);
-  line-height: 1.55;
+  color: #64748b;
+  line-height: 1.5;
   margin: 0;
 }
 
