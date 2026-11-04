@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { obtenerEstadoResolucion } from './estadoResolucion';
 
 /**
  * Modal interactivo para visualizar el detalle completo de una resolución académica.
@@ -57,30 +58,18 @@ export const ModalDetalleResolucion = ({
   };
 
   const renderEstadoBadge = (estado = '') => {
-    const est = estado.toLowerCase();
-    let dotColor = '#10B981';
-    let estadoTexto = 'Vigente';
-    let estadoClass = 'estado-vigente';
-
-    if (est.includes('archiv')) {
-      dotColor = '#EF4444';
-      estadoTexto = 'Archivado';
-      estadoClass = 'estado-archivado';
-    } else if (est.includes('pend')) {
-      dotColor = '#3B82F6';
-      estadoTexto = 'Pendiente';
-      estadoClass = 'estado-pendiente';
-    }
+    const estadoInfo = obtenerEstadoResolucion(estado);
 
     return (
-      <span className={`estado-indicador-badge ${estadoClass}`}>
-        <span className="estado-dot" style={{ backgroundColor: dotColor }}></span>
-        <span className="estado-texto">{estadoTexto}</span>
+      <span className={`estado-indicador-badge ${estadoInfo.clase}`} aria-label={`Estado: ${estadoInfo.etiqueta}`}>
+        <span className="estado-dot" style={{ backgroundColor: estadoInfo.color }}></span>
+        <span className="estado-texto">{estadoInfo.etiqueta}</span>
       </span>
     );
   };
 
   const versionTexto = `v${resolucion.versionActual || 1}`;
+  const estadoInfo = obtenerEstadoResolucion(resolucion.estado);
   const codigoId = resolucion.codigoResolucion || `RES-2026-${String(resolucion.idResolucion || 1).padStart(3, '0')}`;
   const nombreArchivo = resolucion.archivoPrincipal?.nombre || `${resolucion.numeroResolucion?.replace(/[\s./]/g, '_') || 'Resolucion'}.pdf`;
 
@@ -142,6 +131,17 @@ export const ModalDetalleResolucion = ({
             <span className="badge-version-pill">{versionTexto}</span>
           </div>
           <span className="modal-codigo-id text-muted font-monospace">{codigoId}</span>
+        </div>
+
+        <div
+          className={`modal-estado-resumen modal-estado-resumen--${estadoInfo.clase}`}
+          role="status"
+          aria-live="polite"
+        >
+          <span className="modal-estado-resumen__punto" style={{ backgroundColor: estadoInfo.color }} aria-hidden="true" />
+          <p className="mb-0">
+            <strong>Estado actual: {estadoInfo.etiqueta}.</strong> {estadoInfo.descripcion}
+          </p>
         </div>
 
         {/* 2. Título principal */}

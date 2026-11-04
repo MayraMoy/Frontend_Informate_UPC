@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { resolucionesService } from '../../Services/resoluciones/resolucionesService';
 import { ModalDetalleResolucion } from '../../Components/resoluciones/ModalDetalleResolucion';
+import { ToastNotificacion } from '../../Components/shared/ToastNotificacion';
 import './ResolucionesPendientesPage.css';
 
 export const ResolucionesPendientesPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [pendientes, setPendientes] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
-  const [mensajeExito, setMensajeExito] = useState('');
+  const [notificacion, setNotificacion] = useState(() => location.state?.notificacion || null);
 
   // Modal detalle
   const [resolucionSeleccionada, setResolucionSeleccionada] = useState(null);
   const [modalAbierto, setModalAbierto] = useState(false);
+
+  useEffect(() => {
+    const notificacionNavegacion = location.state?.notificacion;
+    if (!notificacionNavegacion) return;
+
+    navigate(`${location.pathname}${location.search}${location.hash}`, {
+      replace: true,
+      state: null,
+    });
+  }, [location.hash, location.pathname, location.search, location.state, navigate]);
 
   const cargarPendientes = async () => {
     setCargando(true);
@@ -51,11 +65,13 @@ export const ResolucionesPendientesPage = () => {
         observaciones: 'Aprobada oficialmente por Autoridad.',
         estado: 'VIGENTE',
       });
-      setMensajeExito(`Resolución "${resolucion.numeroResolucion}" aprobada y publicada con éxito.`);
-      cargarPendientes();
-      setTimeout(() => setMensajeExito(''), 4000);
+      setNotificacion({
+        tipo: 'success',
+        mensaje: `La resolución "${resolucion.numeroResolucion}" se aprobó y publicó exitosamente.`,
+      });
+      await cargarPendientes();
     } catch (err) {
-      alert(`Error al aprobar: ${err.message}`);
+      setNotificacion({ tipo: 'error', mensaje: `No se pudo aprobar la resolución: ${err.message}` });
     }
   };
 
@@ -74,11 +90,13 @@ export const ResolucionesPendientesPage = () => {
         observaciones: 'Rechazada/Archivada durante el proceso de revisión.',
         estado: 'ARCHIVADA',
       });
-      setMensajeExito(`Resolución "${resolucion.numeroResolucion}" archivada.`);
-      cargarPendientes();
-      setTimeout(() => setMensajeExito(''), 4000);
+      setNotificacion({
+        tipo: 'success',
+        mensaje: `La resolución "${resolucion.numeroResolucion}" se archivó correctamente.`,
+      });
+      await cargarPendientes();
     } catch (err) {
-      alert(`Error al archivar: ${err.message}`);
+      setNotificacion({ tipo: 'error', mensaje: `No se pudo archivar la resolución: ${err.message}` });
     }
   };
 
@@ -99,7 +117,12 @@ export const ResolucionesPendientesPage = () => {
         </div>
       </div>
 
-      {mensajeExito && <div className="alert alert-success">{mensajeExito}</div>}
+      <ToastNotificacion
+        visible={Boolean(notificacion?.mensaje)}
+        tipo={notificacion?.tipo || 'success'}
+        mensaje={notificacion?.mensaje || ''}
+        onCerrar={() => setNotificacion(null)}
+      />
       {error && <div className="alert alert-danger">{error}</div>}
 
       <div className="pendientes-card">

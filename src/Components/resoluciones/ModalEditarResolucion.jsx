@@ -102,7 +102,18 @@ export const ModalEditarResolucion = ({
       }
 
       if (onGuardadoExitoso) {
-        onGuardadoExitoso();
+        const estadoAnterior = String(resolucion.estado || 'VIGENTE').trim().toUpperCase();
+        const estadoActualizado = payload.estado;
+        const nombresEstado = {
+          VIGENTE: 'Vigente',
+          PENDIENTE: 'Pendiente de revisión',
+          ARCHIVADA: 'Archivada',
+        };
+        const mensaje = estadoAnterior !== estadoActualizado
+          ? `El estado de la resolución se actualizó a ${nombresEstado[estadoActualizado] || estadoActualizado}.`
+          : 'La resolución se actualizó exitosamente.';
+
+        onGuardadoExitoso(mensaje);
       }
       onClose();
     } catch (err) {
@@ -138,7 +149,7 @@ export const ModalEditarResolucion = ({
           </button>
         </div>
 
-        {error && <div className="alert alert-danger py-2 mt-2">{error}</div>}
+        {error && <div className="alert alert-danger py-2 mt-2" role="alert">{error}</div>}
 
         <form onSubmit={handleSubmit} className="modal-editar-form">
           <div className="row g-3">

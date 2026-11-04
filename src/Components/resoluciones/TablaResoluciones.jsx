@@ -1,4 +1,5 @@
 import React from 'react';
+import { obtenerEstadoResolucion } from './estadoResolucion';
 
 /**
  * Tabla principal de resoluciones académicas fiel a las imágenes del diseño.
@@ -44,25 +45,12 @@ export const TablaResoluciones = ({
 
   // Estilos del indicador de estado
   const renderEstadoBadge = (estado = '') => {
-    const est = estado.toLowerCase();
-    let dotColor = '#10B981'; // Verde Vigente
-    let estadoTexto = 'Vigente';
-    let estadoClass = 'estado-vigente';
-
-    if (est.includes('archiv')) {
-      dotColor = '#EF4444'; // Rojo / Gris
-      estadoTexto = 'Archivado';
-      estadoClass = 'estado-archivado';
-    } else if (est.includes('pend')) {
-      dotColor = '#3B82F6'; // Azul
-      estadoTexto = 'Pendiente';
-      estadoClass = 'estado-pendiente';
-    }
+    const estadoInfo = obtenerEstadoResolucion(estado);
 
     return (
-      <span className={`estado-indicador-badge ${estadoClass}`}>
-        <span className="estado-dot" style={{ backgroundColor: dotColor }}></span>
-        <span className="estado-texto">{estadoTexto}</span>
+      <span className={`estado-indicador-badge ${estadoInfo.clase}`} aria-label={`Estado: ${estadoInfo.etiqueta}`}>
+        <span className="estado-dot" style={{ backgroundColor: estadoInfo.color }}></span>
+        <span className="estado-texto">{estadoInfo.etiqueta}</span>
       </span>
     );
   };
