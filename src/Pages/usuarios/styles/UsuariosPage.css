@@ -468,20 +468,24 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  border-radius: 10px;
-  background: #ea580c;
-  color: #ffffff;
+  padding: 0.55rem 1.25rem;
+  border-radius: 999px;
+  background-color: var(--primary-yellow, #E89D00);
+  border: 1px solid var(--primary-yellow, #E89D00);
+  color: #1F2937;
   text-decoration: none;
   font-weight: 600;
   font-size: 0.88rem;
-  box-shadow: 0 2px 6px rgba(234, 88, 12, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   transition: all 0.2s ease;
 }
 
 .usuarios-boton-contacto:hover {
-  background: #c2410c;
-  color: #ffffff;
+  background-color: var(--primary-yellow-hover, #D98200);
+  border-color: var(--primary-yellow-hover, #D98200);
+  color: #1F2937;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(232, 157, 0, 0.25);
 }
 
 .usuarios-boton-secundario {
@@ -606,20 +610,22 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.45rem 0.9rem;
-  background: #ea580c;
-  color: #ffffff;
-  border-radius: 8px;
+  padding: 0.45rem 1rem;
+  background-color: var(--primary-yellow, #E89D00);
+  border: 1px solid var(--primary-yellow, #E89D00);
+  color: #1F2937;
+  border-radius: 999px;
   font-weight: 600;
   font-size: 0.82rem;
   text-decoration: none;
-  box-shadow: 0 2px 4px rgba(234, 88, 12, 0.18);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   transition: all 0.15s ease;
 }
 
 .usuarios-boton-contacto-head:hover {
-  background: #c2410c;
-  color: #ffffff;
+  background-color: var(--primary-yellow-hover, #D98200);
+  border-color: var(--primary-yellow-hover, #D98200);
+  color: #1F2937;
 }
 
 /* KPIs de Actividad en Header del Modal */
@@ -651,9 +657,9 @@
 }
 
 .usuarios-kpi-item--activo {
-  border-color: #ea580c;
-  background: #fffaf5;
-  box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.15);
+  border-color: var(--primary-yellow, #E89D00);
+  background: #fffdf8;
+  box-shadow: 0 0 0 2px rgba(232, 157, 0, 0.2);
 }
 
 .usuarios-kpi-icono {
@@ -671,8 +677,8 @@
 }
 
 .usuarios-kpi-icono--noticias {
-  background: #fff7ed;
-  color: #ea580c;
+  background: #fef3c7;
+  color: #b45309;
 }
 
 .usuarios-kpi-icono--resoluciones {
@@ -729,8 +735,8 @@
 }
 
 .usuarios-modal-tab--activa {
-  color: #ea580c;
-  border-bottom-color: #ea580c;
+  color: #92400e;
+  border-bottom-color: var(--primary-yellow, #E89D00);
 }
 
 .usuarios-tab-contador {
@@ -743,8 +749,8 @@
 }
 
 .usuarios-modal-tab--activa .usuarios-tab-contador {
-  background: #ffedd5;
-  color: #ea580c;
+  background: #fef3c7;
+  color: #92400e;
 }
 
 .usuarios-modal-body--scrollable {
@@ -881,21 +887,21 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.4rem 0.85rem;
-  background: #fff7ed;
-  color: #ea580c;
-  border: 1px solid #ffedd5;
+  padding: 0.45rem 0.95rem;
+  background: #f8fafc;
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
   border-radius: 8px;
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
   transition: all 0.15s ease;
 }
 
 .usuarios-btn-responder-comentario:hover {
-  background: #ea580c;
-  color: #ffffff;
-  border-color: #ea580c;
+  background: var(--primary-yellow, #E89D00);
+  border-color: var(--primary-yellow, #E89D00);
+  color: #1F2937;
 }
 
 /* Empty states de Actividad */
@@ -973,26 +979,74 @@
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  color: #ea580c;
+  background: #fef3c7;
+  color: #92400e;
   display: grid;
   place-items: center;
   font-weight: 700;
   font-size: 1.85rem;
-  border: 2px solid #fed7aa;
+  border: 2px solid #fde68a;
   flex-shrink: 0;
 }
 
 .usuarios-ficha-nombre {
-  font-size: 1.5rem;
+  font-size: 1.55rem;
   font-weight: 700;
   color: #0f172a;
   letter-spacing: -0.02em;
 }
 
-.usuarios-ficha-meta {
-  font-size: 0.85rem;
+/* Fila de metadatos de alta jerarquía y legibilidad */
+.usuarios-ficha-meta-chips {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.usuarios-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #475569;
+  font-size: 0.88rem;
+}
+
+.usuarios-meta-item svg {
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.usuarios-meta-label {
+  font-weight: 500;
   color: #64748b;
+  font-size: 0.82rem;
+}
+
+.usuarios-meta-valor {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.usuarios-meta-separador {
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  user-select: none;
+}
+
+.usuarios-pub-titulo {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.hover-amarillo {
+  transition: color 0.15s ease;
+}
+
+.hover-amarillo:hover {
+  color: var(--primary-yellow-hover, #D98200) !important;
 }
 
 .usuarios-ficha-acciones-top {

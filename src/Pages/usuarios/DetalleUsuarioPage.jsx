@@ -68,17 +68,11 @@ export const DetalleUsuarioPage = () => {
     noticias,
     nombreCompleto,
     inicial,
-    rol,
-    estado,
-    esEstudiante,
     formatearFecha,
     formatearSoloFecha,
   } = useDetalleUsuarioActividad(usuario, (email) => {
     mostrarToast(`Correo copiado al portapapeles: ${email}`);
   });
-
-  const mostrarPestanaPublicaciones = !esEstudiante || noticias.length > 0 || resoluciones.length > 0;
-  const publicacionesTotal = noticias.length + resoluciones.length;
 
   if (cargandoUsuario) {
     return (
@@ -86,7 +80,7 @@ export const DetalleUsuarioPage = () => {
         <div className="spinner-border text-warning mb-3" role="status">
           <span className="visually-hidden">Cargando usuario...</span>
         </div>
-        <p className="text-secondary">Cargando expediente del usuario...</p>
+        <p className="text-secondary">Cargando ficha del usuario...</p>
       </main>
     );
   }
@@ -113,21 +107,16 @@ export const DetalleUsuarioPage = () => {
         onCerrar={cerrarToast}
       />
 
-      {/* Barra de navegación superior con Breadcrumbs y Botón Volver */}
+      {/* Barra superior: Gestión de Usuarios / Nombre del usuario + Botón volver */}
       <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
         <nav aria-label="Ruta de navegación">
           <ol className="breadcrumb mb-0">
             <li className="breadcrumb-item">
-              <Link to="/dashboard-admin" className="text-decoration-none text-muted">
-                Inicio
-              </Link>
-            </li>
-            <li className="breadcrumb-item">
-              <Link to="/usuarios" className="text-decoration-none text-muted">
+              <Link to="/usuarios" className="text-decoration-none text-muted hover-amarillo">
                 Gestión de Usuarios
               </Link>
             </li>
-            <li className="breadcrumb-item active text-dark fw-semibold" aria-current="page">
+            <li className="breadcrumb-item active text-dark fw-bold" aria-current="page">
               {nombreCompleto}
             </li>
           </ol>
@@ -147,27 +136,54 @@ export const DetalleUsuarioPage = () => {
 
       {/* Contenedor Principal de la Ficha del Usuario */}
       <div className="usuarios-ficha-container">
-        {/* Cabecera del Perfil Completo */}
+        {/* Cabecera del Usuario: Sin tags de Estudiante/Activo, datos jerarquizados */}
         <div className="usuarios-ficha-header">
           <div className="d-flex align-items-center gap-3 flex-wrap">
             <div className="usuarios-avatar-xl" aria-hidden="true">
               {inicial}
             </div>
             <div>
-              <div className="d-flex align-items-center gap-2 flex-wrap mb-1">
-                <h1 className="usuarios-ficha-nombre mb-0">{nombreCompleto}</h1>
-                <span className={`usuarios-rol-pill usuarios-rol-pill--${rol.toLowerCase()}`}>
-                  {rol}
-                </span>
-                <span className={`usuarios-estado-pill usuarios-estado-pill--${estado.toLowerCase()}`}>
-                  ● {estado}
-                </span>
+              <h1 className="usuarios-ficha-nombre mb-2">{nombreCompleto}</h1>
+
+              {/* Fila estructurada de metadatos con iconos vectoriales */}
+              <div className="usuarios-ficha-meta-chips">
+                <div className="usuarios-meta-item">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect width="20" height="16" x="2" y="4" rx="2" />
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                  </svg>
+                  <span className="usuarios-meta-valor">{usuario.email || 'Sin correo'}</span>
+                </div>
+
+                <span className="usuarios-meta-separador" aria-hidden="true">•</span>
+
+                <div className="usuarios-meta-item">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect width="18" height="18" x="3" y="3" rx="2" />
+                    <path d="M7 7h.01" />
+                    <path d="M11 7h6" />
+                    <path d="M7 11h.01" />
+                    <path d="M11 11h6" />
+                    <path d="M7 15h.01" />
+                    <path d="M11 15h6" />
+                  </svg>
+                  <span className="usuarios-meta-label">DNI:</span>
+                  <span className="usuarios-meta-valor">{usuario.dni || 'No registrado'}</span>
+                </div>
+
+                <span className="usuarios-meta-separador" aria-hidden="true">•</span>
+
+                <div className="usuarios-meta-item">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                  <span className="usuarios-meta-label">Registrado:</span>
+                  <span className="usuarios-meta-valor">{formatearFecha(usuario.fechaRegistro)}</span>
+                </div>
               </div>
-              <p className="usuarios-ficha-meta mb-0 text-muted">
-                {usuario.dni ? `DNI: ${usuario.dni} • ` : ''}
-                {usuario.email ? `${usuario.email} • ` : ''}
-                Registrado el {formatearFecha(usuario.fechaRegistro)}
-              </p>
             </div>
           </div>
 
@@ -199,13 +215,13 @@ export const DetalleUsuarioPage = () => {
           onSelectPestana={setPestanaActiva}
         />
 
-        {/* Tabs de Selección */}
+        {/* Pestañas de Navegación */}
         <ModalDetalleTabs
           pestanaActiva={pestanaActiva}
           onSelectPestana={setPestanaActiva}
           comentariosCount={comentarios.length}
-          publicacionesCount={publicacionesTotal}
-          mostrarPublicaciones={mostrarPestanaPublicaciones}
+          noticiasCount={noticias.length}
+          resolucionesCount={resoluciones.length}
         />
 
         {/* Contenido Principal de la Pestaña Activa */}
@@ -219,20 +235,28 @@ export const DetalleUsuarioPage = () => {
             />
           )}
 
+          {pestanaActiva === 'noticias' && (
+            <TabPublicaciones
+              noticias={noticias}
+              mostrarTipo="noticias"
+              formatearSoloFecha={formatearSoloFecha}
+            />
+          )}
+
+          {pestanaActiva === 'resoluciones' && (
+            <TabPublicaciones
+              resoluciones={resoluciones}
+              mostrarTipo="resoluciones"
+              formatearSoloFecha={formatearSoloFecha}
+            />
+          )}
+
           {pestanaActiva === 'info' && (
             <TabInfoCuenta
               usuario={usuario}
               copiado={copiado}
               onCopiarEmail={handleCopiarEmail}
               formatearFecha={formatearFecha}
-            />
-          )}
-
-          {pestanaActiva === 'publicaciones' && (
-            <TabPublicaciones
-              noticias={noticias}
-              resoluciones={resoluciones}
-              formatearSoloFecha={formatearSoloFecha}
             />
           )}
         </div>
@@ -242,4 +266,3 @@ export const DetalleUsuarioPage = () => {
 };
 
 export default DetalleUsuarioPage;
-

@@ -74,8 +74,8 @@ export const ModalDetalleUsuario = ({ usuario, onClose, onCopiarEmail }) => {
           pestanaActiva={pestanaActiva}
           onSelectPestana={setPestanaActiva}
           comentariosCount={comentarios.length}
-          publicacionesCount={publicacionesTotal}
-          mostrarPublicaciones={mostrarPestanaPublicaciones}
+          noticiasCount={noticias.length}
+          resolucionesCount={resoluciones.length}
         />
 
         {/* 4. Contenido scrollable según la pestaña activa */}
@@ -89,20 +89,28 @@ export const ModalDetalleUsuario = ({ usuario, onClose, onCopiarEmail }) => {
             />
           )}
 
+          {pestanaActiva === 'noticias' && (
+            <TabPublicaciones
+              noticias={noticias}
+              mostrarTipo="noticias"
+              formatearSoloFecha={formatearSoloFecha}
+            />
+          )}
+
+          {pestanaActiva === 'resoluciones' && (
+            <TabPublicaciones
+              resoluciones={resoluciones}
+              mostrarTipo="resoluciones"
+              formatearSoloFecha={formatearSoloFecha}
+            />
+          )}
+
           {pestanaActiva === 'info' && (
             <TabInfoCuenta
               usuario={usuario}
               copiado={copiado}
               onCopiarEmail={handleCopiarEmail}
               formatearFecha={formatearFecha}
-            />
-          )}
-
-          {pestanaActiva === 'publicaciones' && (
-            <TabPublicaciones
-              noticias={noticias}
-              resoluciones={resoluciones}
-              formatearSoloFecha={formatearSoloFecha}
             />
           )}
         </div>
