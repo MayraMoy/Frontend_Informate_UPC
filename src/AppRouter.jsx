@@ -43,6 +43,9 @@ const PendientesNoticias = lazy(() =>
 const UsuariosPage = lazy(() =>
   import('./Pages/usuarios/UsuariosPage.jsx'),
 );
+const DetalleUsuarioPage = lazy(() =>
+  import('./Pages/usuarios/DetalleUsuarioPage.jsx'),
+);
 
 // Páginas del módulo de Resoluciones
 const CrearResolucionPage = lazy(() =>
@@ -197,6 +200,16 @@ const AppLayout = () => {
                 <RutaProtegida>
                   <RutaAdministrador>
                     <UsuariosPage />
+                  </RutaAdministrador>
+                </RutaProtegida>
+              )}
+            />
+            <Route
+              path="/usuarios/:id"
+              element={(
+                <RutaProtegida>
+                  <RutaAdministrador>
+                    <DetalleUsuarioPage />
                   </RutaAdministrador>
                 </RutaProtegida>
               )}

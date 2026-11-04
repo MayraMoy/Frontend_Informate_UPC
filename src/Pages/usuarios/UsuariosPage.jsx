@@ -1,14 +1,15 @@
 import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useGestionUsuarios from './hooks/useGestionUsuarios.js';
 import { FiltrosUsuarios } from './components/FiltrosUsuarios.jsx';
 import { TablaUsuarios } from './components/TablaUsuarios.jsx';
-import { ModalDetalleUsuario } from './components/ModalDetalleUsuario.jsx';
 import { ModalConfirmarEstado } from './components/ModalConfirmarEstado.jsx';
 import { ModalCambiarRol } from './components/ModalCambiarRol.jsx';
 import { ToastNotificacion } from '../../Components/shared/ToastNotificacion.jsx';
 import './styles/UsuariosPage.css';
 
 export const UsuariosPage = () => {
+  const navigate = useNavigate();
   const {
     adminActual,
     usuarios,
@@ -20,7 +21,6 @@ export const UsuariosPage = () => {
     busqueda,
     filtroRol,
     filtroEstado,
-    usuarioDetalle,
     usuarioParaSuspender,
     usuarioParaCambiarRol,
     nuevoRolId,
@@ -28,14 +28,12 @@ export const UsuariosPage = () => {
     setBusqueda,
     setFiltroRol,
     setFiltroEstado,
-    setUsuarioDetalle,
     setUsuarioParaSuspender,
     setUsuarioParaCambiarRol,
     setNuevoRolId,
     cargarDatos,
     alternarEstadoUsuario,
     guardarCambioRol,
-    copiarEmail,
     cerrarToast,
   } = useGestionUsuarios();
 
@@ -185,7 +183,10 @@ export const UsuariosPage = () => {
         <TablaUsuarios
           usuarios={usuariosFiltrados}
           adminActual={adminActual}
-          onVerDetalle={(u) => setUsuarioDetalle(u)}
+          onVerDetalle={(u) => {
+            const id = u.idUsuario || u.id;
+            navigate(`/usuarios/${id}`, { state: { usuario: u } });
+          }}
           onAbrirCambiarRol={(u) => {
             setUsuarioParaCambiarRol(u);
             const rolActual = u.idRol || u.rol?.idRol || '';
@@ -195,13 +196,7 @@ export const UsuariosPage = () => {
         />
       )}
 
-      {/* Modales */}
-      <ModalDetalleUsuario
-        usuario={usuarioDetalle}
-        onClose={() => setUsuarioDetalle(null)}
-        onCopiarEmail={copiarEmail}
-      />
-
+      {/* Modales de acciones */}
       <ModalConfirmarEstado
         usuario={usuarioParaSuspender}
         procesando={procesando}
