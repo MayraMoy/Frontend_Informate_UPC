@@ -98,7 +98,7 @@ export const DetalleUsuarioPage = () => {
   }
 
   return (
-    <main className="usuarios-page container py-4 py-md-5" id="contenido-principal">
+    <main className="usuarios-page container-xl py-4 py-md-5" id="contenido-principal">
       <ToastNotificacion
         visible={toast.visible}
         tipo={toast.tipo}
@@ -106,19 +106,16 @@ export const DetalleUsuarioPage = () => {
         onCerrar={cerrarToast}
       />
 
-      {/* Barra superior: Navegación limpia de migas de pan */}
+      {/* Barra superior: Navegación idéntica al encabezado institucional de lectura */}
       <div className="mb-4">
-        <nav aria-label="Ruta de navegación">
-          <ol className="breadcrumb mb-0">
-            <li className="breadcrumb-item">
-              <Link to="/usuarios" className="text-decoration-none text-muted hover-amarillo">
-                Gestión de Usuarios
-              </Link>
-            </li>
-            <li className="breadcrumb-item active text-dark fw-bold" aria-current="page">
-              {nombreCompleto}
-            </li>
-          </ol>
+        <nav className="usuarios-breadcrumb-nav" aria-label="Migas de pan">
+          <Link to="/usuarios" className="usuarios-breadcrumb-modulo" title="Volver a Gestión de Usuarios">
+            Gestión de Usuarios
+          </Link>
+          <span className="usuarios-breadcrumb-separador" aria-hidden="true">/</span>
+          <span className="usuarios-breadcrumb-actual" aria-current="page">
+            {nombreCompleto}
+          </span>
         </nav>
       </div>
 
