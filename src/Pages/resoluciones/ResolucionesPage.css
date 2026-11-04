@@ -1,3 +1,11 @@
+.resoluciones-page-bg {
+  background-color: #f6f7f9;
+  min-height: calc(100vh - 72px);
+  width: 100%;
+  padding-top: 0.1px;
+  padding-bottom: 2rem;
+}
+
 .resoluciones-page-container {
   --color-primary-orange: #F39C12;
   --color-primary-hover: #D98200;

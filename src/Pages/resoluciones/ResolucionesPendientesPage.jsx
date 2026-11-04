@@ -106,7 +106,8 @@ export const ResolucionesPendientesPage = () => {
   };
 
   return (
-    <div className="pendientes-container">
+    <div className="resoluciones-pendientes-page-bg">
+      <div className="pendientes-container">
       <div className="pendientes-header">
         <div>
           <span className="pendientes-badge">BANDEJA DE APROBACIÓN</span>
@@ -223,6 +224,7 @@ export const ResolucionesPendientesPage = () => {
         />
       )}
     </div>
+  </div>
   );
 };
 

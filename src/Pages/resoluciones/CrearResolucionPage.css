@@ -1,3 +1,11 @@
+.crear-resolucion-page-bg {
+  background-color: #f6f7f9;
+  min-height: calc(100vh - 72px);
+  width: 100%;
+  padding-top: 0.1px;
+  padding-bottom: 2.5rem;
+}
+
 .crear-resolucion-container {
   width: calc(100% - clamp(2rem, 4.5vw, 4rem));
   max-width: 1200px;

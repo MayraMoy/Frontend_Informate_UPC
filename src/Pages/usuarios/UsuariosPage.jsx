@@ -63,14 +63,15 @@ export const UsuariosPage = () => {
   };
 
   return (
-    <section className="usuarios-page container py-4 py-md-5" aria-labelledby="usuarios-titulo-principal">
-      {/* Toast Feedback */}
-      <ToastNotificacion
-        visible={toast.visible}
-        tipo={toast.tipo}
-        mensaje={toast.mensaje}
-        onCerrar={cerrarToast}
-      />
+    <div className="usuarios-page-bg">
+      <section className="usuarios-page container py-4 py-md-5" aria-labelledby="usuarios-titulo-principal">
+        {/* Toast Feedback */}
+        <ToastNotificacion
+          visible={toast.visible}
+          tipo={toast.tipo}
+          mensaje={toast.mensaje}
+          onCerrar={cerrarToast}
+        />
 
       {/* Encabezado */}
       <header className="usuarios-header">
@@ -214,6 +215,7 @@ export const UsuariosPage = () => {
         onCancelar={() => setUsuarioParaCambiarRol(null)}
       />
     </section>
+  </div>
   );
 };
 

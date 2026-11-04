@@ -64,7 +64,8 @@ export const ComentariosPendientesPage = () => {
   };
 
   return (
-    <div className="comentarios-container">
+    <div className="comentarios-pendientes-page-bg">
+      <div className="comentarios-container">
       <div className="comentarios-header">
         <div>
           <span className="comentarios-badge">MODERACIÓN ESTUDIANTIL</span>
@@ -161,6 +162,7 @@ export const ComentariosPendientesPage = () => {
         )}
       </div>
     </div>
+  </div>
   );
 };
 

@@ -217,7 +217,8 @@ export const ResolucionesPage = ({
   };
 
   return (
-    <section id="resoluciones" className="resoluciones-page-container" aria-labelledby="resoluciones-titulo">
+    <div className="resoluciones-page-bg">
+      <section id="resoluciones" className="resoluciones-page-container" aria-labelledby="resoluciones-titulo">
       <ToastNotificacion
         visible={Boolean(notificacion?.mensaje)}
         tipo={notificacion?.tipo || 'success'}
@@ -343,6 +344,7 @@ export const ResolucionesPage = ({
         />
       )}
     </section>
+  </div>
   );
 };
 

@@ -106,7 +106,8 @@ export const CrearResolucionPage = () => {
   };
 
   return (
-    <div className="crear-resolucion-container">
+    <div className="crear-resolucion-page-bg">
+      <div className="crear-resolucion-container">
       <div className="crear-resolucion-header">
         <div>
           <span className="crear-badge-modulo">MÓDULO DE GESTIÓN</span>
@@ -300,6 +301,7 @@ export const CrearResolucionPage = () => {
         </form>
       </div>
     </div>
+  </div>
   );
 };
 

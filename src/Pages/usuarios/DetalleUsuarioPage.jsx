@@ -75,30 +75,35 @@ export const DetalleUsuarioPage = () => {
 
   if (cargandoUsuario) {
     return (
-      <main className="container py-5 text-center" id="contenido-principal">
-        <div className="spinner-border text-warning mb-3" role="status">
-          <span className="visually-hidden">Cargando usuario...</span>
-        </div>
-        <p className="text-secondary">Cargando ficha del usuario...</p>
-      </main>
+      <div className="usuarios-page-bg">
+        <main className="container py-5 text-center" id="contenido-principal">
+          <div className="spinner-border text-warning mb-3" role="status">
+            <span className="visually-hidden">Cargando usuario...</span>
+          </div>
+          <p className="text-secondary">Cargando ficha del usuario...</p>
+        </main>
+      </div>
     );
   }
 
   if (errorCarga || !usuario) {
     return (
-      <main className="container py-5" id="contenido-principal">
-        <div className="alert alert-danger d-flex align-items-center justify-content-between" role="alert">
-          <span>{errorCarga || 'Usuario no encontrado.'}</span>
-          <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => navigate('/usuarios')}>
-            Volver a usuarios
-          </button>
-        </div>
-      </main>
+      <div className="usuarios-page-bg">
+        <main className="container py-5" id="contenido-principal">
+          <div className="alert alert-danger d-flex align-items-center justify-content-between" role="alert">
+            <span>{errorCarga || 'Usuario no encontrado.'}</span>
+            <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => navigate('/usuarios')}>
+              Volver a usuarios
+            </button>
+          </div>
+        </main>
+      </div>
     );
   }
 
   return (
-    <main className="usuarios-page container-xl py-4 py-md-5" id="contenido-principal">
+    <div className="usuarios-page-bg">
+      <main className="usuarios-page container-xl py-4 py-md-5" id="contenido-principal">
       <ToastNotificacion
         visible={toast.visible}
         tipo={toast.tipo}
@@ -237,6 +242,7 @@ export const DetalleUsuarioPage = () => {
         </div>
       </div>
     </main>
+  </div>
   );
 };
 

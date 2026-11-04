@@ -27,7 +27,8 @@ const Perfil = () => {
   } = usePerfil();
 
   return (
-    <section className="perfil-page container py-4 py-md-5" aria-labelledby="perfil-title">
+    <div className="perfil-page-bg">
+      <section className="perfil-page container py-4 py-md-5" aria-labelledby="perfil-title">
       <div className="perfil-heading">
         <span className="perfil-eyebrow">Mi Cuenta</span>
         <h1 id="perfil-title">Mi perfil</h1>
@@ -84,6 +85,7 @@ const Perfil = () => {
         />
       )}
     </section>
+  </div>
   );
 };
 

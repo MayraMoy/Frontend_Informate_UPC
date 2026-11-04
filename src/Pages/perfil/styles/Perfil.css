@@ -1,3 +1,9 @@
+.perfil-page-bg {
+  background-color: #f6f7f9;
+  min-height: calc(100vh - 72px);
+  width: 100%;
+}
+
 .perfil-page {
   max-width: 920px;
 }
