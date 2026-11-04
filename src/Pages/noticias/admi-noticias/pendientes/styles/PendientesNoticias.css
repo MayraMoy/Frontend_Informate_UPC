@@ -49,7 +49,8 @@
   justify-content: space-between;
   gap: 1.5rem;
   flex-wrap: wrap;
-  padding-bottom: 0.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .pendientes-header-info {

@@ -47,6 +47,25 @@ const useLoginForm = () => {
       const usuarioRespuesta = respuestaLogin.usuario ?? respuestaLogin;
       const usuarioLogueado = await resolverRolUsuario(usuarioRespuesta);
 
+      // Verificación de cuenta inactiva o suspendida (si el backend responde 200 pero el usuario está inactivo)
+      const estadoUsuario = String(
+        usuarioLogueado?.estado ||
+        usuarioRespuesta?.estado ||
+        ''
+      ).toUpperCase();
+
+      if (
+        estadoUsuario === 'INACTIVO' ||
+        usuarioLogueado?.activo === false ||
+        usuarioRespuesta?.activo === false
+      ) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuarioSesion');
+        setUser?.(null);
+        setErrorMsg('Tu cuenta ha sido suspendida. Por favor, comunícate con la administración de la Universidad.');
+        return;
+      }
+
       // Guardar el JWT para que Axios lo envíe en las próximas peticiones.
       if (respuestaLogin.token) {
         localStorage.setItem('token', respuestaLogin.token);
@@ -69,15 +88,61 @@ const useLoginForm = () => {
           : '/';
       navigate(rutaDestino, { replace: true });
     } catch (error) {
+      const msgMinuscula = String(error.message || '').toLowerCase();
+      const dataRaw = error.response?.data;
+      const dataString = typeof dataRaw === 'string'
+        ? dataRaw.toLowerCase()
+        : JSON.stringify(dataRaw || '').toLowerCase();
+
+      // 1. Si la respuesta del backend indica explícitamente cuenta inactiva o suspendida:
+      if (
+        msgMinuscula.includes('inactiv') ||
+        msgMinuscula.includes('suspend') ||
+        msgMinuscula.includes('desactiv') ||
+        msgMinuscula.includes('bloquead') ||
+        dataString.includes('inactiv') ||
+        dataString.includes('suspend') ||
+        dataString.includes('desactiv') ||
+        dataString.includes('bloquead')
+      ) {
+        setErrorMsg('Tu cuenta ha sido suspendida. Por favor, comunícate con la administración de la Universidad.');
+        return;
+      }
+
+      // 2. Si el backend responde con error genérico (ej. "credenciales inválidas"),
+      // verificamos si la cuenta con este correo se encuentra en estado INACTIVO:
+      try {
+        const todosLosUsuarios = await usuarioService.obtenerTodos();
+        if (Array.isArray(todosLosUsuarios)) {
+          const usuarioEncontrado = todosLosUsuarios.find(
+            (u) => String(u.email || '').trim().toLowerCase() === email.toLowerCase()
+          );
+          if (usuarioEncontrado) {
+            const estadoEncontrado = String(usuarioEncontrado.estado || '').toUpperCase();
+            if (estadoEncontrado === 'INACTIVO' || usuarioEncontrado.activo === false) {
+              setErrorMsg('Tu cuenta ha sido suspendida. Por favor, comunícate con la administración de la Universidad.');
+              return;
+            }
+          }
+        }
+      } catch {
+        // Fallback silencioso si obtenerTodos requiere autorización
+      }
+
       setErrorMsg(error.message || LOGIN_MESSAGES.submitFailed);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const isCredentialsError = errorMsg && errorMsg.includes('no son correctos');
+  const isCredentialsError = errorMsg && (
+    errorMsg.includes('no son correctos') ||
+    errorMsg.includes('inválidas') ||
+    errorMsg.includes('invalidas')
+  );
+  const isSuspendedError = errorMsg && errorMsg.includes('suspendida');
   const isEmailError = errorMsg && (
-    isCredentialsError || errorMsg.includes('correo') || errorMsg.includes('Correo')
+    isCredentialsError || isSuspendedError || errorMsg.includes('correo') || errorMsg.includes('Correo')
   );
   const isPasswordError = errorMsg && (
     isCredentialsError || errorMsg.includes('contraseña') || errorMsg.includes('Contraseña')

@@ -78,7 +78,17 @@ export const obtenerSesionValida = () => {
     if (!token) return null;
 
     const sesion = localStorage.getItem('usuarioSesion');
-    return sesion ? JSON.parse(sesion) : null;
+    if (!sesion) return null;
+    const usuario = JSON.parse(sesion);
+    if (
+      usuario &&
+      (String(usuario.estado || '').toUpperCase() === 'INACTIVO' ||
+        usuario.activo === false)
+    ) {
+      limpiarCredencialesLocales();
+      return null;
+    }
+    return usuario;
   } catch {
     limpiarCredencialesLocales();
     return null;

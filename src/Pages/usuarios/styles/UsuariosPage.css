@@ -433,6 +433,167 @@
   color: #334155;
 }
 
+/* ==========================================================================
+   Modal Confirmar Estado (Suspender / Reactivar) - Jerarquía Visual Mejorada
+   ========================================================================== */
+
+.modal-estado-card {
+  max-width: 480px;
+}
+
+.modal-estado-header {
+  padding: 1.5rem 1.5rem 1.15rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  position: relative;
+}
+
+.modal-estado-icono-circulo {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.modal-estado-icono--peligro {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.modal-estado-icono--exito {
+  background-color: #dcfce7;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.modal-estado-header-textos {
+  flex: 1;
+  min-width: 0;
+  padding-right: 0.5rem;
+}
+
+.modal-estado-titulo {
+  margin: 0 0 0.25rem;
+  color: #0f172a;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.modal-estado-bajada {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.modal-estado-body {
+  padding: 1.35rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Ficha del usuario afectado */
+.modal-estado-user-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+}
+
+.modal-estado-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #fef3c7;
+  color: #92400e;
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.modal-estado-user-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.modal-estado-user-nombre {
+  color: #0f172a;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modal-estado-user-email {
+  color: #64748b;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modal-estado-rol-tag {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  background: #e2e8f0;
+  color: #334155;
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+/* Callout / Aviso de consecuencia */
+.modal-estado-aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.modal-estado-aviso--peligro {
+  background-color: #fff1f2;
+  border: 1px solid #ffe4e6;
+  color: #9f1239;
+}
+
+.modal-estado-aviso--exito {
+  background-color: #f0fdf4;
+  border: 1px solid #dcfce7;
+  color: #166534;
+}
+
+.modal-estado-aviso-icono {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.modal-estado-aviso-texto {
+  margin: 0;
+}
+
 .usuarios-modal-body {
   padding: 1.5rem;
 }

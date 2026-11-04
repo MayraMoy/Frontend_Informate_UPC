@@ -202,11 +202,14 @@ export const usuarioService = {
         error.response?.data?.error ||
         error.message;
 
-      throw new Error(
+      const err = new Error(
         typeof mensaje === 'string'
         ? mensaje
         : 'Error al iniciar sesión'
       );
+      err.response = error.response;
+      err.status = error.response?.status;
+      throw err;
     }
   },
 
