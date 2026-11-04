@@ -76,7 +76,7 @@ export const DetalleUsuarioPage = () => {
   if (cargandoUsuario) {
     return (
       <div className="usuarios-page-bg">
-        <main className="container py-5 text-center" id="contenido-principal">
+        <main className="usuarios-page text-center py-5" id="contenido-principal">
           <div className="spinner-border text-warning mb-3" role="status">
             <span className="visually-hidden">Cargando usuario...</span>
           </div>
@@ -89,7 +89,7 @@ export const DetalleUsuarioPage = () => {
   if (errorCarga || !usuario) {
     return (
       <div className="usuarios-page-bg">
-        <main className="container py-5" id="contenido-principal">
+        <main className="usuarios-page" id="contenido-principal">
           <div className="alert alert-danger d-flex align-items-center justify-content-between" role="alert">
             <span>{errorCarga || 'Usuario no encontrado.'}</span>
             <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => navigate('/usuarios')}>
@@ -103,7 +103,7 @@ export const DetalleUsuarioPage = () => {
 
   return (
     <div className="usuarios-page-bg">
-      <main className="usuarios-page container-xl py-4 py-md-5" id="contenido-principal">
+      <main className="usuarios-page" id="contenido-principal">
       <ToastNotificacion
         visible={toast.visible}
         tipo={toast.tipo}

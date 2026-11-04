@@ -7,13 +7,14 @@
   background-color: #f6f7f9;
   min-height: calc(100vh - 72px);
   width: 100%;
-  padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3.5vw, 3rem) 4rem;
+  padding: 2.25rem clamp(1.25rem, 3.5vw, 3.5rem) 4rem;
+  box-sizing: border-box;
   color: #111827;
 }
 
 .detalle-resolucion-contenedor {
   width: 100%;
-  max-width: 1140px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

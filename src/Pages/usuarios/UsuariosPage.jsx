@@ -64,7 +64,7 @@ export const UsuariosPage = () => {
 
   return (
     <div className="usuarios-page-bg">
-      <section className="usuarios-page container py-4 py-md-5" aria-labelledby="usuarios-titulo-principal">
+      <section className="usuarios-page" aria-labelledby="usuarios-titulo-principal">
         {/* Toast Feedback */}
         <ToastNotificacion
           visible={toast.visible}

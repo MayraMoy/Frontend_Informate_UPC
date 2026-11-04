@@ -1,6 +1,6 @@
 .novedades-home.container {
   width: calc(100% - clamp(2rem, 4.5vw, 4rem));
-  max-width: 1600px;
+  max-width: 1440px;
   margin-block: clamp(2.5rem, 6vw, 5rem) !important;
   scroll-margin-top: 96px;
 }

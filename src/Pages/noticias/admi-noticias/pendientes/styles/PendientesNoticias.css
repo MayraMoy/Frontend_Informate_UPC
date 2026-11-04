@@ -11,7 +11,7 @@
   --upc-texto-secundario: #475569;
   --upc-texto-suave: #64748b;
   --upc-border: #e2e8f0;
-  --upc-bg: #f8fafc;
+  --upc-bg: #f6f7f9;
   --upc-card-bg: #ffffff;
   --upc-radius: 12px;
   --upc-radius-sm: 8px;
@@ -26,14 +26,14 @@
   width: 100%;
   min-height: calc(100vh - 72px);
   background-color: var(--upc-bg);
-  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2rem) 4rem;
+  padding: 2.25rem clamp(1.25rem, 3.5vw, 3.5rem) 4rem;
   font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: var(--upc-texto-oscuro);
   box-sizing: border-box;
 }
 
 .pendientes-content-wrapper {
-  max-width: 1320px;
+  max-width: 1440px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
