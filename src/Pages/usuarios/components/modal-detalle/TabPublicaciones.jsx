@@ -93,23 +93,16 @@ export const TabPublicaciones = ({
                     )}
 
                     {/* Pie de la card con enlace de acción */}
-                    <div className="usuarios-pub-card-footer">
-                      <span className="usuarios-pub-tipo-label">
-                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                          <path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2" />
-                        </svg>
-                        <span>Noticia Institucional</span>
-                      </span>
-
-                      {idNoticia && (
+                    {idNoticia && (
+                      <div className="usuarios-pub-card-footer justify-content-end">
                         <Link to={`/noticias/${idNoticia}`} className="usuarios-pub-link-accion">
                           <span>Leer noticia completa</span>
-                          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                             <polyline points="9 18 15 12 9 6" />
                           </svg>
                         </Link>
-                      )}
-                    </div>
+                      </div>
+                    )}
                   </article>
                 );
               })}
@@ -189,18 +182,10 @@ export const TabPublicaciones = ({
                     )}
 
                     {/* Pie de la card con enlace de acción */}
-                    <div className="usuarios-pub-card-footer">
-                      <span className="usuarios-pub-tipo-label">
-                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                          <polyline points="14 2 14 8 20 8" />
-                        </svg>
-                        <span>Disposición Oficial</span>
-                      </span>
-
+                    <div className="usuarios-pub-card-footer justify-content-end">
                       <Link to="/resoluciones" className="usuarios-pub-link-accion">
                         <span>Ver en resoluciones</span>
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                           <polyline points="9 18 15 12 9 6" />
                         </svg>
                       </Link>

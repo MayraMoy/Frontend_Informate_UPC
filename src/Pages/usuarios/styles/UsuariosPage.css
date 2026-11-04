@@ -712,6 +712,12 @@
   border-bottom: 1px solid #eef2f6;
   background: #ffffff;
   overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.usuarios-modal-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .usuarios-modal-tab {
@@ -1028,6 +1034,8 @@
   line-height: 1.4;
   color: #0f172a;
   margin-bottom: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .usuarios-pub-titulo-link {
@@ -1050,6 +1058,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  word-break: break-word;
 }
 
 .usuarios-pub-card-footer {
@@ -1058,7 +1067,7 @@
   border-top: 1px solid #f1f5f9;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 0.5rem;
   flex-wrap: wrap;
 }
@@ -1267,8 +1276,9 @@
   background: #fafbfc;
   border-bottom: 1px solid #e2e8f0;
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  overflow-x: auto;
+  overflow-x: visible;
 }
 
 .usuarios-ficha-container .usuarios-modal-tab {
@@ -1353,6 +1363,14 @@
 
   .usuarios-ficha-container .usuarios-modal-tabs {
     padding: 0 1rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .usuarios-ficha-container .usuarios-modal-tabs::-webkit-scrollbar {
+    display: none;
   }
 
   .usuarios-ficha-container .usuarios-modal-tab {
