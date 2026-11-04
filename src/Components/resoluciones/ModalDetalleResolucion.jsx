@@ -133,17 +133,6 @@ export const ModalDetalleResolucion = ({
           <span className="modal-codigo-id text-muted font-monospace">{codigoId}</span>
         </div>
 
-        <div
-          className={`modal-estado-resumen modal-estado-resumen--${estadoInfo.clase}`}
-          role="status"
-          aria-live="polite"
-        >
-          <span className="modal-estado-resumen__punto" style={{ backgroundColor: estadoInfo.color }} aria-hidden="true" />
-          <p className="mb-0">
-            <strong>Estado actual: {estadoInfo.etiqueta}.</strong> {estadoInfo.descripcion}
-          </p>
-        </div>
-
         {/* 2. Título principal */}
         <h3 className="modal-resolucion-titulo mb-1">
           {resolucion.numeroResolucion} — {resolucion.titulo}

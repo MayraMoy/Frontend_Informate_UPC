@@ -183,8 +183,8 @@ export const TabPublicaciones = ({
 
                     {/* Pie de la card con enlace de acción */}
                     <div className="usuarios-pub-card-footer justify-content-end">
-                      <Link to="/resoluciones" className="usuarios-pub-link-accion">
-                        <span>Ver en resoluciones</span>
+                      <Link to={`/resoluciones/${numRes}`} className="usuarios-pub-link-accion">
+                        <span>Leer resolución</span>
                         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                           <polyline points="9 18 15 12 9 6" />
                         </svg>

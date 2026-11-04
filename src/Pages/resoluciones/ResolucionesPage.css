@@ -6,6 +6,14 @@
   padding-bottom: 2rem;
 }
 
+.resoluciones-page-bg--blanco,
+.inicio-landing:not(.inicio-landing-autenticado) .resoluciones-page-bg {
+  background-color: #ffffff !important;
+  min-height: auto;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .resoluciones-page-container {
   --color-primary-orange: #F39C12;
   --color-primary-hover: #D98200;

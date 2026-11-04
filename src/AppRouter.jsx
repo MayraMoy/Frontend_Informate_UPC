@@ -48,6 +48,9 @@ const DetalleUsuarioPage = lazy(() =>
 );
 
 // Páginas del módulo de Resoluciones
+const DetalleResolucionPage = lazy(() =>
+  import('./Pages/resoluciones/DetalleResolucionPage.jsx'),
+);
 const CrearResolucionPage = lazy(() =>
   import('./Pages/resoluciones/CrearResolucionPage.jsx'),
 );
@@ -164,6 +167,7 @@ const AppLayout = () => {
               )}
             />
             <Route path="/resoluciones" element={<ResolucionesPage />} />
+            <Route path="/resoluciones/:id" element={<DetalleResolucionPage />} />
             <Route
               path="/resoluciones/crear"
               element={(

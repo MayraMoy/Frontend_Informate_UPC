@@ -188,10 +188,10 @@ export const ResolucionesPage = ({
     setPaginaActual(1);
   };
 
-  // Abrir modal de detalle
+  // Navegar a la ventana completa de lectura a detalle de la resolución
   const handleVerDetalle = (res) => {
-    setResolucionSeleccionada(res);
-    setModalAbierto(true);
+    const idResolucion = res.idResolucion ?? res.id ?? res.codigoResolucion ?? res.numeroResolucion;
+    navigate(`/resoluciones/${idResolucion}`, { state: { resolucion: res } });
   };
 
   const handleCerrarModal = () => {
@@ -217,7 +217,7 @@ export const ResolucionesPage = ({
   };
 
   return (
-    <div className="resoluciones-page-bg">
+    <div className={`resoluciones-page-bg ${!user ? 'resoluciones-page-bg--blanco' : ''}`}>
       <section id="resoluciones" className="resoluciones-page-container" aria-labelledby="resoluciones-titulo">
       <ToastNotificacion
         visible={Boolean(notificacion?.mensaje)}
