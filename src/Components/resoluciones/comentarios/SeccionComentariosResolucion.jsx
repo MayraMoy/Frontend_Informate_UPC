@@ -6,27 +6,23 @@ import { comentariosService } from '../../../Services/resoluciones/comentariosSe
 import { ToastNotificacion } from '../../shared/ToastNotificacion';
 import './styles/ComentariosResolucion.css';
 
-const CARRERAS_SUGERIDAS_UPC = [
+export const CARRERAS_OFICIALES_UPC = [
   // Carreras de Grado
-  { id: 1, nombre: 'Profesorado Universitario de Biología' },
+  { id: 1, nombre: 'Profesorado Universitario de Biología', categoria: 'Carreras de Grado' },
 
   // Carreras de Grado y Pregrado
-  { id: 2, nombre: 'Licenciatura en Administración de Empresas c/ título intermedio Tecnicatura Universitaria en Gestión Empresarial' },
-  { id: 3, nombre: 'Licenciatura en Diseño con titulación intermedia Tecnicatura Universitaria en Tecnologías del Diseño' },
-  { id: 4, nombre: 'Licenciatura en Administración de Empresas' },
-  { id: 5, nombre: 'Tecnicatura Universitaria en Gestión Empresarial' },
-  { id: 6, nombre: 'Licenciatura en Diseño' },
-  { id: 7, nombre: 'Tecnicatura Universitaria en Tecnologías del Diseño' },
+  { id: 2, nombre: 'Licenciatura en Administración de Empresas c/ título intermedio Tecnicatura Universitaria en Gestión Empresarial', categoria: 'Carreras de Grado y Pregrado' },
+  { id: 3, nombre: 'Licenciatura en Diseño con titulación intermedia Tecnicatura Universitaria en Tecnologías del Diseño', categoria: 'Carreras de Grado y Pregrado' },
 
   // Carreras de Pregrado
-  { id: 8, nombre: 'Tecnicatura Universitaria en Diseño Gráfico' },
-  { id: 9, nombre: 'Tecnicatura Universitaria en Guía de Turismo' },
-  { id: 10, nombre: 'Tecnicatura Universitaria en Hotelería' },
-  { id: 11, nombre: 'Tecnicatura Universitaria en Marketing y Negocios Digitales' },
-  { id: 12, nombre: 'Tecnicatura Universitaria en Programación Full Stack' },
+  { id: 4, nombre: 'Tecnicatura Universitaria en Diseño Gráfico', categoria: 'Carreras de Pregrado' },
+  { id: 5, nombre: 'Tecnicatura Universitaria en Guía de Turismo', categoria: 'Carreras de Pregrado' },
+  { id: 6, nombre: 'Tecnicatura Universitaria en Hotelería', categoria: 'Carreras de Pregrado' },
+  { id: 7, nombre: 'Tecnicatura Universitaria en Marketing y Negocios Digitales', categoria: 'Carreras de Pregrado' },
+  { id: 8, nombre: 'Tecnicatura Universitaria en Programación Full Stack', categoria: 'Carreras de Pregrado' },
 
   // Carreras Superiores
-  { id: 13, nombre: 'Tecnicatura Superior en Prótesis Dental' },
+  { id: 9, nombre: 'Tecnicatura Superior en Prótesis Dental', categoria: 'Carreras Superiores' },
 ];
 
 const OPCIONES_ANIO_CARRERA = [1, 2, 3, 4, 5];
@@ -58,7 +54,7 @@ export const SeccionComentariosResolucion = ({ resolucion, idResolucion }) => {
   const [cargando, setCargando] = useState(true);
 
   // Formulario
-  const [carrera, setCarrera] = useState('');
+  const [carreraId, setCarreraId] = useState('');
   const [anioCarrera, setAnioCarrera] = useState('');
   const [contenido, setContenido] = useState('');
   const [errores, setErrores] = useState({});
@@ -109,7 +105,7 @@ export const SeccionComentariosResolucion = ({ resolucion, idResolucion }) => {
 
   // Manejo de cambios con limpieza de error en tiempo real
   const handleCambioCarrera = (e) => {
-    setCarrera(e.target.value);
+    setCarreraId(e.target.value);
     if (errores.carrera) {
       setErrores((prev) => ({ ...prev, carrera: '' }));
     }
@@ -143,9 +139,8 @@ export const SeccionComentariosResolucion = ({ resolucion, idResolucion }) => {
     }
 
     const nuevosErrores = {};
-    const carreraLimpia = carrera.trim();
-    if (!carreraLimpia) {
-      nuevosErrores.carrera = 'Por favor, ingresá el nombre de tu carrera.';
+    if (!carreraId) {
+      nuevosErrores.carrera = 'Por favor, seleccioná tu carrera de la lista.';
     }
 
     if (!anioCarrera) {
@@ -172,18 +167,17 @@ export const SeccionComentariosResolucion = ({ resolucion, idResolucion }) => {
     try {
       setIsSubmitting(true);
 
-      // Buscar si coincide con alguna carrera de referencia o usar ID 1 como fallback
-      const carreraMatch = CARRERAS_SUGERIDAS_UPC.find(
-        (c) => c.nombre.toLowerCase() === carreraLimpia.toLowerCase()
+      const carreraSeleccionada = CARRERAS_OFICIALES_UPC.find(
+        (c) => String(c.id) === String(carreraId)
       );
-      const idCarreraFinal = carreraMatch ? carreraMatch.id : 1;
+      const nombreCarreraFinal = carreraSeleccionada?.nombre || 'Carrera universitaria';
       const idUsuarioActual = Number(user.idUsuario ?? user.id);
 
       // DTO estricto según la definición de ComentarioRequestDTO en el backend
       const requestDTO = {
         idUsuario: idUsuarioActual,
         idResolucion: Number(resId),
-        idCarrera: idCarreraFinal,
+        idCarrera: Number(carreraId),
         anioCarrera: Number(anioCarrera),
         contenido: contenidoLimpio,
         estado: 'PENDIENTE',
@@ -194,7 +188,7 @@ export const SeccionComentariosResolucion = ({ resolucion, idResolucion }) => {
       // Guardar también en la lista local de la sesión para visualización inmediata garantizada
       const comentarioRegistrado = {
         ...requestDTO,
-        nombreCarrera: carreraLimpia,
+        nombreCarrera: nombreCarreraFinal,
         idComentario: respuestaBackend?.idComentario || `local-${Date.now()}`,
         nombreUsuario: user.nombre || user.email || 'Estudiante',
         fechaCreacion: new Date().toISOString(),
@@ -213,6 +207,8 @@ export const SeccionComentariosResolucion = ({ resolucion, idResolucion }) => {
       });
 
       // Limpiar formulario y errores
+      setCarreraId('');
+      setAnioCarrera('');
       setContenido('');
       setErrores({});
 
@@ -342,22 +338,33 @@ export const SeccionComentariosResolucion = ({ resolucion, idResolucion }) => {
                   <label htmlFor="campo-carrera">
                     Carrera que cursás <span className="comentarios-requerido">*</span>
                   </label>
-                  <input
+                  <select
                     id="campo-carrera"
-                    type="text"
-                    list="lista-carreras-upc"
-                    className="comentarios-input"
-                    placeholder="Escribí el nombre de tu carrera"
-                    value={carrera}
+                    className="comentarios-select"
+                    value={carreraId}
                     onChange={handleCambioCarrera}
                     disabled={isSubmitting}
                     aria-invalid={Boolean(errores.carrera)}
-                  />
-                  <datalist id="lista-carreras-upc">
-                    {CARRERAS_SUGERIDAS_UPC.map((c) => (
-                      <option key={c.id} value={c.nombre} />
-                    ))}
-                  </datalist>
+                  >
+                    <option value="">Seleccioná tu carrera...</option>
+                    <optgroup label="Carreras de Grado">
+                      <option value="1">Profesorado Universitario de Biología</option>
+                    </optgroup>
+                    <optgroup label="Carreras de Grado y Pregrado">
+                      <option value="2">Licenciatura en Administración de Empresas c/ título intermedio Tecnicatura Universitaria en Gestión Empresarial</option>
+                      <option value="3">Licenciatura en Diseño con titulación intermedia Tecnicatura Universitaria en Tecnologías del Diseño</option>
+                    </optgroup>
+                    <optgroup label="Carreras de Pregrado">
+                      <option value="4">Tecnicatura Universitaria en Diseño Gráfico</option>
+                      <option value="5">Tecnicatura Universitaria en Guía de Turismo</option>
+                      <option value="6">Tecnicatura Universitaria en Hotelería</option>
+                      <option value="7">Tecnicatura Universitaria en Marketing y Negocios Digitales</option>
+                      <option value="8">Tecnicatura Universitaria en Programación Full Stack</option>
+                    </optgroup>
+                    <optgroup label="Carreras Superiores">
+                      <option value="9">Tecnicatura Superior en Prótesis Dental</option>
+                    </optgroup>
+                  </select>
 
                   {errores.carrera && (
                     <span className="comentario-error-texto" role="alert">
