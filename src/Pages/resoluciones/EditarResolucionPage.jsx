@@ -87,7 +87,7 @@ export const EditarResolucionPage = () => {
   const [guardando, setGuardando] = useState(false);
   const [errorCarga, setErrorCarga] = useState('');
   const [errorGuardado, setErrorGuardado] = useState('');
-  const [toast, setToast] = useState({ visible: false, mensaje: '', tipo: 'success' });
+  const [toast, setToast] = useState({ visible: false, mensaje: '', tipo: 'success', accion: null });
 
   // 1. Cargar datos de la resolución y categorías
   useEffect(() => {
@@ -177,7 +177,8 @@ export const EditarResolucionPage = () => {
       };
 
       // 1. Actualizar la resolución en el backend
-      await resolucionesService.actualizar(id, payload);
+      const idAutorFinal = Number(resolucion?.idAutor || user?.idUsuario || user?.id || 1);
+      await resolucionesService.actualizar(id, payload, idAutorFinal);
 
       // 2. Si se adjuntó un nuevo PDF, registrar el archivo
       if (nuevoArchivoPdf) {
@@ -202,20 +203,25 @@ export const EditarResolucionPage = () => {
         ARCHIVADA: 'Archivada',
       };
       const estadoTexto = nombresEstado[payload.estado] || payload.estado;
-      const mensajeConfirmacion = `La resolución se actualizó correctamente con estado ${estadoTexto}.`;
+      const mensajeConfirmacion = `¡La resolución se actualizó exitosamente! (Estado: ${estadoTexto})`;
+
+      // Actualizar el estado local para reflejar la nueva versión y datos
+      setResolucion((prev) => ({
+        ...(prev || {}),
+        ...payload,
+        idResolucion: id,
+        versionActual: payload.versionActual,
+      }));
 
       setToast({
         visible: true,
         tipo: 'success',
         mensaje: mensajeConfirmacion,
+        accion: {
+          texto: 'Ver listado',
+          onClick: () => navigate('/resoluciones'),
+        },
       });
-
-      // Redirigir al listado con notificación
-      setTimeout(() => {
-        navigate('/resoluciones', {
-          state: { notificacion: { tipo: 'success', mensaje: mensajeConfirmacion } },
-        });
-      }, 1200);
     } catch (err) {
       setErrorGuardado(err.message || 'Error al guardar los cambios de la resolución.');
     } finally {
@@ -264,6 +270,7 @@ export const EditarResolucionPage = () => {
         visible={toast.visible}
         tipo={toast.tipo}
         mensaje={toast.mensaje}
+        accion={toast.accion}
         onCerrar={() => setToast((prev) => ({ ...prev, visible: false }))}
       />
 
