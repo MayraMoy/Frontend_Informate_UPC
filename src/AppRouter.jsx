@@ -54,6 +54,9 @@ const DetalleResolucionPage = lazy(() =>
 const CrearResolucionPage = lazy(() =>
   import('./Pages/resoluciones/CrearResolucionPage.jsx'),
 );
+const EditarResolucionPage = lazy(() =>
+  import('./Pages/resoluciones/EditarResolucionPage.jsx'),
+);
 const ResolucionesPendientesPage = lazy(() =>
   import('./Pages/resoluciones/ResolucionesPendientesPage.jsx'),
 );
@@ -174,6 +177,16 @@ const AppLayout = () => {
                 <RutaProtegida>
                   <RutaAdministrador>
                     <CrearResolucionPage />
+                  </RutaAdministrador>
+                </RutaProtegida>
+              )}
+            />
+            <Route
+              path="/resoluciones/editar/:id"
+              element={(
+                <RutaProtegida>
+                  <RutaAdministrador>
+                    <EditarResolucionPage />
                   </RutaAdministrador>
                 </RutaProtegida>
               )}

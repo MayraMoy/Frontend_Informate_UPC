@@ -4,7 +4,6 @@ import AppContext from '../../Context/AppContext';
 import { puedeAccederGestion } from '../../hooks/useRoles';
 import { resolucionesService } from '../../Services/resoluciones/resolucionesService';
 import { categoriasResolucionService } from '../../Services/resoluciones/categoriasResolucionService';
-import { ModalEditarResolucion } from '../../Components/resoluciones/ModalEditarResolucion';
 import { obtenerEstadoResolucion } from '../../Components/resoluciones/estadoResolucion';
 import { ToastNotificacion } from '../../Components/shared/ToastNotificacion';
 import { SeccionComentariosResolucion } from '../../Components/resoluciones/comentarios/SeccionComentariosResolucion';
@@ -23,7 +22,6 @@ export const DetalleResolucionPage = () => {
   const [cargando, setCargando] = useState(!location.state?.resolucion);
   const [errorCarga, setErrorCarga] = useState('');
   const [categorias, setCategorias] = useState([]);
-  const [modalEdicionAbierto, setModalEdicionAbierto] = useState(false);
   const [notificacion, setNotificacion] = useState(null);
 
   // Cargar categorías para edición admin (únicamente si el usuario es administrador)
@@ -223,9 +221,9 @@ export const DetalleResolucionPage = () => {
             <button
               type="button"
               className="detalle-res-btn-editar"
-              onClick={() => setModalEdicionAbierto(true)}
+              onClick={() => navigate(`/resoluciones/editar/${id}`, { state: { resolucion } })}
               title="Editar esta resolución"
-              aria-label={`Editar resolución: ${resolucion.titulo || ''}`}
+              aria-label={`Editar resolución: ${resolucion?.titulo || ''}`}
             >
               <IconoEditar />
               <span>Editar resolución</span>
@@ -366,17 +364,6 @@ export const DetalleResolucionPage = () => {
           </div>
         </article>
       </div>
-
-      {/* Modal de Edición si es Admin */}
-      {modalEdicionAbierto && (
-        <ModalEditarResolucion
-          resolucion={resolucion}
-          categorias={categorias}
-          isOpen={modalEdicionAbierto}
-          onClose={() => setModalEdicionAbierto(false)}
-          onGuardadoExitoso={handleGuardadoExitoso}
-        />
-      )}
     </main>
   );
 };

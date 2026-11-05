@@ -86,7 +86,11 @@ export const ComentariosPendientesPage = () => {
           </div>
         ) : comentarios.length === 0 ? (
           <div className="comentarios-empty">
-            <span className="comentarios-empty-icon">💬</span>
+            <span className="comentarios-empty-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+            </span>
             <h3>No hay comentarios pendientes de moderación</h3>
             <p className="text-muted">
               Todos los comentarios de los estudiantes han sido revisados.

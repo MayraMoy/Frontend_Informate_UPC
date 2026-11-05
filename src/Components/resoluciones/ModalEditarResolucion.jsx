@@ -130,7 +130,6 @@ export const ModalEditarResolucion = ({
         {/* Cabecera del modal */}
         <div className="modal-editar-header">
           <div>
-            <span className="badge-edicion-admin">EDICIÓN DE ADMINISTRADOR</span>
             <h3 className="modal-editar-title">
               Modificar Resolución #{resolucion.idResolucion}
             </h3>
@@ -170,7 +169,7 @@ export const ModalEditarResolucion = ({
             {/* Selector de Estado */}
             <div className="col-md-6">
               <label className="modal-editar-label">
-                Estado de la Resolución <span className="text-warning font-weight-bold">★</span>
+                Estado de la Resolución
               </label>
               <select
                 className="form-select select-estado-destacado"
@@ -178,9 +177,9 @@ export const ModalEditarResolucion = ({
                 onChange={(e) => setEstado(e.target.value)}
                 disabled={guardando}
               >
-                <option value="VIGENTE">🟢 Vigente (Pública)</option>
-                <option value="PENDIENTE">🔵 Pendiente de Revisión</option>
-                <option value="ARCHIVADA">🔴 Archivada (Histórica)</option>
+                <option value="VIGENTE">Vigente (Pública)</option>
+                <option value="PENDIENTE">Pendiente de Revisión</option>
+                <option value="ARCHIVADA">Archivada (Histórica)</option>
               </select>
             </div>
 
@@ -222,7 +221,7 @@ export const ModalEditarResolucion = ({
               <div className="modal-editar-pdf-box">
                 <div className="d-flex align-items-center justify-content-between mb-2">
                   <div className="d-flex align-items-center gap-2">
-                    <span className="badge-pdf-icon">📄 PDF</span>
+                    <span className="badge-pdf-icon">PDF</span>
                     <span className="small text-muted">Archivo actual:</span>
                     <strong className="small text-dark font-monospace">
                       {archivoActualNombre}

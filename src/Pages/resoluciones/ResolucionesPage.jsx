@@ -5,7 +5,6 @@ import { TablaResoluciones } from '../../Components/resoluciones/TablaResolucion
 import { DocumentosResoluciones } from '../../Components/resoluciones/DocumentosResoluciones';
 import { ResolucionCardDestacada } from '../../Components/resoluciones/ResolucionCardDestacada';
 import { ModalDetalleResolucion } from '../../Components/resoluciones/ModalDetalleResolucion';
-import { ModalEditarResolucion } from '../../Components/resoluciones/ModalEditarResolucion';
 import { PaginacionResoluciones } from '../../Components/resoluciones/PaginacionResoluciones';
 import { ToastNotificacion } from '../../Components/shared/ToastNotificacion';
 import { resolucionesService } from '../../Services/resoluciones/resolucionesService';
@@ -74,10 +73,6 @@ export const ResolucionesPage = ({
   // Estado del modal de detalle
   const [resolucionSeleccionada, setResolucionSeleccionada] = useState(null);
   const [modalAbierto, setModalAbierto] = useState(false);
-
-  // Estado del modal de edición de administrador
-  const [resolucionAEditar, setResolucionAEditar] = useState(null);
-  const [modalEdicionAbierto, setModalEdicionAbierto] = useState(false);
 
   // Carga resoluciones y categorías desde el backend.
   useEffect(() => {
@@ -203,21 +198,10 @@ export const ResolucionesPage = ({
     setModalAbierto(false);
   };
 
-  // Abrir modal de edición
+  // Navegar a la página dedicada de edición de resolución (similar a EditarNoticia)
   const handleEditarResolucion = (res) => {
-    setResolucionAEditar(res);
-    setModalEdicionAbierto(true);
-  };
-
-  const handleCerrarModalEdicion = () => {
-    setResolucionAEditar(null);
-    setModalEdicionAbierto(false);
-  };
-
-  // Callback cuando se guarda la edición exitosamente
-  const handleGuardadoExitoso = (mensaje) => {
-    setIntentoCarga((prev) => prev + 1);
-    setNotificacion({ tipo: 'success', mensaje });
+    const idResolucion = res.idResolucion ?? res.id ?? res.codigoResolucion ?? res.numeroResolucion;
+    navigate(`/resoluciones/editar/${idResolucion}`, { state: { resolucion: res } });
   };
 
   return (
@@ -338,17 +322,6 @@ export const ResolucionesPage = ({
         onEditar={handleEditarResolucion}
         esAdmin={esAdmin}
       />
-
-      {/* 5. Modal de Edición de Administrador */}
-      {modalEdicionAbierto && (
-        <ModalEditarResolucion
-          resolucion={resolucionAEditar}
-          categorias={categorias}
-          isOpen={modalEdicionAbierto}
-          onClose={handleCerrarModalEdicion}
-          onGuardadoExitoso={handleGuardadoExitoso}
-        />
-      )}
     </section>
   </div>
   );

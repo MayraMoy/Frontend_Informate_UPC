@@ -186,10 +186,14 @@ export const ResolucionesPendientesPage = () => {
                       <div className="btn-group">
                         <button
                           type="button"
-                          className="btn btn-sm btn-outline-secondary"
+                          className="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1"
                           onClick={() => abrirModalDetalle(res)}
                         >
-                          👁 Ver
+                          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                            <circle cx="12" cy="12" r="3" />
+                          </svg>
+                          <span>Ver</span>
                         </button>
                         <button
                           type="button"
