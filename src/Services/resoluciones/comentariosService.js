@@ -47,36 +47,36 @@ export const comentariosService = {
 
   /**
    * Crea un nuevo comentario para una resolución.
-   * Endpoint primario: POST /api/comentarios
-   * Endpoint alternativo (si 404): POST /api/comentarios/crear
+   * Prueba primero POST /api/comentarios y, en caso de 404, prueba /api/comentarios/guardar y /api/comentarios/crear.
    */
   crear: async (datosComentario) => {
-    try {
-      const response = await api.post('/api/comentarios', datosComentario);
-      return response.data;
-    } catch (error) {
-      // Fallback a ruta alternativa si la ruta base retorna 404 Not Found
-      if (error.response?.status === 404) {
-        try {
-          const respAlt = await api.post('/api/comentarios/crear', datosComentario);
-          return respAlt.data;
-        } catch (errAlt) {
-          const msgAlt =
-            errAlt.response?.data?.message ||
-            errAlt.response?.data?.error ||
-            (typeof errAlt.response?.data === 'string' ? errAlt.response.data : null) ||
-            errAlt.message;
-          throw new Error(msgAlt || 'Error al enviar el comentario');
+    const rutas = [
+      '/api/comentarios',
+      '/api/comentarios/guardar',
+      '/api/comentarios/crear',
+      '/api/comentarios/',
+    ];
+
+    let ultimoError = null;
+    for (const ruta of rutas) {
+      try {
+        const response = await api.post(ruta, datosComentario);
+        return response.data;
+      } catch (error) {
+        ultimoError = error;
+        // Si el error no es 404 (ej. 403 o validación 400), no seguir probando otras rutas
+        if (error.response?.status !== 404) {
+          break;
         }
       }
-
-      const mensaje =
-        error.response?.data?.message ||
-        error.response?.data?.error ||
-        (typeof error.response?.data === 'string' ? error.response.data : null) ||
-        error.message;
-      throw new Error(mensaje || 'Error al enviar el comentario');
     }
+
+    const mensaje =
+      ultimoError?.response?.data?.message ||
+      ultimoError?.response?.data?.error ||
+      (typeof ultimoError?.response?.data === 'string' ? ultimoError.response.data : null) ||
+      ultimoError?.message;
+    throw new Error(mensaje || 'Error al enviar el comentario');
   },
 
   /**

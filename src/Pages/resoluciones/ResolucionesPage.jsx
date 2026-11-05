@@ -23,12 +23,16 @@ export const ResolucionesPage = ({
   mostrarBuscador = true,
   mostrarFiltros = true,
   variante = 'tabla',
+  mostrarEnlaceVerMas,
 }) => {
   const SectionHeading = headingLevel === 2 ? 'h2' : 'h1';
   const { user } = useContext(AppContext);
   const esAdmin = puedeAccederGestion(user);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const esPaginaResoluciones = location.pathname === '/resoluciones';
+  const mostrarEnlace = mostrarEnlaceVerMas !== undefined ? mostrarEnlaceVerMas : !esPaginaResoluciones;
 
   // Estados de datos
   const [resoluciones, setResoluciones] = useState([]);
@@ -233,14 +237,16 @@ export const ResolucionesPage = ({
             {user ? 'Resoluciones Académicas' : 'Ver Últimas Resoluciones'}
           </SectionHeading>
         </div>
-        {user ? (
-          <Link className="resoluciones-more-link" to="/resoluciones">
-            Ver todas las resoluciones <span aria-hidden="true">→</span>
-          </Link>
-        ) : (
-          <Link className="resoluciones-more-link" to="/login">
-            Saber más <span aria-hidden="true">→</span>
-          </Link>
+        {mostrarEnlace && (
+          user ? (
+            <Link className="resoluciones-more-link" to="/resoluciones">
+              Ver todas las resoluciones <span aria-hidden="true">→</span>
+            </Link>
+          ) : (
+            <Link className="resoluciones-more-link" to="/login">
+              Saber más <span aria-hidden="true">→</span>
+            </Link>
+          )
         )}
       </header>
 

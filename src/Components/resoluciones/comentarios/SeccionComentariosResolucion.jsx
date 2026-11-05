@@ -84,12 +84,17 @@ export const SeccionComentariosResolucion = ({ resolucion, idResolucion }) => {
     }
   });
 
-  // Cargar comentarios asociados a la resolución (con control de rol para evitar 403)
+  // Cargar comentarios asociados a la resolución (solo para administradores)
   const cargarComentarios = async () => {
     if (!resId) return;
+    // Los estudiantes solo ven sus propios comentarios; solo el admin consulta el servidor
+    if (!esAdmin) {
+      setCargando(false);
+      return;
+    }
     try {
       setCargando(true);
-      const data = await comentariosService.obtenerPorResolucion(resId, esAdmin);
+      const data = await comentariosService.obtenerPorResolucion(resId, true);
       setComentarios(Array.isArray(data) ? data : []);
     } catch {
       setComentarios([]);
