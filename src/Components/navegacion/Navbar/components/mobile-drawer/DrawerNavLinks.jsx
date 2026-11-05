@@ -69,15 +69,17 @@ export const DrawerNavLinks = ({
           </Link>
         )}
       </li>
-      <li>
-        <Link
-          className="drawer-nav-link"
-          to="/#contacto"
-          onClick={handleSectionNavigation('contacto')}
-        >
-          <span>Contacto</span>
-        </Link>
-      </li>
+      {!estaLogueado && (
+        <li>
+          <Link
+            className="drawer-nav-link"
+            to="/#contacto"
+            onClick={handleSectionNavigation('contacto')}
+          >
+            <span>Contacto</span>
+          </Link>
+        </li>
+      )}
     </ul>
   );
 };

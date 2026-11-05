@@ -42,9 +42,9 @@ const InicioPage = () => {
           <InicioHero />
           <NoticiasHome headingLevel={2} variant="carousel" />
           <ResolucionesPage headingLevel={2} />
+          <ContactoSection />
         </>
       )}
-      <ContactoSection />
     </div>
   );
 };

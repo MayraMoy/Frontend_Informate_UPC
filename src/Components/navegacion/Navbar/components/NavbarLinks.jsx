@@ -109,16 +109,18 @@ export const NavbarLinks = ({ onNavigate }) => {
             </Link>
           )}
         </li>
-        <li className="navbar-links-item">
-          <Link
-            className={`navbar-link-item${(pathname === '/' && hash === '#contacto') ? ' is-active' : ''}`}
-            to="/#contacto"
-            onClick={handleSectionNavigation('contacto')}
-            aria-current={(pathname === '/' && hash === '#contacto') ? 'location' : undefined}
-          >
-            Contacto
-          </Link>
-        </li>
+        {!estaLogueado && (
+          <li className="navbar-links-item">
+            <Link
+              className={`navbar-link-item${(pathname === '/' && hash === '#contacto') ? ' is-active' : ''}`}
+              to="/#contacto"
+              onClick={handleSectionNavigation('contacto')}
+              aria-current={(pathname === '/' && hash === '#contacto') ? 'location' : undefined}
+            >
+              Contacto
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );
