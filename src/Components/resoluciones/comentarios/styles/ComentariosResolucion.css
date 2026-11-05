@@ -1,0 +1,409 @@
+/* ==========================================================================
+   Sección de Comentarios y Consultas sobre Resoluciones Académicas
+   ========================================================================== */
+
+.seccion-comentarios-resolucion {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e2e8f0;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #0f172a;
+}
+
+.seccion-comentarios-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.seccion-comentarios-titulo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.015em;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.seccion-comentarios-badge-count {
+  font-size: 0.78rem;
+  font-weight: 600;
+  background-color: #f1f5f9;
+  color: #475569;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Callout para usuarios no autenticados */
+.comentarios-auth-prompt {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.comentarios-auth-prompt-texto h4 {
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 0.35rem 0;
+}
+
+.comentarios-auth-prompt-texto p {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.comentarios-btn-login {
+  background-color: #E89D00;
+  color: #ffffff !important;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.55rem 1.35rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 150ms ease, transform 150ms ease;
+  white-space: nowrap;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.comentarios-btn-login:hover {
+  background-color: #d18a00;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Tarjeta del formulario */
+.comentarios-formulario-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.comentarios-formulario-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.comentarios-formulario-head h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.comentarios-usuario-tag {
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+.comentarios-usuario-tag strong {
+  color: #1e293b;
+}
+
+.comentarios-grid-campos {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  .comentarios-grid-campos {
+    grid-template-columns: 1fr;
+  }
+}
+
+.comentarios-campo-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.comentarios-campo-encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.comentarios-contador {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+}
+
+.comentarios-contador--limite {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.comentarios-campo-group label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.comentarios-requerido {
+  color: #dc2626;
+  margin-left: 2px;
+}
+
+/* Errores inline por campo - Mismo patrón que Crear Noticias */
+.comentarios-campo-group--con-error .comentarios-input,
+.comentarios-campo-group--con-error .comentarios-select,
+.comentarios-campo-group--con-error .comentarios-textarea {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2;
+}
+
+.comentarios-campo-group--con-error .comentarios-input:focus,
+.comentarios-campo-group--con-error .comentarios-select:focus,
+.comentarios-campo-group--con-error .comentarios-textarea:focus {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+}
+
+.comentario-error-texto {
+  font-size: 0.78rem;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.15rem;
+  line-height: 1.3;
+}
+
+.comentarios-input,
+.comentarios-select,
+.comentarios-textarea {
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #1e293b;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.comentarios-input:focus,
+.comentarios-select:focus,
+.comentarios-textarea:focus {
+  border-color: #E89D00;
+  box-shadow: 0 0 0 3px rgba(232, 157, 0, 0.15);
+}
+
+.comentarios-textarea {
+  min-height: 96px;
+  resize: vertical;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.comentarios-formulario-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.comentarios-aviso-moderacion {
+  font-size: 0.8rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 450px;
+  line-height: 1.4;
+}
+
+.comentarios-btn-enviar {
+  background-color: #E89D00;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms ease, opacity 150ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.comentarios-btn-enviar:hover:not(:disabled) {
+  background-color: #d18a00;
+}
+
+.comentarios-btn-enviar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Lista de comentarios */
+.comentarios-lista-wrapper {
+  margin-top: 2rem;
+}
+
+.comentarios-lista-titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 1rem;
+}
+
+.comentarios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comentario-item-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  transition: border-color 150ms ease;
+}
+
+.comentario-item-card:hover {
+  border-color: #cbd5e1;
+}
+
+.comentario-item-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.comentario-autor-info {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.comentario-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #fff4db;
+  color: #8a4b00;
+  font-weight: 700;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid #ffe1a6;
+}
+
+.comentario-autor-texto {
+  display: flex;
+  flex-direction: column;
+}
+
+.comentario-autor-nombre {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.comentario-autor-carrera {
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+.comentario-meta-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.comentario-fecha {
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+/* Badges de estado - SIN EMOJIS */
+.comentario-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.65rem;
+  border-radius: 6px;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  display: inline-block;
+}
+
+/* Estado PENDIENTE: 'En revisión' */
+.comentario-badge--revision {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+/* Estado APROBADO: 'Registrado y revisado' */
+.comentario-badge--revisado {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+/* Estado RECHAZADO: 'No admitido' */
+.comentario-badge--rechazado {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.comentario-cuerpo {
+  font-size: 0.9rem;
+  color: #334155;
+  line-height: 1.55;
+  white-space: pre-line;
+  margin: 0;
+}
+
+/* Estado vacío para estudiantes que no han comentado */
+.comentarios-vacio-box {
+  background-color: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  padding: 1.75rem;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.88rem;
+  margin-top: 1rem;
+}
+
