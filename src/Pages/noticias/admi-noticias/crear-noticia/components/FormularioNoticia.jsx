@@ -39,7 +39,7 @@ const FormularioNoticia = ({
   // Primer paso: validar y pedir confirmación.
   const manejarEnvio = (event) => {
     event?.preventDefault?.();
-    setMensajeExito('');
+    setToast((prev) => ({ ...prev, visible: false }));
 
     if (creacion.guardando || !formulario.validar()) {
       setPestanaActiva('editor');
