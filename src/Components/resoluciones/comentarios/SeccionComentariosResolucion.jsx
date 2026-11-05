@@ -74,12 +74,22 @@ export const SeccionComentariosResolucion = ({ resolucion, idResolucion }) => {
   // ID de resolución normalizado
   const resId = idResolucion || resolucion?.idResolucion || resolucion?.id;
 
-  // Cargar comentarios asociados a la resolución
+  // Persistencia de comentarios enviados en la sesión actual
+  const [comentariosLocales, setComentariosLocales] = useState(() => {
+    try {
+      const guardados = sessionStorage.getItem(`comentarios_upc_${resId}`);
+      return guardados ? JSON.parse(guardados) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  // Cargar comentarios asociados a la resolución (con control de rol para evitar 403)
   const cargarComentarios = async () => {
     if (!resId) return;
     try {
       setCargando(true);
-      const data = await comentariosService.obtenerPorResolucion(resId);
+      const data = await comentariosService.obtenerPorResolucion(resId, esAdmin);
       setComentarios(Array.isArray(data) ? data : []);
     } catch {
       setComentarios([]);
@@ -175,7 +185,21 @@ export const SeccionComentariosResolucion = ({ resolucion, idResolucion }) => {
         estado: 'PENDIENTE',
       };
 
-      await comentariosService.crear(nuevoComentario);
+      const respuestaBackend = await comentariosService.crear(nuevoComentario);
+
+      // Guardar también en la lista local de la sesión para visualización inmediata garantizada
+      const comentarioRegistrado = {
+        ...nuevoComentario,
+        idComentario: respuestaBackend?.idComentario || `local-${Date.now()}`,
+        nombreUsuario: user.nombre || user.email || 'Estudiante',
+        fechaCreacion: new Date().toISOString(),
+      };
+
+      const listaActualizada = [comentarioRegistrado, ...comentariosLocales];
+      setComentariosLocales(listaActualizada);
+      try {
+        sessionStorage.setItem(`comentarios_upc_${resId}`, JSON.stringify(listaActualizada));
+      } catch {}
 
       setToast({
         visible: true,
@@ -209,8 +233,15 @@ export const SeccionComentariosResolucion = ({ resolucion, idResolucion }) => {
     if (esAdmin) return comentarios;
 
     const idActual = String(user.idUsuario ?? user.id);
-    return comentarios.filter((c) => String(c.idUsuario) === idActual);
-  }, [user, esAdmin, comentarios]);
+    const delServidor = comentarios.filter((c) => String(c.idUsuario) === idActual);
+
+    const idsExistentes = new Set(delServidor.map((c) => c.idComentario).filter(Boolean));
+    const localesFiltrados = comentariosLocales.filter(
+      (c) => !c.idComentario || !idsExistentes.has(c.idComentario)
+    );
+
+    return [...localesFiltrados, ...delServidor];
+  }, [user, esAdmin, comentarios, comentariosLocales]);
 
   // Formateador amigable de fecha
   const formatearFecha = (fechaStr) => {

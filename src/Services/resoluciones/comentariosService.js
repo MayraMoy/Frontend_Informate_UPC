@@ -20,24 +20,28 @@ export const comentariosService = {
 
   /**
    * Obtiene los comentarios de una resolución específica.
-   * Intenta primero GET /api/comentarios/resolucion/{idResolucion},
-   * y si no existe ese endpoint específico, consulta todos y filtra por idResolucion.
+   * Intenta primero GET /api/comentarios/resolucion/{idResolucion}.
+   * Solo recurre a GET /api/comentarios/todos si el usuario es administrador,
+   * evitando peticiones restringidas que generen errores 403 para estudiantes.
    */
-  obtenerPorResolucion: async (idResolucion) => {
+  obtenerPorResolucion: async (idResolucion, esAdmin = false) => {
     try {
       const response = await api.get(`/api/comentarios/resolucion/${idResolucion}`);
       return Array.isArray(response.data) ? response.data : response.data?.content || [];
     } catch (error) {
-      // Fallback a obtener todos y filtrar localmente
-      try {
-        const todos = await comentariosService.obtenerTodos();
-        const lista = Array.isArray(todos) ? todos : todos?.content || [];
-        return lista.filter(
-          (c) => String(c.idResolucion) === String(idResolucion)
-        );
-      } catch (fallbackError) {
-        return [];
+      // Fallback a obtener todos únicamente si es administrador
+      if (esAdmin) {
+        try {
+          const todos = await comentariosService.obtenerTodos();
+          const lista = Array.isArray(todos) ? todos : todos?.content || [];
+          return lista.filter(
+            (c) => String(c.idResolucion) === String(idResolucion)
+          );
+        } catch (fallbackError) {
+          return [];
+        }
       }
+      return [];
     }
   },
 

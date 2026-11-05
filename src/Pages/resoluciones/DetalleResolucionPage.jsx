@@ -26,8 +26,9 @@ export const DetalleResolucionPage = () => {
   const [modalEdicionAbierto, setModalEdicionAbierto] = useState(false);
   const [notificacion, setNotificacion] = useState(null);
 
-  // Cargar categorías para edición admin
+  // Cargar categorías para edición admin (únicamente si el usuario es administrador)
   useEffect(() => {
+    if (!esAdmin) return;
     let cancelado = false;
     categoriasResolucionService
       .obtenerTodas()
@@ -38,7 +39,7 @@ export const DetalleResolucionPage = () => {
     return () => {
       cancelado = true;
     };
-  }, []);
+  }, [esAdmin]);
 
   // Cargar resolución si no vino por state de navegación
   useEffect(() => {

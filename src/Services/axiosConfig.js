@@ -37,12 +37,16 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error.response?.status;
-    // Si el backend rechaza con 401 (Unauthorized) o 403 (Forbidden) y existía un token almacenado,
-    // significa que el token fue revocado, es inválido o no tiene permisos.
-    // Limpiamos las credenciales residuales para no bloquear futuras peticiones públicas.
-    if ((status === 401 || status === 403) && localStorage.getItem('token')) {
-      limpiarCredencialesLocales();
-      window.dispatchEvent(new Event('auth:logout'));
+    // Si el backend rechaza con 401 (Unauthorized) y el token ya expiró o no es válido,
+    // limpiamos las credenciales locales para redirigir a un nuevo inicio de sesión.
+    // NUNCA cerrar sesión ante 403 (Forbidden), ya que 403 solo indica que el rol actual
+    // (ej. Estudiante) no tiene privilegios para ese endpoint específico.
+    if (status === 401) {
+      const token = localStorage.getItem('token');
+      if (token && isTokenExpired(token)) {
+        limpiarCredencialesLocales();
+        window.dispatchEvent(new Event('auth:logout'));
+      }
     }
 
     return Promise.reject(error);
