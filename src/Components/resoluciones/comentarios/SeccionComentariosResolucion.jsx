@@ -174,22 +174,22 @@ export const SeccionComentariosResolucion = ({ resolucion, idResolucion }) => {
       const idCarreraFinal = carreraMatch ? carreraMatch.id : 1;
       const idUsuarioActual = Number(user.idUsuario ?? user.id);
 
-      const nuevoComentario = {
+      // DTO estricto según la definición de ComentarioRequestDTO en el backend
+      const requestDTO = {
         idUsuario: idUsuarioActual,
         idResolucion: Number(resId),
         idCarrera: idCarreraFinal,
-        nombreCarrera: carreraLimpia,
-        carrera: carreraLimpia,
         anioCarrera: Number(anioCarrera),
         contenido: contenidoLimpio,
         estado: 'PENDIENTE',
       };
 
-      const respuestaBackend = await comentariosService.crear(nuevoComentario);
+      const respuestaBackend = await comentariosService.crear(requestDTO);
 
       // Guardar también en la lista local de la sesión para visualización inmediata garantizada
       const comentarioRegistrado = {
-        ...nuevoComentario,
+        ...requestDTO,
+        nombreCarrera: carreraLimpia,
         idComentario: respuestaBackend?.idComentario || `local-${Date.now()}`,
         nombreUsuario: user.nombre || user.email || 'Estudiante',
         fechaCreacion: new Date().toISOString(),

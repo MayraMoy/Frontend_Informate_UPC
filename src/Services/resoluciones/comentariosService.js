@@ -47,14 +47,34 @@ export const comentariosService = {
 
   /**
    * Crea un nuevo comentario para una resolución.
-   * Endpoint: POST /api/comentarios
+   * Endpoint primario: POST /api/comentarios
+   * Endpoint alternativo (si 404): POST /api/comentarios/crear
    */
   crear: async (datosComentario) => {
     try {
       const response = await api.post('/api/comentarios', datosComentario);
       return response.data;
     } catch (error) {
-      const mensaje = error.response?.data?.message || error.response?.data || error.message;
+      // Fallback a ruta alternativa si la ruta base retorna 404 Not Found
+      if (error.response?.status === 404) {
+        try {
+          const respAlt = await api.post('/api/comentarios/crear', datosComentario);
+          return respAlt.data;
+        } catch (errAlt) {
+          const msgAlt =
+            errAlt.response?.data?.message ||
+            errAlt.response?.data?.error ||
+            (typeof errAlt.response?.data === 'string' ? errAlt.response.data : null) ||
+            errAlt.message;
+          throw new Error(msgAlt || 'Error al enviar el comentario');
+        }
+      }
+
+      const mensaje =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        (typeof error.response?.data === 'string' ? error.response.data : null) ||
+        error.message;
       throw new Error(mensaje || 'Error al enviar el comentario');
     }
   },
