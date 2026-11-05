@@ -141,6 +141,28 @@
   margin-bottom: 0.5rem;
 }
 
+.crear-btn-agregar-tag {
+  border: 1.5px solid #E89D00;
+  background: #fffbeb;
+  color: #8a4b00;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.crear-btn-agregar-tag:hover:not(:disabled) {
+  background: #fef3c7;
+  color: #78350f;
+  border-color: #D98200;
+}
+
+/* ==========================================================================
+   Botones de Acción unificados con sistema de diseño (idénticos a Crear Noticia)
+   ========================================================================== */
 .crear-actions-bar {
   display: flex;
   justify-content: space-between;
@@ -150,4 +172,120 @@
   border-top: 1px solid #E2E8F0;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.crear-actions-grupo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.crear-resolucion__boton-principal,
+.crear-resolucion__boton-secundario,
+.crear-resolucion__boton-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 42px;
+  padding: 0.7rem 1.4rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  text-decoration: none;
+}
+
+/* Botón principal institucional (Dorado / Ámbar UPC) */
+.crear-resolucion__boton-principal {
+  border: 1px solid #E89D00;
+  background: #E89D00;
+  color: #1a1a1a;
+  box-shadow: 0 2px 6px rgba(243, 156, 18, 0.25);
+}
+
+.crear-resolucion__boton-principal:hover:not(:disabled) {
+  background: #D98200;
+  border-color: #D98200;
+}
+
+.crear-resolucion__boton-principal:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Botón outline cálido para acciones secundarias/pendientes */
+.crear-resolucion__boton-outline {
+  border: 1.5px solid #E89D00;
+  background: #fffbeb;
+  color: #8a4b00;
+}
+
+.crear-resolucion__boton-outline:hover:not(:disabled) {
+  background: #fef3c7;
+  color: #78350f;
+  border-color: #D98200;
+}
+
+.crear-resolucion__boton-outline:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Botón secundario blanco/neutro para Cancelar */
+.crear-resolucion__boton-secundario {
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #475569;
+}
+
+.crear-resolucion__boton-secundario:hover:not(:disabled) {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+.crear-resolucion__boton-secundario:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Mini spinner para estado de carga */
+.crear-resolucion__mini-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: girar-crear 0.75s linear infinite;
+  display: inline-block;
+}
+
+@keyframes girar-crear {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 576px) {
+  .crear-actions-bar {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+  .crear-actions-grupo {
+    flex-direction: column;
+    width: 100%;
+  }
+  .crear-resolucion__boton-principal,
+  .crear-resolucion__boton-secundario,
+  .crear-resolucion__boton-outline {
+    width: 100%;
+  }
 }

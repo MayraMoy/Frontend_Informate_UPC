@@ -5,6 +5,29 @@ import { resolucionesService } from '../../Services/resoluciones/resolucionesSer
 import { categoriasResolucionService } from '../../Services/resoluciones/categoriasResolucionService';
 import './CrearResolucionPage.css';
 
+/* ==========================================================================
+   Iconos vectoriales limpios (SVG) - Sin emojis
+   ========================================================================== */
+const IconoVolver = () => (
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <line x1="19" y1="12" x2="5" y2="12" />
+    <polyline points="12 19 5 12 12 5" />
+  </svg>
+);
+
+const IconoReloj = () => (
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="10" />
+    <polyline points="12 6 12 12 16 14" />
+  </svg>
+);
+
+const IconoCheck = () => (
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
+
 export const CrearResolucionPage = () => {
   const navigate = useNavigate();
   const { user } = useContext(AppContext);
@@ -29,9 +52,12 @@ export const CrearResolucionPage = () => {
     const cargarCategorias = async () => {
       try {
         const cats = await categoriasResolucionService.obtenerTodas();
-        if (Array.isArray(cats)) {
+        if (Array.isArray(cats) && cats.length > 0) {
           setCategorias(cats);
-          if (cats.length > 0) setIdCategoria(cats[0].idCategoria);
+          const primerId = cats[0].idCategoria ?? cats[0].id;
+          if (primerId !== undefined && primerId !== null) {
+            setIdCategoria(String(primerId));
+          }
         }
       } catch (err) {
         console.error('Error al cargar categorías:', err);
@@ -72,28 +98,34 @@ export const CrearResolucionPage = () => {
     try {
       setGuardando(true);
 
+      const idCatNum = Number(idCategoria);
+      const idAutorFinal = Number(user?.idUsuario ?? user?.id ?? user?.usuarioId ?? 1);
+
       const payload = {
         numeroResolucion: numeroResolucion.trim(),
         titulo: titulo.trim(),
         descripcion: descripcion.trim(),
-        idCategoria: Number(idCategoria),
-        idAutor: user?.idUsuario || 1,
+        idCategoria: idCatNum,
+        categoriaId: idCatNum,
+        idAutor: idAutorFinal,
+        autorId: idAutorFinal,
+        usuarioId: idAutorFinal,
         versionActual: 1,
         observaciones: observaciones.trim() || 'Creación inicial de la resolución.',
-        estado: estadoDeseado, // 'VIGENTE' o 'PENDIENTE'
+        estado: estadoDeseado.toUpperCase(),
       };
 
       // NOTA: La subida del archivo PDF queda pendiente de integración física con el backend
       // según requerimiento del proyecto. Se registra el payload formal de la resolución.
-      await resolucionesService.crear(payload);
+      await resolucionesService.crear(payload, idAutorFinal);
 
       const notificacion = {
         tipo: 'success',
-        mensaje: estadoDeseado === 'VIGENTE'
+        mensaje: estadoDeseado.toUpperCase() === 'VIGENTE'
           ? 'La resolución se publicó exitosamente.'
           : 'La resolución quedó pendiente de revisión.',
       };
-      const destino = estadoDeseado === 'VIGENTE'
+      const destino = estadoDeseado.toUpperCase() === 'VIGENTE'
         ? '/resoluciones'
         : '/resoluciones/pendientes';
 
@@ -149,11 +181,15 @@ export const CrearResolucionPage = () => {
                 onChange={(e) => setIdCategoria(e.target.value)}
                 disabled={guardando}
               >
-                {categorias.map((cat) => (
-                  <option key={cat.idCategoria} value={cat.idCategoria}>
-                    {cat.nombre}
-                  </option>
-                ))}
+                {categorias.map((cat) => {
+                  const idCat = cat.idCategoria ?? cat.id;
+                  const nombreCat = cat.nombre ?? cat.nombreCategoria ?? `Categoría ${idCat}`;
+                  return (
+                    <option key={idCat} value={idCat}>
+                      {nombreCat}
+                    </option>
+                  );
+                })}
               </select>
             </div>
 
@@ -202,7 +238,7 @@ export const CrearResolucionPage = () => {
                 />
                 <button
                   type="button"
-                  className="btn btn-outline-warning"
+                  className="crear-btn-agregar-tag"
                   onClick={agregarEtiqueta}
                   disabled={guardando}
                 >
@@ -276,32 +312,59 @@ export const CrearResolucionPage = () => {
             </div>
           </div>
 
-          {/* Botones de Acción */}
+          {error && (
+            <div className="alert alert-danger mt-4 mb-0" role="alert">
+              {error}
+            </div>
+          )}
+
+          {/* Botones de Acción unificados con sistema de diseño */}
           <div className="crear-actions-bar">
             <button
               type="button"
-              className="btn btn-outline-secondary px-4"
+              className="crear-resolucion__boton-secundario"
               onClick={() => navigate('/resoluciones')}
               disabled={guardando}
             >
-              Cancelar
+              <IconoVolver />
+              <span>Cancelar</span>
             </button>
-            <div className="d-flex gap-2">
+            <div className="crear-actions-grupo">
               <button
                 type="button"
-                className="btn btn-warning px-4 font-weight-bold"
+                className="crear-resolucion__boton-outline"
                 onClick={() => handleSubmit('PENDIENTE')}
                 disabled={guardando}
               >
-                {guardando ? 'Guardando...' : 'Solicitar Aprobación (Pendiente)'}
+                {guardando ? (
+                  <>
+                    <span className="crear-resolucion__mini-spinner" aria-hidden="true" />
+                    <span>Guardando...</span>
+                  </>
+                ) : (
+                  <>
+                    <IconoReloj />
+                    <span>Solicitar Aprobación (Pendiente)</span>
+                  </>
+                )}
               </button>
               <button
                 type="button"
-                className="btn btn-dark px-4 font-weight-bold"
+                className="crear-resolucion__boton-principal"
                 onClick={() => handleSubmit('VIGENTE')}
                 disabled={guardando}
               >
-                {guardando ? 'Publicando...' : 'Aprobar y Publicar'}
+                {guardando ? (
+                  <>
+                    <span className="crear-resolucion__mini-spinner" aria-hidden="true" />
+                    <span>Publicando...</span>
+                  </>
+                ) : (
+                  <>
+                    <IconoCheck />
+                    <span>Aprobar y Publicar</span>
+                  </>
+                )}
               </button>
             </div>
           </div>
