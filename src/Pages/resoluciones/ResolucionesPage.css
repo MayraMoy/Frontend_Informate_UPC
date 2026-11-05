@@ -50,6 +50,12 @@
   text-align: left;
 }
 
+.resoluciones-page-bg--blanco .resoluciones-header,
+.inicio-landing:not(.inicio-landing-autenticado) .resoluciones-header {
+  border-bottom: 2px solid #E89D00;
+  padding-bottom: 0.65rem;
+}
+
 .resoluciones-header-content {
   min-width: 0;
 }
