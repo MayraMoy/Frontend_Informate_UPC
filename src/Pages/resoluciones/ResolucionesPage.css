@@ -7,8 +7,9 @@
 }
 
 .resoluciones-page-bg--blanco,
-.inicio-landing:not(.inicio-landing-autenticado) .resoluciones-page-bg {
-  background-color: #ffffff !important;
+.inicio-landing .resoluciones-page-bg,
+.dashboard-usuario .resoluciones-page-bg {
+  background-color: transparent !important;
   min-height: auto;
   padding: 0 0 3.5rem 0;
 }
@@ -31,7 +32,7 @@
   color: var(--text-dark);
 }
 
-.inicio-landing:not(.inicio-landing-autenticado) .resoluciones-page-container,
+.inicio-landing .resoluciones-page-container,
 .dashboard-usuario .resoluciones-page-container {
   width: calc(100% - clamp(2rem, 4.5vw, 4rem));
   max-width: 1440px;
@@ -45,15 +46,18 @@
   justify-content: space-between;
   gap: 1.5rem;
   margin-bottom: 1.5rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+  border-bottom: none;
   text-align: left;
 }
 
-.resoluciones-page-bg--blanco .resoluciones-header,
-.inicio-landing:not(.inicio-landing-autenticado) .resoluciones-header {
+/* En la página de inicio (tanto no autenticada como autenticada en DashboardUsuario): franja amarilla igual que en Noticias */
+.inicio-landing .resoluciones-header,
+.dashboard-usuario .resoluciones-header,
+.resoluciones-page-bg--blanco .resoluciones-header {
   border-bottom: 2px solid #E89D00;
   padding-bottom: 0.65rem;
+  margin-bottom: 1.75rem;
 }
 
 .resoluciones-header-content {
@@ -799,7 +803,7 @@
 
 /* Responsividad */
 @media (max-width: 768px) {
-  .inicio-landing:not(.inicio-landing-autenticado) .resoluciones-page-container,
+  .inicio-landing .resoluciones-page-container,
   .dashboard-usuario .resoluciones-page-container {
     width: calc(100% - 1.25rem);
   }
