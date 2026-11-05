@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import AppContext from '../../Context/AppContext.js';
 import { NoticiasHome } from '../noticias/home-noticias/NoticiaHome.jsx';
 import { ResolucionesPage } from '../resoluciones/ResolucionesPage.jsx';
+import { ContactoSection } from '../contacto/ContactoSection.jsx';
 import InicioHero from './components/InicioHero.jsx';
 import DashboardUsuario from './DashboardUsuario.jsx';
 import { scrollToSection } from '../../utils/scrollHelpers.js';
@@ -43,6 +44,7 @@ const InicioPage = () => {
           <ResolucionesPage headingLevel={2} />
         </>
       )}
+      <ContactoSection />
     </div>
   );
 };

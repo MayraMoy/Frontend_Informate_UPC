@@ -1,0 +1,131 @@
+/* ==========================================================================
+   Sección de Contacto Institucional (UPC)
+   Alineado 100% al sistema de diseño existente de la página:
+   - Contenedor idéntico a Novedades y Resoluciones
+   - Encabezado institucional con línea dorada (#E89D00)
+   - Tipografía Poppins y colores nativos (#111827, #64748b, #d97706)
+   ========================================================================== */
+
+.contacto-seccion {
+  width: calc(100% - clamp(2rem, 4.5vw, 4rem));
+  max-width: 1440px;
+  margin: clamp(2.5rem, 6vw, 5rem) auto;
+  box-sizing: border-box;
+  scroll-margin-top: 96px;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #111827;
+}
+
+/* 1. Encabezado institucional del sitio */
+.contacto-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0 0 0.65rem;
+  border-bottom: 2px solid #E89D00;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.contacto-titulo {
+  margin: 0;
+  color: #111827;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(1.65rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* 2. Grid de 2 Columnas */
+.contacto-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+@media (max-width: 960px) {
+  .contacto-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* 3. Columna Izquierda: Mapa de Google */
+.contacto-mapa-wrapper {
+  width: 100%;
+  height: 380px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  background-color: #f8fafc;
+}
+
+.contacto-mapa-wrapper iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* 4. Columna Derecha: Canales Institucionales Directos */
+.contacto-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contacto-fila {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.contacto-icono {
+  color: #d97706;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.contacto-detalle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.contacto-etiqueta {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.contacto-texto {
+  font-size: 0.95rem;
+  color: #1f2937;
+  line-height: 1.55;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.contacto-texto strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+.contacto-link {
+  color: #0284c7;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.contacto-link:hover {
+  color: #d97706;
+  text-decoration: underline;
+}

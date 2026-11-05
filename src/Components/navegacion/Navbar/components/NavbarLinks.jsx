@@ -110,13 +110,14 @@ export const NavbarLinks = ({ onNavigate }) => {
           )}
         </li>
         <li className="navbar-links-item">
-          <a
-            className="navbar-link-item"
-            href="mailto:contacto@upc.edu.ar"
-            onClick={onNavigate}
+          <Link
+            className={`navbar-link-item${(pathname === '/' && hash === '#contacto') ? ' is-active' : ''}`}
+            to="/#contacto"
+            onClick={handleSectionNavigation('contacto')}
+            aria-current={(pathname === '/' && hash === '#contacto') ? 'location' : undefined}
           >
             Contacto
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>

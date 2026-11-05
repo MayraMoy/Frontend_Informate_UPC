@@ -70,13 +70,13 @@ export const DrawerNavLinks = ({
         )}
       </li>
       <li>
-        <a
+        <Link
           className="drawer-nav-link"
-          href="mailto:contacto@upc.edu.ar"
-          onClick={onClose}
+          to="/#contacto"
+          onClick={handleSectionNavigation('contacto')}
         >
           <span>Contacto</span>
-        </a>
+        </Link>
       </li>
     </ul>
   );
