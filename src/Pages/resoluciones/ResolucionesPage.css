@@ -395,6 +395,43 @@
   transform: translateX(4px);
 }
 
+/* Botón Editar resolución unificado con el botón de Noticias */
+.resolucion-btn-editar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.95rem;
+  min-height: 36px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #334155;
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-decoration: none;
+}
+
+.resolucion-btn-editar:hover {
+  background-color: #fffdf5;
+  border-color: #fde68a;
+  color: #92400e;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15);
+}
+
+.resolucion-btn-editar svg {
+  color: #d97706;
+  transition: transform 0.15s ease;
+}
+
+.resolucion-btn-editar:hover svg {
+  transform: scale(1.08);
+}
+
 /* 4. Sección de Destacadas / Recientes */
 .seccion-destacadas {
   margin-top: 40px;

@@ -7,16 +7,26 @@ import { ToastNotificacion } from '../../shared/ToastNotificacion';
 import './styles/ComentariosResolucion.css';
 
 const CARRERAS_SUGERIDAS_UPC = [
-  { id: 1, nombre: 'Tecnicatura Universitaria en Desarrollo Web' },
-  { id: 2, nombre: 'Licenciatura en Diseño Gráfico' },
-  { id: 3, nombre: 'Licenciatura en Administración y Gestión Institucional' },
-  { id: 4, nombre: 'Licenciatura en Turismo' },
-  { id: 5, nombre: 'Licenciatura en Psicopedagogía' },
-  { id: 6, nombre: 'Licenciatura en Educación Física' },
-  { id: 7, nombre: 'Licenciatura en Arte y Gestión Cultural' },
-  { id: 8, nombre: 'Tecnicatura en Gestión y Producción Teatral' },
-  { id: 9, nombre: 'Tecnicatura en Diseño de Indumentaria' },
-  { id: 10, nombre: 'Licenciatura en Composición Coreográfica' },
+  // Carreras de Grado
+  { id: 1, nombre: 'Profesorado Universitario de Biología' },
+
+  // Carreras de Grado y Pregrado
+  { id: 2, nombre: 'Licenciatura en Administración de Empresas c/ título intermedio Tecnicatura Universitaria en Gestión Empresarial' },
+  { id: 3, nombre: 'Licenciatura en Diseño con titulación intermedia Tecnicatura Universitaria en Tecnologías del Diseño' },
+  { id: 4, nombre: 'Licenciatura en Administración de Empresas' },
+  { id: 5, nombre: 'Tecnicatura Universitaria en Gestión Empresarial' },
+  { id: 6, nombre: 'Licenciatura en Diseño' },
+  { id: 7, nombre: 'Tecnicatura Universitaria en Tecnologías del Diseño' },
+
+  // Carreras de Pregrado
+  { id: 8, nombre: 'Tecnicatura Universitaria en Diseño Gráfico' },
+  { id: 9, nombre: 'Tecnicatura Universitaria en Guía de Turismo' },
+  { id: 10, nombre: 'Tecnicatura Universitaria en Hotelería' },
+  { id: 11, nombre: 'Tecnicatura Universitaria en Marketing y Negocios Digitales' },
+  { id: 12, nombre: 'Tecnicatura Universitaria en Programación Full Stack' },
+
+  // Carreras Superiores
+  { id: 13, nombre: 'Tecnicatura Superior en Prótesis Dental' },
 ];
 
 const OPCIONES_ANIO_CARRERA = [1, 2, 3, 4, 5];
