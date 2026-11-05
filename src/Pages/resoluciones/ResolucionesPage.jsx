@@ -234,23 +234,25 @@ export const ResolucionesPage = ({
         )}
       </header>
 
-      {/* 2. Barra de Búsqueda y Filtros Avanzados */}
-      {mostrarFiltros && (
-        <FiltrosResoluciones
-          busqueda={busqueda}
-          setBusqueda={(val) => { setBusqueda(val); setPaginaActual(1); }}
-          anio={anio}
-          setAnio={(val) => { setAnio(val); setPaginaActual(1); }}
-          aniosDisponibles={aniosDisponibles}
-          categoria={categoria}
-          setCategoria={(val) => { setCategoria(val); setPaginaActual(1); }}
-          categorias={categorias}
-          estado={estado}
-          setEstado={(val) => { setEstado(val); setPaginaActual(1); }}
-          onLimpiarFiltros={handleLimpiarFiltros}
-          esPublico={!user}
-          mostrarBuscador={mostrarBuscador}
-        />
+      {/* 2. Barra de Búsqueda y Filtros Avanzados en Tarjeta Contenedora (solo para usuarios autenticados) */}
+      {Boolean(user) && mostrarFiltros && (
+        <div className="resoluciones-filtros-card">
+          <FiltrosResoluciones
+            busqueda={busqueda}
+            setBusqueda={(val) => { setBusqueda(val); setPaginaActual(1); }}
+            anio={anio}
+            setAnio={(val) => { setAnio(val); setPaginaActual(1); }}
+            aniosDisponibles={aniosDisponibles}
+            categoria={categoria}
+            setCategoria={(val) => { setCategoria(val); setPaginaActual(1); }}
+            categorias={categorias}
+            estado={estado}
+            setEstado={(val) => { setEstado(val); setPaginaActual(1); }}
+            onLimpiarFiltros={handleLimpiarFiltros}
+            esPublico={!user}
+            mostrarBuscador={mostrarBuscador}
+          />
+        </div>
       )}
 
       {/* 3. Indicador de carga o Tabla Principal */}

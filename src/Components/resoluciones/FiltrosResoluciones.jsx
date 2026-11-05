@@ -20,7 +20,7 @@ export const FiltrosResoluciones = ({
   mostrarBuscador = true,
 }) => {
   return (
-    <div className="filtros-resoluciones-container mb-4">
+    <div className="filtros-resoluciones-container">
       {/* 1. Barra de Búsqueda principal */}
       {mostrarBuscador && (
         <div className="mb-3">

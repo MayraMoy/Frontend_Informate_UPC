@@ -105,7 +105,16 @@
   outline-offset: 3px;
 }
 
-/* 2. Barra de Búsqueda y Filtros */
+/* 2. Barra de Búsqueda y Filtros en Tarjeta (idéntica a /Noticias) */
+.resoluciones-filtros-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  margin-bottom: 1.5rem;
+}
+
 .filtros-resoluciones-container {
   background: transparent;
 }
@@ -115,9 +124,11 @@
   display: flex;
   align-items: center;
   background-color: #ffffff;
-  border: 1.5px solid var(--border-color-input);
+  border: 1px solid var(--border-color-input);
   border-radius: var(--border-radius-control);
-  padding: 6px 14px;
+  padding: 0 14px;
+  height: 48px;
+  box-sizing: border-box;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -150,7 +161,8 @@
   font-size: 0.95rem;
   color: var(--text-dark);
   background: transparent;
-  padding: 8px 0;
+  padding: 0;
+  height: 100%;
 }
 
 .buscador-input::placeholder {
@@ -176,9 +188,11 @@
   background-repeat: no-repeat;
   background-position: right 14px center;
   background-size: 16px;
-  border: 1.5px solid var(--border-color-input);
+  border: 1px solid var(--border-color-input);
   border-radius: var(--border-radius-control);
-  padding: 11px 40px 11px 16px;
+  padding: 0 40px 0 16px;
+  height: 48px;
+  box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
   font-size: 0.92rem;
   color: #475569;
@@ -203,7 +217,12 @@
   color: #1f2937;
   border: none;
   border-radius: 999px;
-  padding: 11px 22px;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
@@ -807,6 +826,10 @@
   .dashboard-usuario .resoluciones-page-container {
     width: calc(100% - 1.25rem);
   }
+  .resoluciones-filtros-card {
+    padding: 0.75rem 0.85rem;
+    border-radius: 12px;
+  }
   .filtros-grid {
     grid-template-columns: 1fr;
   }
@@ -820,6 +843,12 @@
     align-items: flex-start;
     flex-direction: column;
     gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .resoluciones-filtros-card {
+    padding: 0.65rem 0.75rem;
   }
 }
 
