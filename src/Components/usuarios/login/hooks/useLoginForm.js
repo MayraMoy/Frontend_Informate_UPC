@@ -47,25 +47,6 @@ const useLoginForm = () => {
       const usuarioRespuesta = respuestaLogin.usuario ?? respuestaLogin;
       const usuarioLogueado = await resolverRolUsuario(usuarioRespuesta);
 
-      // Verificación de cuenta inactiva o suspendida (si el backend responde 200 pero el usuario está inactivo)
-      const estadoUsuario = String(
-        usuarioLogueado?.estado ||
-        usuarioRespuesta?.estado ||
-        ''
-      ).toUpperCase();
-
-      if (
-        estadoUsuario === 'INACTIVO' ||
-        usuarioLogueado?.activo === false ||
-        usuarioRespuesta?.activo === false
-      ) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('usuarioSesion');
-        setUser?.(null);
-        setErrorMsg('Tu cuenta ha sido suspendida. Por favor, comunícate con la administración de la Universidad.');
-        return;
-      }
-
       // Guardar el JWT para que Axios lo envíe en las próximas peticiones.
       if (respuestaLogin.token) {
         localStorage.setItem('token', respuestaLogin.token);
@@ -88,6 +69,12 @@ const useLoginForm = () => {
           : '/';
       navigate(rutaDestino, { replace: true });
     } catch (error) {
+      const status = error.response?.status;
+      if (status === 502 || status === 503 || status === 504) {
+        setErrorMsg('El servidor en la nube se encuentra iniciando o restableciendo conexión. Aguardá unos segundos e intentá nuevamente.');
+        return;
+      }
+
       const msgMinuscula = String(error.message || '').toLowerCase();
       const dataRaw = error.response?.data;
       const dataString = typeof dataRaw === 'string'
@@ -135,14 +122,9 @@ const useLoginForm = () => {
     }
   };
 
-  const isCredentialsError = errorMsg && (
-    errorMsg.includes('no son correctos') ||
-    errorMsg.includes('inválidas') ||
-    errorMsg.includes('invalidas')
-  );
-  const isSuspendedError = errorMsg && errorMsg.includes('suspendida');
+  const isCredentialsError = errorMsg && errorMsg.includes('no son correctos');
   const isEmailError = errorMsg && (
-    isCredentialsError || isSuspendedError || errorMsg.includes('correo') || errorMsg.includes('Correo')
+    isCredentialsError || errorMsg.includes('correo') || errorMsg.includes('Correo')
   );
   const isPasswordError = errorMsg && (
     isCredentialsError || errorMsg.includes('contraseña') || errorMsg.includes('Contraseña')

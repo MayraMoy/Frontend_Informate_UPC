@@ -1,49 +1,52 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import usePerfil from './hooks/usePerfil.js';
+import usePerfilComentarios from './hooks/usePerfilComentarios.js';
 import PerfilVista from './components/PerfilVista.jsx';
 import PerfilFormulario from './components/PerfilFormulario.jsx';
+import PerfilComentarios from './components/PerfilComentarios.jsx';
+import PerfilTabs from './components/PerfilTabs.jsx';
 import { ToastNotificacion } from '../../Components/shared/ToastNotificacion.jsx';
 import './styles/Perfil.css';
 
 const Perfil = () => {
-  const {
-    user,
-    editando,
-    guardando,
-    formData,
-    errores,
-    mostrarPassword,
-    mostrarConfirmPassword,
-    mensajeExito,
-    mensajeError,
-    setMostrarPassword,
-    setMostrarConfirmPassword,
-    limpiarMensajeExito,
-    limpiarMensajeError,
-    iniciarEdicion,
-    cancelarEdicion,
-    manejarCambio,
-    guardarPerfil,
-  } = usePerfil();
+  const location = useLocation();
+  const perfil = usePerfil();
+  const { user } = perfil;
+  const comentariosController = usePerfilComentarios(user);
+
+  // Derivar la pestaña activa directamente del hash de la URL
+  const tabActiva = location.hash === '#comentarios' ? 'comentarios' : 'datos';
+
+  const cambiarTab = (nuevaTab) => {
+    window.location.hash = nuevaTab;
+  };
 
   return (
     <div className="perfil-page-bg">
       <section className="perfil-page" aria-labelledby="perfil-title">
       <div className="perfil-heading">
         <h1 id="perfil-title">Mi perfil</h1>
-        <p>Consultá y gestioná tus datos personales e información institucional.</p>
+        <p>Consultá y gestioná tus datos personales, tu información institucional y tus aportes en la comunidad.</p>
       </div>
 
-      {/* Alerta flotante de éxito */}
-      <ToastNotificacion
-        visible={Boolean(mensajeExito)}
-        tipo="success"
-        mensaje={mensajeExito}
-        onCerrar={limpiarMensajeExito}
+      {/* Pestañas de navegación de perfil */}
+      <PerfilTabs
+        tabActiva={tabActiva}
+        onCambiarTab={cambiarTab}
+        conteoComentarios={comentariosController.metricas.total}
       />
 
-      {/* Alerta de error en formulario */}
-      {mensajeError && (
+      {/* Alerta flotante de éxito para cambios de perfil */}
+      <ToastNotificacion
+        visible={Boolean(perfil.mensajeExito)}
+        tipo="success"
+        mensaje={perfil.mensajeExito}
+        onCerrar={perfil.limpiarMensajeExito}
+      />
+
+      {/* Alerta de error en formulario de perfil */}
+      {perfil.mensajeError && tabActiva === 'datos' && (
         <div className="alert alert-danger d-flex align-items-center justify-content-between mb-4" role="alert">
           <div className="d-flex align-items-center gap-2">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -51,36 +54,45 @@ const Perfil = () => {
               <line x1="12" y1="8" x2="12" y2="12" />
               <line x1="12" y1="16" x2="12.01" y2="16" />
             </svg>
-            <span>{mensajeError}</span>
+            <span>{perfil.mensajeError}</span>
           </div>
           <button
             type="button"
             className="btn-close"
             aria-label="Cerrar error"
-            onClick={limpiarMensajeError}
+            onClick={perfil.limpiarMensajeError}
           />
         </div>
       )}
 
-      {/* Modo Edición o Modo Visualización */}
-      {editando ? (
-        <PerfilFormulario
-          user={user}
-          formData={formData}
-          errores={errores}
-          guardando={guardando}
-          mostrarPassword={mostrarPassword}
-          mostrarConfirmPassword={mostrarConfirmPassword}
-          onCambio={manejarCambio}
-          onToggleMostrarPassword={() => setMostrarPassword((prev) => !prev)}
-          onToggleMostrarConfirmPassword={() => setMostrarConfirmPassword((prev) => !prev)}
-          onSubmit={guardarPerfil}
-          onCancelar={cancelarEdicion}
-        />
+      {/* Contenido según pestaña activa */}
+      {tabActiva === 'datos' ? (
+        perfil.editando ? (
+          <PerfilFormulario
+            user={user}
+            formData={perfil.formData}
+            errores={perfil.errores}
+            guardando={perfil.guardando}
+            mostrarPassword={perfil.mostrarPassword}
+            mostrarConfirmPassword={perfil.mostrarConfirmPassword}
+            onCambio={perfil.manejarCambio}
+            onToggleMostrarPassword={() => perfil.setMostrarPassword((prev) => !prev)}
+            onToggleMostrarConfirmPassword={() => perfil.setMostrarConfirmPassword((prev) => !prev)}
+            onSubmit={perfil.guardarPerfil}
+            onCancelar={perfil.cancelarEdicion}
+          />
+        ) : (
+          <PerfilVista
+            user={user}
+            onEditar={perfil.iniciarEdicion}
+            totalComentarios={comentariosController.metricas.total}
+            onVerComentarios={() => cambiarTab('comentarios')}
+          />
+        )
       ) : (
-        <PerfilVista
+        <PerfilComentarios
           user={user}
-          onEditar={iniciarEdicion}
+          controller={comentariosController}
         />
       )}
     </section>

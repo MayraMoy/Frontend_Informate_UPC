@@ -28,7 +28,7 @@ export const comentariosService = {
     try {
       const response = await api.get(`/api/comentarios/resolucion/${idResolucion}`);
       return Array.isArray(response.data) ? response.data : response.data?.content || [];
-    } catch (error) {
+    } catch {
       // Fallback a obtener todos únicamente si es administrador
       if (esAdmin) {
         try {
@@ -37,7 +37,7 @@ export const comentariosService = {
           return lista.filter(
             (c) => String(c.idResolucion) === String(idResolucion)
           );
-        } catch (fallbackError) {
+        } catch {
           return [];
         }
       }
@@ -46,20 +46,47 @@ export const comentariosService = {
   },
 
   /**
-   * Crea un nuevo comentario para una resolución.
-   * Endpoint: POST /api/comentarios
+   * Obtiene los comentarios realizados por un usuario específico.
+   * Endpoint primario: GET /api/comentarios/usuario/{idUsuario}
+   * Fallback: GET /api/comentarios/todos (con filtrado inteligente por ID y correo)
    */
-  crear: async (datosComentario) => {
+  obtenerPorUsuario: async (idUsuario, emailUsuario = null) => {
+    if (!idUsuario && !emailUsuario) {
+      return [];
+    }
+
     try {
-      const response = await api.post('/api/comentarios', datosComentario);
-      return response.data;
+      if (idUsuario) {
+        const response = await api.get(`/api/comentarios/usuario/${idUsuario}`);
+        if (response?.data) {
+          const datos = response.data;
+          return Array.isArray(datos) ? datos : datos.content || datos.data || [];
+        }
+      }
+    } catch {
+      // Si el endpoint específico por usuario falla en el backend (404, 500, etc.),
+      // continuamos automáticamente con el fallback de /api/comentarios/todos
+    }
+
+    try {
+      const response = await api.get('/api/comentarios/todos');
+      const todos = response.data;
+      const lista = Array.isArray(todos) ? todos : todos?.content || todos?.data || [];
+
+      return lista.filter((c) => {
+        const cUserId = c.idUsuario ?? c.usuarioId ?? c.usuario?.idUsuario ?? c.usuario?.id;
+        const coincideId = idUsuario != null && cUserId != null && String(cUserId) === String(idUsuario);
+
+        const cEmail = c.emailUsuario || c.email || c.usuario?.email;
+        const coincideEmail = Boolean(
+          emailUsuario && cEmail && cEmail.trim().toLowerCase() === emailUsuario.trim().toLowerCase()
+        );
+
+        return coincideId || coincideEmail;
+      });
     } catch (error) {
-      const mensaje =
-        error.response?.data?.message ||
-        error.response?.data?.error ||
-        (typeof error.response?.data === 'string' ? error.response.data : null) ||
-        error.message;
-      throw new Error(mensaje || 'Error al enviar el comentario');
+      const mensaje = error.response?.data?.message || error.response?.data || error.message;
+      throw new Error(mensaje || 'Error al obtener los comentarios del usuario');
     }
   },
 
@@ -74,6 +101,24 @@ export const comentariosService = {
     } catch (error) {
       const mensaje = error.response?.data?.message || error.response?.data || error.message;
       throw new Error(mensaje || `Error al obtener el comentario ${id}`);
+    }
+  },
+
+  /**
+   * Registra un nuevo comentario en una resolución.
+   * Endpoint: POST /api/comentarios
+   */
+  crear: async (datosComentario) => {
+    try {
+      const response = await api.post('/api/comentarios', datosComentario);
+      return response.data;
+    } catch (error) {
+      const mensaje =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        (typeof error.response?.data === 'string' ? error.response.data : null) ||
+        error.message;
+      throw new Error(mensaje || 'Error al enviar el comentario');
     }
   },
 
