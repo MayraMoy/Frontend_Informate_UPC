@@ -36,13 +36,9 @@ export const comentariosService = {
           return Array.isArray(datos) ? datos : datos.content || datos.data || [];
         }
       }
-    } catch (error) {
-      // Si el endpoint específico no está disponible en el backend (404/405/501),
-      // se intenta recuperar el listado global y filtrar por los datos del usuario.
-      const status = error.response?.status;
-      if (status !== 404 && status !== 405 && status !== 501) {
-        throw error;
-      }
+    } catch {
+      // Si el endpoint específico por usuario falla en el backend (404, 500, etc.),
+      // continuamos automáticamente con el fallback de /api/comentarios/todos
     }
 
     try {
