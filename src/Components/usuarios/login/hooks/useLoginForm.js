@@ -69,6 +69,11 @@ const useLoginForm = () => {
           : '/';
       navigate(rutaDestino, { replace: true });
     } catch (error) {
+      const status = error.response?.status;
+      if (status === 502 || status === 503 || status === 504) {
+        setErrorMsg('El servidor en la nube se encuentra iniciando o restableciendo conexión. Aguardá unos segundos e intentá nuevamente.');
+        return;
+      }
       setErrorMsg(error.message || LOGIN_MESSAGES.submitFailed);
     } finally {
       setIsSubmitting(false);

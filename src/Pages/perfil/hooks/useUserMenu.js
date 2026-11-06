@@ -30,7 +30,13 @@ const useUserMenu = (onNavigate) => {
   const irAlPerfil = () => {
     setAbierto(false);
     onNavigate?.();
-    navigate('/perfil');
+    navigate('/perfil#datos');
+  };
+
+  const irAComentarios = () => {
+    setAbierto(false);
+    onNavigate?.();
+    navigate('/perfil#comentarios');
   };
 
   const cerrarSesion = () => {
@@ -41,7 +47,7 @@ const useUserMenu = (onNavigate) => {
     navigate('/', { replace: true });
   };
 
-  return { abierto, setAbierto, menuRef, irAlPerfil, cerrarSesion };
+  return { abierto, setAbierto, menuRef, irAlPerfil, irAComentarios, cerrarSesion };
 };
 
 export default useUserMenu;

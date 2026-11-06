@@ -1,10 +1,11 @@
+import React from 'react';
 import { NavbarIcon } from '../../../Components/navegacion/Navbar/icons/NavbarIcon.jsx';
 import { obtenerNombreUsuario } from '../utils/perfilUsuario.js';
 import useUserMenu from '../hooks/useUserMenu.js';
 import '../styles/UserMenu.css';
 
 export const UserMenu = ({ user, onNavigate }) => {
-  const { abierto, setAbierto, menuRef, irAlPerfil, cerrarSesion } = useUserMenu(onNavigate);
+  const { abierto, setAbierto, menuRef, irAlPerfil, irAComentarios, cerrarSesion } = useUserMenu(onNavigate);
   const nombre = obtenerNombreUsuario(user);
 
   return (
@@ -35,6 +36,10 @@ export const UserMenu = ({ user, onNavigate }) => {
             <span className="user-menu-item-icon"><NavbarIcon name="perfil" /></span>
             Ver mi perfil
           </button>
+          <button type="button" role="menuitem" onClick={irAComentarios}>
+            <span className="user-menu-item-icon"><NavbarIcon name="comentarios" /></span>
+            Mis comentarios
+          </button>
           <button type="button" role="menuitem" onClick={cerrarSesion}>
             <span className="user-menu-item-icon"><NavbarIcon name="logout" /></span>
             Cerrar sesión
@@ -44,3 +49,5 @@ export const UserMenu = ({ user, onNavigate }) => {
     </div>
   );
 };
+
+export default UserMenu;

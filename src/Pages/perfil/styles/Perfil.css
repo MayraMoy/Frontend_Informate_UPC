@@ -304,3 +304,21 @@
     justify-content: center;
   }
 }
+
+
+.perfil-link-comentarios {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #ea580c;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+.perfil-link-comentarios:hover {
+  color: #c2410c;
+}

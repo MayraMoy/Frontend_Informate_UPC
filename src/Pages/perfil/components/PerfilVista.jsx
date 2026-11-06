@@ -1,7 +1,12 @@
 import React from 'react';
 import { obtenerNombreUsuario, obtenerRolesUsuario } from '../utils/perfilUsuario.js';
 
-export const PerfilVista = ({ user, onEditar }) => {
+export const PerfilVista = ({
+  user,
+  onEditar,
+  totalComentarios = 0,
+  onVerComentarios,
+}) => {
   const nombre = obtenerNombreUsuario(user);
   const rol = obtenerRolesUsuario(user);
   const inicial = (user?.nombre || nombre || 'U').charAt(0).toUpperCase();
@@ -55,6 +60,25 @@ export const PerfilVista = ({ user, onEditar }) => {
         <div className="perfil-campo-info">
           <span className="perfil-campo-label">Rol asignado</span>
           <span className="perfil-campo-valor">{rol}</span>
+        </div>
+
+        <div className="perfil-campo-info">
+          <span className="perfil-campo-label">Participación en el foro</span>
+          <div className="d-flex align-items-center gap-2">
+            <span className="perfil-campo-valor">
+              {totalComentarios} comentario{totalComentarios === 1 ? '' : 's'}
+            </span>
+            {onVerComentarios && (
+              <button
+                type="button"
+                className="perfil-link-comentarios"
+                onClick={onVerComentarios}
+                title="Consultar los comentarios que realizaste"
+              >
+                Ver aportes →
+              </button>
+            )}
+          </div>
         </div>
 
         {user?.ultimoAcceso && (
