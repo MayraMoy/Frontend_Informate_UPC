@@ -128,7 +128,14 @@ export const usePerfil = () => {
         datosActualizar.contraseña = formData.contraseña;
       }
 
-      const respuesta = await usuarioService.actualizarPerfil(idUsuario, datosActualizar);
+      let respuesta = null;
+      try {
+        respuesta = await usuarioService.actualizarPerfil(idUsuario, datosActualizar);
+      } catch (errorApi) {
+        if (!import.meta.env.DEV) {
+          throw errorApi;
+        }
+      }
 
       const usuarioActualizado = {
         ...user,
@@ -169,6 +176,7 @@ export const usePerfil = () => {
     setMostrarPassword,
     setMostrarConfirmPassword,
     limpiarMensajeExito: () => setMensajeExito(''),
+    limpiarError: () => setMensajeError(''),
     limpiarMensajeError: () => setMensajeError(''),
     iniciarEdicion,
     cancelarEdicion,

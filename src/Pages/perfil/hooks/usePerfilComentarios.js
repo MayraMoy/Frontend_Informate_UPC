@@ -1,6 +1,40 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { comentariosService } from '../../../Services/resoluciones/comentariosService.js';
 import { resolucionesService } from '../../../Services/resoluciones/resolucionesService.js';
+import { resolucionesMock } from '../../resoluciones/data/resolucionesMock.js';
+
+const MOCK_COMENTARIOS_DEFAULT = [
+  {
+    idComentario: 101,
+    idUsuario: 1,
+    idResolucion: 1,
+    nombreCarrera: 'Licenciatura en Sistemas',
+    anioCarrera: 3,
+    contenido: '¿El receso de invierno para el ciclo lectivo 2026 coincide con el calendario provincial o tiene fechas diferenciadas?',
+    fechaCreacion: '2026-04-18T10:30:00',
+    estado: 'APROBADO',
+  },
+  {
+    idComentario: 102,
+    idUsuario: 1,
+    idResolucion: 3,
+    nombreCarrera: 'Licenciatura en Sistemas',
+    anioCarrera: 3,
+    contenido: 'Quisiera consultar si las materias electivas aprobadas en el plan anterior tienen equivalencia automática con la nueva disposición.',
+    fechaCreacion: '2026-04-20T16:45:00',
+    estado: 'PENDIENTE',
+  },
+  {
+    idComentario: 103,
+    idUsuario: 1,
+    idResolucion: 4,
+    nombreCarrera: 'Licenciatura en Sistemas',
+    anioCarrera: 3,
+    contenido: '¿Dónde se debe presentar la documentación socioeconómica para postular a la beca estudiantil 2026?',
+    fechaCreacion: '2026-04-22T09:15:00',
+    estado: 'APROBADO',
+  },
+];
 
 export const usePerfilComentarios = (user) => {
   const [comentarios, setComentarios] = useState([]);
@@ -31,7 +65,7 @@ export const usePerfilComentarios = (user) => {
     setError('');
 
     try {
-      // 1. Obtener comentarios del usuario y mapa de resoluciones en paralelo
+      // 1. Obtener comentarios del usuario y resoluciones en paralelo
       const [listaComentarios, listaResoluciones] = await Promise.allSettled([
         comentariosService.obtenerPorUsuario(idUsuario, emailUsuario),
         resolucionesService.obtenerTodas(),
@@ -43,22 +77,38 @@ export const usePerfilComentarios = (user) => {
           : listaComentarios.value?.content || listaComentarios.value?.data || [];
         setComentarios(datos);
       } else {
-        throw listaComentarios.reason;
+        if (import.meta.env.DEV) {
+          const guardados = localStorage.getItem('upc_mock_comentarios_perfil');
+          if (guardados) {
+            try {
+              setComentarios(JSON.parse(guardados));
+            } catch {
+              setComentarios(MOCK_COMENTARIOS_DEFAULT);
+            }
+          } else {
+            localStorage.setItem('upc_mock_comentarios_perfil', JSON.stringify(MOCK_COMENTARIOS_DEFAULT));
+            setComentarios(MOCK_COMENTARIOS_DEFAULT);
+          }
+        } else {
+          throw listaComentarios.reason;
+        }
       }
 
-      if (listaResoluciones.status === 'fulfilled' && Array.isArray(listaResoluciones.value)) {
-        const mapa = {};
-        listaResoluciones.value.forEach((res) => {
-          if (res?.idResolucion) {
-            mapa[res.idResolucion] = {
-              titulo: res.titulo || 'Sin título',
-              numeroResolucion: res.numeroResolucion || `RES #${res.idResolucion}`,
-              codigoResolucion: res.codigoResolucion || `RES-2026-${String(res.idResolucion).padStart(3, '0')}`,
-            };
-          }
-        });
-        setResolucionesMap(mapa);
-      }
+      const resolucionesFinales = listaResoluciones.status === 'fulfilled' && Array.isArray(listaResoluciones.value)
+        ? listaResoluciones.value
+        : resolucionesMock;
+
+      const mapa = {};
+      resolucionesFinales.forEach((res) => {
+        if (res?.idResolucion) {
+          mapa[res.idResolucion] = {
+            titulo: res.titulo || 'Sin título',
+            numeroResolucion: res.numeroResolucion || `RES #${res.idResolucion}`,
+            codigoResolucion: res.codigoResolucion || `RES-2026-${String(res.idResolucion).padStart(3, '0')}`,
+          };
+        }
+      });
+      setResolucionesMap(mapa);
     } catch (err) {
       setError(
         err?.message || 'No se pudieron cargar tus comentarios. Por favor intentá nuevamente.'
@@ -153,11 +203,19 @@ export const usePerfilComentarios = (user) => {
 
     try {
       setEliminando(true);
-      await comentariosService.eliminar(idTarget);
+      try {
+        await comentariosService.eliminar(idTarget);
+      } catch (errApi) {
+        if (!import.meta.env.DEV) throw errApi;
+      }
 
-      setComentarios((prev) =>
-        prev.filter((c) => (c.idComentario ?? c.id) !== idTarget)
-      );
+      setComentarios((prev) => {
+        const actualizados = prev.filter((c) => (c.idComentario ?? c.id) !== idTarget);
+        if (import.meta.env.DEV) {
+          localStorage.setItem('upc_mock_comentarios_perfil', JSON.stringify(actualizados));
+        }
+        return actualizados;
+      });
 
       setComentarioAEliminar(null);
       setMensajeExito('Tu comentario fue eliminado correctamente.');
