@@ -52,7 +52,153 @@ export const SidebarPublicacionResolucion = ({
 
   return (
     <aside className="crear-resolucion__columna-lateral">
-      {/* 1. Tarjeta de Publicación y Acciones */}
+      {/* 1. Tarjeta de Categoría Institucional */}
+      <div className="crear-resolucion__card-sidebar">
+        <h3 className="crear-resolucion__card-sidebar-titulo-peq">
+          Categoría Institucional <span className="crear-resolucion__requerido">*</span>
+        </h3>
+        <p className="crear-resolucion__sidebar-descripcion">
+          Asigna el ámbito reglamentario correspondiente a esta disposición.
+        </p>
+
+        <select
+          className={`crear-resolucion__select ${errorCategoria ? 'crear-resolucion__input--error' : ''}`}
+          value={idCategoria}
+          onChange={(e) => setIdCategoria(e.target.value)}
+          disabled={guardando || cargandoCategorias}
+        >
+          <option value="">Seleccioná una categoría...</option>
+          {categorias.map((cat) => {
+            const idCat = cat.idCategoria ?? cat.id;
+            const nombreCat = cat.nombre ?? cat.nombreCategoria ?? `Categoría ${idCat}`;
+            return (
+              <option key={idCat} value={idCat}>
+                {nombreCat}
+              </option>
+            );
+          })}
+        </select>
+
+        {errorCategoria && (
+          <p className="crear-resolucion__error-mensaje" role="alert">
+            <IconoAlerta />
+            <span>{errorCategoria}</span>
+          </p>
+        )}
+      </div>
+
+      {/* 2. Tarjeta de Documento PDF Oficial */}
+      <div className="crear-resolucion__card-sidebar">
+        <h3 className="crear-resolucion__card-sidebar-titulo-peq">
+          Documento PDF Oficial
+        </h3>
+        <p className="crear-resolucion__sidebar-descripcion">
+          Adjuntá el archivo digitalizado con firmas y sellos oficiales.
+        </p>
+
+        {!archivoPdf ? (
+          <label className="crear-resolucion__dropzone">
+            <IconoPdf className="crear-resolucion__dropzone-icono" />
+            <span className="crear-resolucion__dropzone-texto">
+              Hacé clic para seleccionar el PDF
+            </span>
+            <span className="crear-resolucion__dropzone-hint">
+              Formatos admitidos: .pdf (máx. 10MB)
+            </span>
+            <input
+              type="file"
+              accept=".pdf,application/pdf"
+              className="crear-resolucion__input-file-oculto"
+              onChange={(e) => {
+                const archivo = e.target.files?.[0] || null;
+                setArchivoPdf(archivo);
+              }}
+              disabled={guardando}
+            />
+          </label>
+        ) : (
+          <div className="crear-resolucion__archivo-preview">
+            <div className="crear-resolucion__archivo-icono-box">
+              <IconoPdf />
+            </div>
+            <div className="crear-resolucion__archivo-info">
+              <span className="crear-resolucion__archivo-nombre" title={archivoPdf.name}>
+                {archivoPdf.name}
+              </span>
+              <span className="crear-resolucion__archivo-tamano">
+                {formatearTamanoArchivo(archivoPdf.size)}
+              </span>
+            </div>
+            <button
+              type="button"
+              className="crear-resolucion__archivo-quitar"
+              onClick={() => setArchivoPdf(null)}
+              disabled={guardando}
+              title="Quitar archivo adjunto"
+              aria-label="Quitar archivo"
+            >
+              ×
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* 3. Tarjeta de Etiquetas (Tags) */}
+      <div className="crear-resolucion__card-sidebar">
+        <div className="crear-resolucion__sidebar-header-inline">
+          <IconoEtiqueta className="crear-resolucion__sidebar-icono-inline" />
+          <h3 className="crear-resolucion__card-sidebar-titulo-peq">
+            Etiquetas y Palabras Clave
+          </h3>
+        </div>
+        <p className="crear-resolucion__sidebar-descripcion">
+          Facilitan la búsqueda de la resolución en el catálogo digital.
+        </p>
+
+        <div className="crear-resolucion__tags-input-group">
+          <input
+            type="text"
+            className="crear-resolucion__input crear-resolucion__input--tag"
+            placeholder="Ej: CALENDARIO, RECTORADO"
+            value={nuevaEtiqueta}
+            onChange={(e) => setNuevaEtiqueta(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && agregarEtiqueta(e)}
+            disabled={guardando}
+          />
+          <button
+            type="button"
+            className="crear-resolucion__btn-agregar-tag"
+            onClick={agregarEtiqueta}
+            disabled={guardando || !nuevaEtiqueta.trim()}
+          >
+            + Agregar
+          </button>
+        </div>
+
+        <div className="crear-resolucion__tags-wrapper">
+          {etiquetasSeleccionadas.length === 0 ? (
+            <span className="crear-resolucion__tags-vacio">No hay etiquetas agregadas</span>
+          ) : (
+            etiquetasSeleccionadas.map((tag) => (
+              <span key={tag} className="crear-resolucion__tag-chip">
+                <span>#{tag}</span>
+                <button
+                  type="button"
+                  className="crear-resolucion__tag-remove"
+                  onClick={() => eliminarEtiqueta(tag)}
+                  title={`Eliminar etiqueta ${tag}`}
+                  aria-label={`Eliminar etiqueta ${tag}`}
+                  disabled={guardando}
+                >
+                  ×
+                </button>
+              </span>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* 4. Tarjeta de Publicación y Acciones (Ubicada abajo de todo) */}
       <div className="crear-resolucion__card-sidebar crear-resolucion__card-sidebar--publicacion">
         <div className="crear-resolucion__card-sidebar-encabezado">
           <h2 className="crear-resolucion__card-sidebar-titulo">Publicación</h2>
@@ -136,152 +282,6 @@ export const SidebarPublicacionResolucion = ({
             <IconoVolver />
             <span>Cancelar y volver al listado</span>
           </button>
-        </div>
-      </div>
-
-      {/* 2. Tarjeta de Categoría Institucional */}
-      <div className="crear-resolucion__card-sidebar">
-        <h3 className="crear-resolucion__card-sidebar-titulo-peq">
-          Categoría Institucional <span className="crear-resolucion__requerido">*</span>
-        </h3>
-        <p className="crear-resolucion__sidebar-descripcion">
-          Asigna el ámbito reglamentario correspondiente a esta disposición.
-        </p>
-
-        <select
-          className={`crear-resolucion__select ${errorCategoria ? 'crear-resolucion__input--error' : ''}`}
-          value={idCategoria}
-          onChange={(e) => setIdCategoria(e.target.value)}
-          disabled={guardando || cargandoCategorias}
-        >
-          <option value="">Seleccioná una categoría...</option>
-          {categorias.map((cat) => {
-            const idCat = cat.idCategoria ?? cat.id;
-            const nombreCat = cat.nombre ?? cat.nombreCategoria ?? `Categoría ${idCat}`;
-            return (
-              <option key={idCat} value={idCat}>
-                {nombreCat}
-              </option>
-            );
-          })}
-        </select>
-
-        {errorCategoria && (
-          <p className="crear-resolucion__error-mensaje" role="alert">
-            <IconoAlerta />
-            <span>{errorCategoria}</span>
-          </p>
-        )}
-      </div>
-
-      {/* 3. Tarjeta de Documento PDF Oficial */}
-      <div className="crear-resolucion__card-sidebar">
-        <h3 className="crear-resolucion__card-sidebar-titulo-peq">
-          Documento PDF Oficial
-        </h3>
-        <p className="crear-resolucion__sidebar-descripcion">
-          Adjuntá el archivo digitalizado con firmas y sellos oficiales.
-        </p>
-
-        {!archivoPdf ? (
-          <label className="crear-resolucion__dropzone">
-            <IconoPdf className="crear-resolucion__dropzone-icono" />
-            <span className="crear-resolucion__dropzone-texto">
-              Hacé clic para seleccionar el PDF
-            </span>
-            <span className="crear-resolucion__dropzone-hint">
-              Formatos admitidos: .pdf (máx. 10MB)
-            </span>
-            <input
-              type="file"
-              accept=".pdf,application/pdf"
-              className="crear-resolucion__input-file-oculto"
-              onChange={(e) => {
-                const archivo = e.target.files?.[0] || null;
-                setArchivoPdf(archivo);
-              }}
-              disabled={guardando}
-            />
-          </label>
-        ) : (
-          <div className="crear-resolucion__archivo-preview">
-            <div className="crear-resolucion__archivo-icono-box">
-              <IconoPdf />
-            </div>
-            <div className="crear-resolucion__archivo-info">
-              <span className="crear-resolucion__archivo-nombre" title={archivoPdf.name}>
-                {archivoPdf.name}
-              </span>
-              <span className="crear-resolucion__archivo-tamano">
-                {formatearTamanoArchivo(archivoPdf.size)}
-              </span>
-            </div>
-            <button
-              type="button"
-              className="crear-resolucion__archivo-quitar"
-              onClick={() => setArchivoPdf(null)}
-              disabled={guardando}
-              title="Quitar archivo adjunto"
-              aria-label="Quitar archivo"
-            >
-              ×
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* 4. Tarjeta de Etiquetas (Tags) */}
-      <div className="crear-resolucion__card-sidebar">
-        <div className="crear-resolucion__sidebar-header-inline">
-          <IconoEtiqueta className="crear-resolucion__sidebar-icono-inline" />
-          <h3 className="crear-resolucion__card-sidebar-titulo-peq">
-            Etiquetas y Palabras Clave
-          </h3>
-        </div>
-        <p className="crear-resolucion__sidebar-descripcion">
-          Facilitan la búsqueda de la resolución en el catálogo digital.
-        </p>
-
-        <div className="crear-resolucion__tags-input-group">
-          <input
-            type="text"
-            className="crear-resolucion__input crear-resolucion__input--tag"
-            placeholder="Ej: CALENDARIO, RECTORADO"
-            value={nuevaEtiqueta}
-            onChange={(e) => setNuevaEtiqueta(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && agregarEtiqueta(e)}
-            disabled={guardando}
-          />
-          <button
-            type="button"
-            className="crear-resolucion__btn-agregar-tag"
-            onClick={agregarEtiqueta}
-            disabled={guardando || !nuevaEtiqueta.trim()}
-          >
-            + Agregar
-          </button>
-        </div>
-
-        <div className="crear-resolucion__tags-wrapper">
-          {etiquetasSeleccionadas.length === 0 ? (
-            <span className="crear-resolucion__tags-vacio">No hay etiquetas agregadas</span>
-          ) : (
-            etiquetasSeleccionadas.map((tag) => (
-              <span key={tag} className="crear-resolucion__tag-chip">
-                <span>#{tag}</span>
-                <button
-                  type="button"
-                  className="crear-resolucion__tag-remove"
-                  onClick={() => eliminarEtiqueta(tag)}
-                  title={`Eliminar etiqueta ${tag}`}
-                  aria-label={`Eliminar etiqueta ${tag}`}
-                  disabled={guardando}
-                >
-                  ×
-                </button>
-              </span>
-            ))
-          )}
         </div>
       </div>
     </aside>
