@@ -43,7 +43,6 @@ export const PerfilComentarios = ({ user }) => {
       {/* Cabecera de la sección */}
       <header className="perfil-comentarios-header">
         <div>
-          <span className="perfil-comentarios-eyebrow">Actividad Comunitaria</span>
           <h2 id="seccion-comentarios-titulo" className="perfil-comentarios-titulo">
             Mis Comentarios en Resoluciones
           </h2>

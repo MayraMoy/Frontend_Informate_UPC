@@ -95,3 +95,61 @@
   font-weight: bold;
   margin-bottom: 1rem;
 }
+
+.pendientes-tabla th {
+  padding: 0.9rem 1.1rem;
+}
+
+.pendientes-tabla td {
+  padding: 1rem 1.1rem;
+}
+
+.resolucion-pendiente-acciones-group {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.resolucion-pendiente-btn-accion {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.resolucion-pendiente-btn-accion:hover:not(:disabled) {
+  background: #f8fafc;
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+
+.resolucion-pendiente-btn-accion:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.resolucion-pendiente-btn-accion--ver:hover:not(:disabled) {
+  color: #2563eb;
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+
+.resolucion-pendiente-btn-accion--aprobar:hover:not(:disabled) {
+  color: #16a34a;
+  border-color: #86efac;
+  background: #f0fdf4;
+}
+
+.resolucion-pendiente-btn-accion--rechazar:hover:not(:disabled) {
+  color: #dc2626;
+  border-color: #fca5a5;
+  background: #fef2f2;
+}

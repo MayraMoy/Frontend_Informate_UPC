@@ -10,6 +10,7 @@ export const ResolucionesPendientesPage = () => {
   const navigate = useNavigate();
   const [pendientes, setPendientes] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const [procesandoId, setProcesandoId] = useState(null);
   const [error, setError] = useState('');
   const [notificacion, setNotificacion] = useState(() => location.state?.notificacion || null);
 
@@ -54,6 +55,7 @@ export const ResolucionesPendientesPage = () => {
     if (!window.confirm(`¿Aprobar y publicar la resolución "${resolucion.numeroResolucion}"?`)) {
       return;
     }
+    setProcesandoId(resolucion.idResolucion);
     try {
       await resolucionesService.actualizar(resolucion.idResolucion, {
         numeroResolucion: resolucion.numeroResolucion,
@@ -72,6 +74,8 @@ export const ResolucionesPendientesPage = () => {
       await cargarPendientes();
     } catch (err) {
       setNotificacion({ tipo: 'error', mensaje: `No se pudo aprobar la resolución: ${err.message}` });
+    } finally {
+      setProcesandoId(null);
     }
   };
 
@@ -79,6 +83,7 @@ export const ResolucionesPendientesPage = () => {
     if (!window.confirm(`¿Rechazar y archivar la resolución "${resolucion.numeroResolucion}"?`)) {
       return;
     }
+    setProcesandoId(resolucion.idResolucion);
     try {
       await resolucionesService.actualizar(resolucion.idResolucion, {
         numeroResolucion: resolucion.numeroResolucion,
@@ -97,6 +102,8 @@ export const ResolucionesPendientesPage = () => {
       await cargarPendientes();
     } catch (err) {
       setNotificacion({ tipo: 'error', mensaje: `No se pudo archivar la resolución: ${err.message}` });
+    } finally {
+      setProcesandoId(null);
     }
   };
 
@@ -141,7 +148,7 @@ export const ResolucionesPendientesPage = () => {
           </div>
         ) : (
           <div className="table-responsive">
-            <table className="table table-hover align-middle mb-0">
+            <table className="table table-hover align-middle mb-0 pendientes-tabla">
               <thead className="table-light">
                 <tr>
                   <th>Resolución</th>
@@ -183,31 +190,74 @@ export const ResolucionesPendientesPage = () => {
                       </span>
                     </td>
                     <td className="text-end">
-                      <div className="btn-group">
+                      <div className="resolucion-pendiente-acciones-group">
                         <button
                           type="button"
-                          className="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1"
+                          className="resolucion-pendiente-btn-accion resolucion-pendiente-btn-accion--ver"
                           onClick={() => abrirModalDetalle(res)}
+                          disabled={procesandoId === res.idResolucion}
+                          title="Ver detalle de resolución"
+                          aria-label={`Ver detalle de resolución ${res.numeroResolucion || ''}`}
                         >
-                          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <svg
+                            viewBox="0 0 24 24"
+                            width="17"
+                            height="17"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                             <circle cx="12" cy="12" r="3" />
                           </svg>
-                          <span>Ver</span>
                         </button>
                         <button
                           type="button"
-                          className="btn btn-sm btn-success font-weight-bold"
+                          className="resolucion-pendiente-btn-accion resolucion-pendiente-btn-accion--aprobar"
                           onClick={() => handleAprobar(res)}
+                          disabled={procesandoId === res.idResolucion}
+                          title="Aprobar y publicar resolución"
+                          aria-label={`Aprobar y publicar resolución ${res.numeroResolucion || ''}`}
                         >
-                          ✓ Aprobar y Publicar
+                          <svg
+                            viewBox="0 0 24 24"
+                            width="17"
+                            height="17"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.1"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
                         </button>
                         <button
                           type="button"
-                          className="btn btn-sm btn-outline-danger"
+                          className="resolucion-pendiente-btn-accion resolucion-pendiente-btn-accion--rechazar"
                           onClick={() => handleArchivar(res)}
+                          disabled={procesandoId === res.idResolucion}
+                          title="Rechazar y archivar resolución"
+                          aria-label={`Rechazar y archivar resolución ${res.numeroResolucion || ''}`}
                         >
-                          ✕ Archivar
+                          <svg
+                            viewBox="0 0 24 24"
+                            width="17"
+                            height="17"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.1"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                          </svg>
                         </button>
                       </div>
                     </td>

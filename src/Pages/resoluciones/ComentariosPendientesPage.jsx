@@ -5,6 +5,7 @@ import './ComentariosPendientesPage.css';
 export const ComentariosPendientesPage = () => {
   const [comentarios, setComentarios] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const [procesandoId, setProcesandoId] = useState(null);
   const [error, setError] = useState('');
   const [mensajeExito, setMensajeExito] = useState('');
 
@@ -32,6 +33,7 @@ export const ComentariosPendientesPage = () => {
   }, []);
 
   const handleAprobar = async (comentario) => {
+    setProcesandoId(comentario.idComentario);
     try {
       await comentariosService.actualizar(comentario.idComentario, {
         idUsuario: comentario.idUsuario,
@@ -42,10 +44,12 @@ export const ComentariosPendientesPage = () => {
         estado: 'APROBADO',
       });
       setMensajeExito('Comentario aprobado y publicado.');
-      cargarComentarios();
+      await cargarComentarios();
       setTimeout(() => setMensajeExito(''), 3500);
     } catch (err) {
       alert(`Error al aprobar comentario: ${err.message}`);
+    } finally {
+      setProcesandoId(null);
     }
   };
 
@@ -53,13 +57,16 @@ export const ComentariosPendientesPage = () => {
     if (!window.confirm('¿Deseas rechazar y eliminar este comentario?')) {
       return;
     }
+    setProcesandoId(comentario.idComentario);
     try {
       await comentariosService.eliminar(comentario.idComentario);
       setMensajeExito('Comentario eliminado.');
-      cargarComentarios();
+      await cargarComentarios();
       setTimeout(() => setMensajeExito(''), 3500);
     } catch (err) {
       alert(`Error al rechazar comentario: ${err.message}`);
+    } finally {
+      setProcesandoId(null);
     }
   };
 
@@ -98,7 +105,7 @@ export const ComentariosPendientesPage = () => {
           </div>
         ) : (
           <div className="table-responsive">
-            <table className="table table-hover align-middle mb-0">
+            <table className="table table-hover align-middle mb-0 comentarios-tabla">
               <thead className="table-light">
                 <tr>
                   <th>Estudiante</th>
@@ -140,20 +147,51 @@ export const ComentariosPendientesPage = () => {
                       </span>
                     </td>
                     <td className="text-end">
-                      <div className="btn-group">
+                      <div className="comentarios-acciones-group">
                         <button
                           type="button"
-                          className="btn btn-sm btn-success font-weight-bold"
+                          className="comentario-btn-accion comentario-btn-accion--aprobar"
                           onClick={() => handleAprobar(c)}
+                          disabled={procesandoId === c.idComentario}
+                          title="Aprobar comentario"
+                          aria-label={`Aprobar comentario de ${c.nombreUsuario || 'Estudiante'}`}
                         >
-                          ✓ Aprobar
+                          <svg
+                            viewBox="0 0 24 24"
+                            width="17"
+                            height="17"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.1"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
                         </button>
                         <button
                           type="button"
-                          className="btn btn-sm btn-outline-danger"
+                          className="comentario-btn-accion comentario-btn-accion--rechazar"
                           onClick={() => handleRechazar(c)}
+                          disabled={procesandoId === c.idComentario}
+                          title="Rechazar y eliminar comentario"
+                          aria-label={`Rechazar comentario de ${c.nombreUsuario || 'Estudiante'}`}
                         >
-                          ✕ Rechazar
+                          <svg
+                            viewBox="0 0 24 24"
+                            width="17"
+                            height="17"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.1"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                          </svg>
                         </button>
                       </div>
                     </td>
